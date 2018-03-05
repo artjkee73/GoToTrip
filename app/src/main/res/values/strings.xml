@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">GoToTrip</string>
+
+    <!--LoginActivity-->
+
+    <string name="hint_email_login_a">Эл. почта</string>
+    <string name="hint_password_login_a">Пароль</string>
+    <string name="btn_login_login_a">Войти</string>
+    <string name="tv_register_login_a">Регистрация</string>
+    <string name="sw_remember_me_login_a">Запомнить меня</string>
+
+    <!--RegisterActivity-->
+
+    <string name="hint_email_register_a">Эл. почта</string>
+    <string name="hint_password_register_a">Пароль</string>
+    <string name="hint_rep_password_register_a"> Повторите пароль</string>
+    <string name="tv_login_register_a">Войти</string>
+    <string name="btn_register_register_a">Зарегистрироваться</string>
+
+    <!--MenuMainActivity-->
+    <string name="profile_main_menu_item">Мой профиль</string>
+    <string name="chat_main_menu_item">Сообщения</string>
+    <string name="new_post_main_menu_item">Создать пост</string>
+    <string name="search_main_menu_item">Поиск</string>
+    <string name="log_out_main_menu_item">Выйти</string>
 </resources>

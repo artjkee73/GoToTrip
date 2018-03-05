@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "429006019186",
+    "firebase_url": "https://artjkee-gototrip.firebaseio.com",
+    "project_id": "artjkee-gototrip",
+    "storage_bucket": "artjkee-gototrip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429006019186:android:f750ea123c4e10e1",
+        "android_client_info": {
+          "package_name": "com.androiddev.artemqa.gototrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429006019186-enk83a3maebifakj67i06bcp08d476rb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.androiddev.artemqa.gototrip",
+            "certificate_hash": "3f9060869ccdce93c8bf05f04499f16d23e19307"
+          }
+        },
+        {
+          "client_id": "429006019186-f4510o7ar61mi9qlfi1vbf6t81lsdrbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1P_D-d4SrrsE_toXDu3ViIDahtRWnjNE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429006019186-f4510o7ar61mi9qlfi1vbf6t81lsdrbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
