@@ -5,63 +5,86 @@ package com.androiddev.artemqa.gototrip.models;
  */
 
 public class User {
+   private String mName;
+   private String mEmail;
+   private String mAboutMe;
+   private String mCity;
+   private String mCountry;
+   private String mUriAvatar;
+   private String mListVisitedCountries;
 
-
-   private String name;
-   private String email;
-   private String aboutMe;
-   private String city;
-   private String country;
 
     public User() {
+
     }
 
-    public User(String name, String email, String aboutMe, String city, String country) {
-        this.name = name;
-        this.email = email;
-        this.aboutMe = aboutMe;
-        this.city = city;
-        this.country = country;
+    public User(String email){
+        this.mEmail = email;
+    }
+
+    public User(String name, String email, String aboutMe, String city, String country,String liistVisitedCountries) {
+        this.mName = name;
+        this.mEmail = email;
+        this.mAboutMe = aboutMe;
+        this.mCity = city;
+        this.mCountry = country;
+        this.mListVisitedCountries = liistVisitedCountries;
+    }
+
+    public String getmListVisitedCountries() {
+        return mListVisitedCountries;
+    }
+
+    public void setmListVisitedCountries(String mListVisitedCountries) {
+        this.mListVisitedCountries = mListVisitedCountries;
+    }
+
+    public String getUriAvatar() {
+        return mUriAvatar;
+    }
+
+    public void setUriAvatar(String mUriAvatar) {
+        this.mUriAvatar = mUriAvatar;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public String getEmail() {
-        return email;
+        return mEmail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.mEmail = email;
     }
 
     public String getAboutMe() {
-        return aboutMe;
+        return mAboutMe;
     }
 
     public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
+        this.mAboutMe = aboutMe;
     }
 
     public String getCity() {
-        return city;
+        return mCity;
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.mCity = city;
     }
 
     public String getCountry() {
-        return country;
+        return mCountry;
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.mCountry = country;
     }
 
 

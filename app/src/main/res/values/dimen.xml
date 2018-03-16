@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--EditProfileActivity-->
+
+    <dimen name="height_til_edit_profile_a">50dp</dimen>
+    <dimen name="text_size_et_edit_profile_a">16sp</dimen>
+</resources>

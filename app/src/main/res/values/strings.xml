@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">GoToTrip</string>
 
+    <!--BaseActivity-->
+    <string name="label_loading_progress_dialog">Идёт загрузка данных, ожидайте..</string>
+
     <!--LoginActivity-->
 
     <string name="hint_email_login_a">Эл. почта</string>
@@ -13,7 +16,7 @@
 
     <string name="hint_email_register_a">Эл. почта</string>
     <string name="hint_password_register_a">Пароль</string>
-    <string name="hint_rep_password_register_a"> Повторите пароль</string>
+    <string name="hint_rep_password_register_a">Имя</string>
     <string name="tv_login_register_a">Войти</string>
     <string name="btn_register_register_a">Зарегистрироваться</string>
 
@@ -22,5 +25,22 @@
     <string name="chat_main_menu_item">Сообщения</string>
     <string name="new_post_main_menu_item">Создать пост</string>
     <string name="search_main_menu_item">Поиск</string>
+    <string name="settings_main_menu_item">Настройки</string>
     <string name="log_out_main_menu_item">Выйти</string>
+
+    <!--MenuMainActivityHeader-->
+    <string name="name_header_menu_item">Иванов Иван</string>
+    <string name="email_header_menu_item">example@example.com</string>
+    <string name="toggle_open_main_a">open</string>
+    <string name="toggle_close_main_a">close</string>
+
+    <!--EditProfileActivity-->
+    <string name="hint_name_edit_profile_a">Имя</string>
+    <string name="hint_country_from_edit_profile_a">Страна</string>
+    <string name="hint_city_from_edit_profile_a">Город</string>
+    <string name="hint_about_edit_profile_a">О себе</string>
+    <string name="hint_list_interesting_edit_profile_a">Интересы </string>
+    <string name="hint_list_country_edit_profile_a">Посещенные страны</string>
+    <string name="tv_btn_save_profile_a">Сохранить</string>
+
 </resources>
