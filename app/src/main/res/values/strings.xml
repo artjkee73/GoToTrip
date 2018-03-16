@@ -12,6 +12,12 @@
     <string name="tv_register_login_a">Регистрация</string>
     <string name="sw_remember_me_login_a">Запомнить меня</string>
 
+    <string name="toast_success_login_a">Вы успешно авторизованы</string>
+    <string name="toast_failed_login_a">Ошибка авторизации,</string>
+
+    <string name="er_empty_fields_login_a">Поля не заполнены</string>
+    <string name="er_no_correct_login_a">Поля заполнены не корректно</string>
+
     <!--RegisterActivity-->
 
     <string name="hint_email_register_a">Эл. почта</string>

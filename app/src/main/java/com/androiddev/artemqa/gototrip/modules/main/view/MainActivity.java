@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.androiddev.artemqa.gototrip.editProfile.view.EditProfileActivity;
+import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

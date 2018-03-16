@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip.editProfile.view;
+package com.androiddev.artemqa.gototrip.modules.editProfile.view;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;

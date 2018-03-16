@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip.editProfile.presenter;
+package com.androiddev.artemqa.gototrip.modules.editProfile.presenter;
 
 /**
  * Created by artemqa on 16.03.2018.
