@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip;
+package com.androiddev.artemqa.gototrip.common;
 
 import android.app.Application;
 

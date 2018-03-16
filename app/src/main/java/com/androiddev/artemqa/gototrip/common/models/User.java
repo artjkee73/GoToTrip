@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip.models;
+package com.androiddev.artemqa.gototrip.common.models;
 
 /**
  * Created by artemqa on 05.03.2018.

@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip;
+package com.androiddev.artemqa.gototrip.modules.register.view;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androiddev.artemqa.gototrip.modules.main.view.MainActivity;
+import com.androiddev.artemqa.gototrip.R;
+import com.androiddev.artemqa.gototrip.common.BaseActivity;
+import com.androiddev.artemqa.gototrip.modules.login.view.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

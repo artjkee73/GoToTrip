@@ -1,7 +1,9 @@
-package com.androiddev.artemqa.gototrip;
+package com.androiddev.artemqa.gototrip.common;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
+
+import com.androiddev.artemqa.gototrip.R;
 
 /**
  * Created by artemqa on 15.03.2018.

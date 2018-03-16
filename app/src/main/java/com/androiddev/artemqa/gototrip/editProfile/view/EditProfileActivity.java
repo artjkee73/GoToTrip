@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip;
+package com.androiddev.artemqa.gototrip.editProfile.view;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
-import com.androiddev.artemqa.gototrip.models.User;
+import com.androiddev.artemqa.gototrip.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 
