@@ -107,6 +107,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     }
 
     @Override
+    public void showErrorUnvalidField() {
+        Toast.makeText(LoginActivity.this,R.string.er_no_correct_login_a,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void openMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);

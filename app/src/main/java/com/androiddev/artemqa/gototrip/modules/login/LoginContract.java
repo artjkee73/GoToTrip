@@ -20,6 +20,8 @@ public interface LoginContract {
 
         void showErrorEmptyField();
 
+        void showErrorUnvalidField();
+
         void openMainActivity();
 
         void openRegisterActivity();

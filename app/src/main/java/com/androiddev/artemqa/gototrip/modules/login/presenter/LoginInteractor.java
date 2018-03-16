@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.modules.login.LoginContract;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -16,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginInteractor {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private LoginPresenter mPresenter;
+    private LoginContract.Presenter mPresenter;
     private SharedPreferences mSharedPref;
 
     public LoginInteractor(LoginPresenter presenter, SharedPreferences sharedPreferences) {

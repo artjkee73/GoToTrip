@@ -5,38 +5,41 @@ package com.androiddev.artemqa.gototrip.common.models;
  */
 
 public class User {
-   private String mName;
-   private String mEmail;
-   private String mAboutMe;
-   private String mCity;
-   private String mCountry;
-   private String mUriAvatar;
-   private String mListVisitedCountries;
+
+
+    private String mUserId;
+    private String mName;
+    private String mEmail;
+    private String mAboutMe;
+    private String mCity;
+    private String mCountry;
+    private String mUriAvatar;
+    private String mListVisitedCountries;
 
 
     public User() {
-
     }
 
-    public User(String email){
+    public User(String userId, String email, String name) {
+        this.mUserId = userId;
         this.mEmail = email;
-    }
-
-    public User(String name, String email, String aboutMe, String city, String country,String liistVisitedCountries) {
         this.mName = name;
-        this.mEmail = email;
-        this.mAboutMe = aboutMe;
-        this.mCity = city;
-        this.mCountry = country;
-        this.mListVisitedCountries = liistVisitedCountries;
+    }
+
+    public String getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(String userId) {
+        this.mUserId = userId;
     }
 
     public String getmListVisitedCountries() {
         return mListVisitedCountries;
     }
 
-    public void setmListVisitedCountries(String mListVisitedCountries) {
-        this.mListVisitedCountries = mListVisitedCountries;
+    public void setmListVisitedCountries(String listVisitedCountries) {
+        this.mListVisitedCountries = listVisitedCountries;
     }
 
     public String getUriAvatar() {

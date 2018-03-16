@@ -53,8 +53,11 @@ public class LoginPresenter implements LoginContract.Presenter {
         } else if (Pattern.matches("^.{3,}@.{3,}$", email) &&
                 Pattern.matches("[A-Z_a-z_а-я_А-Я_0-9\\u002E\\u005F]{6,15}", password)) {
             isValidate = true;
-        } else
+        } else{
             isValidate = false;
+            mView.showErrorUnvalidField();
+        }
+
 
         return isValidate;
     }

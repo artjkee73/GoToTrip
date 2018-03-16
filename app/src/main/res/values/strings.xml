@@ -13,7 +13,7 @@
     <string name="sw_remember_me_login_a">Запомнить меня</string>
 
     <string name="toast_success_login_a">Вы успешно авторизованы</string>
-    <string name="toast_failed_login_a">Ошибка авторизации,</string>
+    <string name="toast_failed_login_a">Ошибка авторизации</string>
 
     <string name="er_empty_fields_login_a">Поля не заполнены</string>
     <string name="er_no_correct_login_a">Поля заполнены не корректно</string>
@@ -25,6 +25,12 @@
     <string name="hint_rep_password_register_a">Имя</string>
     <string name="tv_login_register_a">Войти</string>
     <string name="btn_register_register_a">Зарегистрироваться</string>
+
+    <string name="toast_success_register_a">Вы успешно зарегисрированы</string>
+    <string name="toast_failed_register_a">Ошибка регистрации</string>
+
+    <string name="er_empty_fields_register_a">Поля не заполнены</string>
+    <string name="er_no_correct_register_a">Поля заполнены не корректно</string>
 
     <!--MenuMainActivity-->
     <string name="profile_main_menu_item">Мой профиль</string>
