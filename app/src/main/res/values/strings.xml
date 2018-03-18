@@ -55,4 +55,12 @@
     <string name="hint_list_country_edit_profile_a">Посещенные страны</string>
     <string name="tv_btn_save_profile_a">Сохранить</string>
 
+    <string name="er_failed_avatar_edit_profile_a">Ошибка загрузки фото</string>
+    <string name="toast_success_saving_info_edit_profile_a">Данные успешно сохранены</string>
+
+
+    <!--searchActivity-->
+    <string name="et_hint_search_search_activity">Введите имя ... </string>
+
+
 </resources>

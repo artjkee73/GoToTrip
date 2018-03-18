@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.register.RegisterContract;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +46,7 @@ public class RegisterInteractor {
 
     public void addUserInDB(String email, String name) {
         String userId = currentUser.getUid();
-        User user = new User(userId,email,name);
+        User user = new User(userId,email,name, Constants.FIRESTORE_NO_USER_PHOTO);
         mRefFirebase.child("users").child(userId).setValue(user);
     }
 }

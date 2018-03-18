@@ -20,10 +20,11 @@ public class User {
     public User() {
     }
 
-    public User(String userId, String email, String name) {
+    public User(String userId, String email, String name,String uriAvatar) {
         this.mUserId = userId;
         this.mEmail = email;
         this.mName = name;
+        this.mUriAvatar = uriAvatar;
     }
 
     public String getUserId() {
@@ -34,11 +35,11 @@ public class User {
         this.mUserId = userId;
     }
 
-    public String getmListVisitedCountries() {
+    public String getListVisitedCountries() {
         return mListVisitedCountries;
     }
 
-    public void setmListVisitedCountries(String listVisitedCountries) {
+    public void setListVisitedCountries(String listVisitedCountries) {
         this.mListVisitedCountries = listVisitedCountries;
     }
 

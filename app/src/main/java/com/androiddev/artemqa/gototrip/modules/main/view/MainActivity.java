@@ -9,51 +9,59 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
+import com.androiddev.artemqa.gototrip.modules.main.MainContract;
+import com.androiddev.artemqa.gototrip.modules.main.presenter.MainPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class MainActivity extends BaseActivity implements MainContract.View, NavigationView.OnNavigationItemSelectedListener {
+
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mToggle;
+    NavigationView mNavigationView;
+    MainContract.Presenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initForm();
-        setUserInformationOnNavHeader();
     }
 
-    private void setUserInformationOnNavHeader() {
-    }
 
     private void initForm() {
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        drawerLayout = findViewById(R.id.drawer_layout_main_a);
-        navigationView = findViewById(R.id.nav_view_main_a);
+        mDrawerLayout = findViewById(R.id.drawer_layout_main_a);
+        mNavigationView = findViewById(R.id.nav_view_main_a);
         setToggleButtonInNavDrower();
+        mPresenter = new MainPresenter();
+        mPresenter.attachView(this);
+        mPresenter.viewIsReady();
+
 
     }
 
     private void setToggleButtonInNavDrower() {
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.toggle_open_main_a, R.string.toggle_close_main_a);
-        drawerLayout.addDrawerListener(toggle);
-        navigationView = findViewById(R.id.nav_view_main_a);
-        navigationView.setNavigationItemSelectedListener(this);
-        toggle.syncState();
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.toggle_open_main_a, R.string.toggle_close_main_a);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mNavigationView = findViewById(R.id.nav_view_main_a);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (toggle.onOptionsItemSelected(item)) {
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -61,11 +69,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
+
         switch (item.getItemId()){
             case R.id.profile_nav_main :
-                intent = new Intent(MainActivity.this,EditProfileActivity.class);
-                startActivity(intent);
+                mPresenter.onClickProfileItem();
                 break;
             case R.id.search_nav_main :
 
@@ -84,7 +91,43 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void setUserInformationOnNavDrawer(String name, String email, String urlPhoto) {
+        View headerNavDrawer =  mNavigationView.getHeaderView(0);
+        TextView tvName = headerNavDrawer.findViewById(R.id.tv_name_header_nav_drawer);
+        TextView tvEmail = headerNavDrawer.findViewById(R.id.tv_email_header_nav_drawer);
+        CircleImageView ivAvatar = headerNavDrawer.findViewById(R.id.iv_header_nav_drawer);
+        if( urlPhoto != null){
+            Picasso.get().load(urlPhoto).into(ivAvatar);
+        }
+        tvName.setText(name);
+        tvEmail.setText(email);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+    }
+
+    @Override
+    public void openEditProfile() {
+        Intent intent = new Intent(MainActivity.this,EditProfileActivity.class);
+        startActivity(intent);
     }
 }
