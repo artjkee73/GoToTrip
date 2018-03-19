@@ -62,5 +62,8 @@
     <!--searchActivity-->
     <string name="et_hint_search_search_activity">Введите имя ... </string>
 
+    <!--searchActivityRecyclerViewUsers-->
+    <string name="tv_name_user_i_rv_search">Иванов Иван</string>
+    <string name="tv_country_city_i_rv_search">Россия,Ульяновск</string>
 
 </resources>

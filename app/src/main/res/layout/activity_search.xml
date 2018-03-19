@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.androiddev.artemqa.gototrip.modules.SearchActivity">
+    tools:context="com.androiddev.artemqa.gototrip.modules.search.SearchActivity">
 
 
     <android.support.v7.widget.RecyclerView
