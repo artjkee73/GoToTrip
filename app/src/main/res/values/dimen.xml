@@ -3,6 +3,6 @@
 
     <!--EditProfileActivity-->
 
-    <dimen name="height_til_edit_profile_a">50dp</dimen>
+    <dimen name="height_til_edit_profile_a">55dp</dimen>
     <dimen name="text_size_et_edit_profile_a">16sp</dimen>
 </resources>

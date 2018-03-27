@@ -26,7 +26,7 @@
         <activity android:name=".modules.main.view.MainActivity" />
         <activity android:name=".modules.editProfile.view.EditProfileActivity" />
         <activity
-            android:name=".modules.search.SearchActivity"
+            android:name=".modules.search.view.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme"></activity>
     </application>

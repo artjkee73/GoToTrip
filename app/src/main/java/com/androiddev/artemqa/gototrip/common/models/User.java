@@ -47,8 +47,8 @@ public class User {
         return mUriAvatar;
     }
 
-    public void setUriAvatar(String mUriAvatar) {
-        this.mUriAvatar = mUriAvatar;
+    public void setUriAvatar(String uriAvatar) {
+        this.mUriAvatar = uriAvatar;
     }
 
     public String getName() {

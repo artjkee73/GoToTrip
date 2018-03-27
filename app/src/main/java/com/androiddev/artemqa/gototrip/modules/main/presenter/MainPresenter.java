@@ -37,6 +37,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void onClickSearchItem() {
+        mView.openSearch();
+    }
+
+    @Override
     public void onGettingUser(User currentUser) {
         mView.setUserInformationOnNavDrawer(currentUser.getName(),currentUser.getEmail(),currentUser.getUriAvatar());
     }

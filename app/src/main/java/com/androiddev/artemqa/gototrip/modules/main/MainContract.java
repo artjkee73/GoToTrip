@@ -15,6 +15,8 @@ public interface MainContract {
         void setUserInformationOnNavDrawer(String name , String email , String urlPhoto);
 
         void openEditProfile();
+
+        void openSearch();
     }
 
     interface Presenter{
@@ -26,6 +28,8 @@ public interface MainContract {
         void viewIsReady();
 
         void onClickProfileItem();
+
+        void onClickSearchItem();
 
         void onGettingUser(User currentUser);
     }

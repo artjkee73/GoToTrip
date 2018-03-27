@@ -17,6 +17,7 @@ import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActiv
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.androiddev.artemqa.gototrip.modules.main.presenter.MainPresenter;
+import com.androiddev.artemqa.gototrip.modules.search.view.SearchActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
                 mPresenter.onClickProfileItem();
                 break;
             case R.id.search_nav_main :
-
+                mPresenter.onClickSearchItem();
                 break;
             case R.id.chat_nav_main :
 
@@ -128,6 +129,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     @Override
     public void openEditProfile() {
         Intent intent = new Intent(MainActivity.this,EditProfileActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openSearch() {
+        Intent intent = new Intent(MainActivity.this,SearchActivity.class);
         startActivity(intent);
     }
 }
