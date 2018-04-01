@@ -59,11 +59,21 @@
     <string name="toast_success_saving_info_edit_profile_a">Данные успешно сохранены</string>
 
 
-    <!--searchActivity-->
+    <!--SearchActivity-->
     <string name="et_hint_search_search_activity">Введите имя ... </string>
 
     <!--searchActivityRecyclerViewUsers-->
     <string name="tv_name_user_i_rv_search">Иванов Иван</string>
     <string name="tv_country_city_i_rv_search">Россия,Ульяновск</string>
+
+    <!--ViewProfileActivity-->
+    <string name="tv_name_user_view_profile_a">Иванов Иван</string>
+    <string name="btn_chat_user_view_profile_a">Сообщение</string>
+    <string name="btn_follow_off_user_view_profile_a">Подписаться</string>
+    <string name="btn_follow_follow_on_user_view_profile_a">Вы подписаны</string>
+    <string name="btn_followers_view_profile_a">%1$d \n Подписчики</string>
+    <string name="btn_followings_user_view_profile_a"> %1$d \n Подписки</string>
+    <string name="btn_posts_user_view_profile_a">%1$d \n Посты</string>
+
 
 </resources>

@@ -70,10 +70,11 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
     @Override
     public void searchUser(Query userNameQuery) {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
         FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(ref, User.class)
+                        .setQuery(userNameQuery, User.class)
+                        .setLifecycleOwner(this)
                         .build();
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
