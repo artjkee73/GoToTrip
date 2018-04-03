@@ -15,6 +15,8 @@ public interface ContractSearch {
         void hideProgress();
 
         void searchUser(Query userNameQuery);
+
+        void openViewProfileActivity(String idUserClicked);
     }
 
     interface Presenter {
@@ -25,5 +27,7 @@ public interface ContractSearch {
         void onButtonSearchClicked(String userName);
 
         void onGettingSearchQueryUser(Query userNameQuery);
+
+        void onItemRecyclerViewClicked(String idUserClicked);
     }
 }

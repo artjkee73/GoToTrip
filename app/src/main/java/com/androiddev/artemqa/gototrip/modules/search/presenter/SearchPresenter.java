@@ -34,4 +34,9 @@ public class SearchPresenter  implements ContractSearch.Presenter {
     public void onGettingSearchQueryUser(Query userNameQuery) {
         mView.searchUser(userNameQuery);
     }
+
+    @Override
+    public void onItemRecyclerViewClicked(String idUserClicked) {
+        mView.openViewProfileActivity(idUserClicked);
+    }
 }

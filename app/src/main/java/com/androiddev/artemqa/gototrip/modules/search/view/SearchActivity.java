@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.search.view;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.search.ContractSearch;
 import com.androiddev.artemqa.gototrip.modules.search.presenter.SearchPresenter;
+import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -70,7 +73,6 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
     @Override
     public void searchUser(Query userNameQuery) {
 
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
         FirebaseRecyclerOptions<User> options =
                 new FirebaseRecyclerOptions.Builder<User>()
                         .setQuery(userNameQuery, User.class)
@@ -79,10 +81,17 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, UserViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull User model) {
+            protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull final User model) {
                 holder.mTvName.setText(model.getName());
                 holder.mTvCountryCity.setText(model.getCountry().concat(", ").concat(model.getCity()));
                 Picasso.get().load(model.getUriAvatar()).into(holder.mIvAvatar);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String idUserClicked = model.getUserId();
+                        mPresenter.onItemRecyclerViewClicked(idUserClicked);
+                    }
+                });
             }
 
             @NonNull
@@ -94,5 +103,12 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
             }
         };
         mRvUsers.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
+    public void openViewProfileActivity(String idUserClicked) {
+        Intent intent = new Intent(SearchActivity.this, ViewProfileActivity.class);
+        intent.putExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH,idUserClicked);
+        startActivity(intent);
     }
 }

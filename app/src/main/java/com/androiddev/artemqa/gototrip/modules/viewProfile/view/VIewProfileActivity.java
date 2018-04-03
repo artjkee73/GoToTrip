@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.androiddev.artemqa.gototrip.R;
 
-public class VIewProfileActivity extends AppCompatActivity {
+public class ViewProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
