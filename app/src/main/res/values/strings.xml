@@ -62,14 +62,15 @@
     <!--SearchActivity-->
     <string name="et_hint_search_search_activity">Введите имя ... </string>
 
-    <!--searchActivityRecyclerViewUsers-->
+    <!--SearchActivityRecyclerViewUsers-->
     <string name="tv_name_user_i_rv_search">Иванов Иван</string>
     <string name="tv_country_city_i_rv_search">Россия,Ульяновск</string>
 
     <!--ViewProfileActivity-->
     <string name="tv_name_user_view_profile_a">Иванов Иван</string>
     <string name="btn_chat_user_view_profile_a">Сообщение</string>
-    <string name="btn_follow_off_user_view_profile_a">Подписаться</string>
+    <string name="btn_follow_on_user_view_profile_a">Подписаться</string>
+    <string name="btn_follow_off_user_view_profile_a">Отписаться</string>
     <string name="btn_follow_follow_on_user_view_profile_a">Вы подписаны</string>
     <string name="btn_followers_view_profile_a">%1$d \n Подписчики</string>
     <string name="btn_followings_user_view_profile_a"> %1$d \n Подписки</string>
@@ -78,7 +79,10 @@
     <string name="tv_location_user_view_profile_a">Россия, Ульяновск</string>
     <string name="tv_visited_country_view_profile_a">Китай, Китай, Китай, Китай</string>
     <string name="tv_about_me_view_profile_a">Много много много всего интересного, просто, очень много всего, вы себе не представяете, да, вот  такой интересный человек, понимаю, трудно поверить</string>
+    <string name="tv_interests_user_view_profile_a">Вышивание, рисование , книги</string>
 
-
+    <!--DialogActivity-->
+    <string name="tv_name_user_dialog_a">Иван Иванов</string>
+    <string name="hint_text_message_dialog_a">Введите сообщение...</string>
 
 </resources>

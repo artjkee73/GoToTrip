@@ -1,8 +1,108 @@
 package com.androiddev.artemqa.gototrip.modules.viewProfile.presenter;
 
+import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
+
+import java.util.HashMap;
+
 /**
  * Created by artjk on 29.03.2018.
  */
 
-public class ViewProfilePresenter {
+public class ViewProfilePresenter implements ContractViewProfile.Presenter {
+
+    private ContractViewProfile.View mView;
+    private ViewProfileInteractor mInteractor;
+
+    public ViewProfilePresenter() {
+        mInteractor = new ViewProfileInteractor(this);
+    }
+
+    @Override
+    public void attachView(ContractViewProfile.View view) {
+        mView = view;
+    }
+
+    @Override
+    public void detachView() {
+        mView = null;
+    }
+
+    @Override
+    public void viewIsReady(String viewUserId) {
+        mInteractor.getViewProfileUser(viewUserId);
+    }
+
+
+    public void onGettingUser(User viewUser,String currentUserId) {
+        if (viewUser.getUriAvatar() != null) {
+            mView.setUserAvatar(viewUser.getUriAvatar());
+        }
+        if (viewUser.getName() != null) {
+            mView.setUserName(viewUser.getName());
+        }
+        if (viewUser.getCity() != null && viewUser.getCountry() != null) {
+            String city = viewUser.getCity();
+            String country = viewUser.getCountry();
+            mView.setUserLocation(country.concat(", ").concat(city));
+        }
+        if (viewUser.getListVisitedCountries() != null) {
+            mView.setVisitedCountriesUser(viewUser.getListVisitedCountries());
+        }
+        if (viewUser.getAboutMe() != null) {
+            mView.setAboutUser(viewUser.getAboutMe());
+        }
+
+        if (viewUser.getFollowers() != null) {
+            mView.setFollowersCount(viewUser.getFollowers().size());
+        }
+
+        if (viewUser.getFollowings() != null) {
+            mView.setFollowingsCount(viewUser.getFollowings().size());
+        }
+        if (viewUser.getPosts() != null) {
+            mView.setPostsCount(viewUser.getPosts().size());
+        }
+        if(viewUser.getFollowers() != null){
+            mView.setIsFollowOnUser(viewUser.getFollowers().containsKey(currentUserId));
+        }
+    }
+
+    @Override
+    public void onButtonMessageClicked(String viewUsersId) {
+        mView.showDialogActivity(viewUsersId);
+    }
+
+    @Override
+    public void onButtonFollowClicked(String viewUsersId) {
+        mInteractor.followOnUser(viewUsersId);
+    }
+
+    @Override
+    public void onFollowOnUser() {
+        mView.setIsFollowOnUser(true);
+    }
+
+
+    @Override
+    public void onButtonUnFollowClicked(String viewUsersId) {
+        mInteractor.unFollowUser(viewUsersId);
+    }
+
+    @Override
+    public void onUnFollowUser() {
+        mView.setIsFollowOnUser(false);
+    }
+
+    @Override
+    public void onButtonListFollowersClicked(String viewUsersId) {
+
+    }
+
+    @Override
+    public void onButtonListFollowingsClicked(String viewUsersId) {
+
+    }
+
+
 }

@@ -23,11 +23,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".modules.register.view.RegisterActivity" />
-        <activity android:name=".modules.main.view.MainActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".modules.main.view.MainActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".modules.editProfile.view.EditProfileActivity" />
         <activity android:name=".modules.search.view.SearchActivity" />
-        <activity android:name=".modules.viewProfile.view.ViewProfileActivity"/>
+        <activity android:name=".modules.viewProfile.view.ViewProfileActivity" />
+        <activity android:name=".modules.dialog.view.DialogActivity"></activity>
     </application>
 
 </manifest>

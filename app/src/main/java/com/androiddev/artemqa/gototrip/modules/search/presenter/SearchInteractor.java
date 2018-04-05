@@ -30,21 +30,6 @@ public class SearchInteractor {
         DatabaseReference usersRef = mBaseRefDatabase.child("users");
         Query searchUserQuery = usersRef.orderByChild("name").startAt(userName).endAt(userName+"\uf8ff");
         mPresenter.onGettingSearchQueryUser(searchUserQuery);
-//        searchUserQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if(dataSnapshot != null){
-//                    GenericTypeIndicator<List<User>> genericTypeIndicator =new GenericTypeIndicator<List<User>>(){};
-//
-//                    List<User> taskDesList = dataSnapshot.getValue(genericTypeIndicator);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
 }

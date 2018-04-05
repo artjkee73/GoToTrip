@@ -19,7 +19,7 @@ public class Utils {
         try {
             Bitmap originalPhotoBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
             bos = new ByteArrayOutputStream();
-            originalPhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+            originalPhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,4 +12,6 @@ public class Constants {
     public static String FIRESTORE_NO_USER_PHOTO = "https://firebasestorage.googleapis.com/v0/b/artjkee-gototrip.appspot.com/o/common%2Fimages%2Fno_user.png?alt=media&token=95c6fc57-f1ec-4bf4-8c27-e9bc00bf8361";
 
     public static String INTENT_CLICKED_USER_ID_SEARCH = "SearchActivity.clickedUserId";
+
+    public static String INTENT_DIALOG_USER_ID_VIEW_PROFILE = "ViewProfileActivity.DialogViewUserId";
 }
