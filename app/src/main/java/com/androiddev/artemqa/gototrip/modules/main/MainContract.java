@@ -17,6 +17,8 @@ public interface MainContract {
         void openEditProfile();
 
         void openSearch();
+
+        void openChat();
     }
 
     interface Presenter{
@@ -30,6 +32,8 @@ public interface MainContract {
         void onClickProfileItem();
 
         void onClickSearchItem();
+
+        void onClickChatItem();
 
         void onGettingUser(User currentUser);
     }

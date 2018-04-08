@@ -42,6 +42,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void onClickChatItem() {
+        mView.openChat();
+    }
+
+    @Override
     public void onGettingUser(User currentUser) {
         mView.setUserInformationOnNavDrawer(currentUser.getName(),currentUser.getEmail(),currentUser.getUriAvatar());
     }

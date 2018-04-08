@@ -10,10 +10,13 @@ import android.text.format.DateFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -34,24 +37,23 @@ public class Utils {
         return bos.toByteArray();
     }
 
-    public static String timestampToDateMessage( Long timestamp){
+    public static String timestampToDateMessage(Long timestamp) {
 
-            Locale ruLocale = new Locale("ru");
-            SimpleDateFormat dmyFormat = new SimpleDateFormat("dd-MM-yyyy",ruLocale);
-            SimpleDateFormat mgFormat = new SimpleDateFormat("HH:mm",ruLocale);
+        Locale ruLocale = new Locale("ru");
+        SimpleDateFormat dmyFormat = new SimpleDateFormat("dd-MM-yyyy", ruLocale);
+        SimpleDateFormat mgFormat = new SimpleDateFormat("HH:mm", ruLocale);
 
-            Date timeStampRemoveTime = dateRemoveTime(new Date(timestamp));
-            Date currentTimeRemoveTime = dateRemoveTime(new Date());
+        Date timeStampRemoveTime = dateRemoveTime(new Date(timestamp));
+        Date currentTimeRemoveTime = dateRemoveTime(new Date());
 
-            if(timeStampRemoveTime.equals(currentTimeRemoveTime)){
-                return mgFormat.format(new Date(timestamp));
-            }
-            else {
-                return dmyFormat.format(new Date(timestamp));
-            }
+        if (timeStampRemoveTime.equals(currentTimeRemoveTime)) {
+            return mgFormat.format(new Date(timestamp));
+        } else {
+            return dmyFormat.format(new Date(timestamp));
+        }
     }
 
-    private static Date dateRemoveTime(Date date){
+    private static Date dateRemoveTime(Date date) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR, 0);
@@ -60,5 +62,17 @@ public class Utils {
         calendar.set(Calendar.MILLISECOND, 0);
 
         return calendar.getTime();
+    }
+
+    public static String getInterlocutorId(Map<String, Boolean> members, String currentUserId) {
+        if (members.size()>1){
+            members.remove(currentUserId);
+            Set<String> set = members.keySet();
+            return new ArrayList<>(set).get(0);
+        }
+        else {
+            Set<String> set = members.keySet();
+            return new ArrayList<>(set).get(0);
+        }
     }
 }

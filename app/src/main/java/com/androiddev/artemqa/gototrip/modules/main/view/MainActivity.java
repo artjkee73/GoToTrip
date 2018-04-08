@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
+import com.androiddev.artemqa.gototrip.modules.chat.view.ChatActivity;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
                 mPresenter.onClickSearchItem();
                 break;
             case R.id.chat_nav_main :
-
+                mPresenter.onClickChatItem();
                 break;
             case R.id.new_post_nav_main :
 
@@ -135,6 +136,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     @Override
     public void openSearch() {
         Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openChat() {
+        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
         startActivity(intent);
     }
 }
