@@ -46,7 +46,7 @@ public class RegisterInteractor {
 
     public void addUserInDB(String email, String name) {
         String userId = currentUser.getUid();
-        User user = new User(userId,email,name, Constants.FIRESTORE_NO_USER_PHOTO);
-        mRefFirebase.child("users").child(userId).setValue(user);
+        User user = new User(userId,email,name, Constants.FIREBASE_NO_USER_PHOTO_URL);
+        mRefFirebase.child(Constants.USERS_LOCATION).child(userId).setValue(user);
     }
 }

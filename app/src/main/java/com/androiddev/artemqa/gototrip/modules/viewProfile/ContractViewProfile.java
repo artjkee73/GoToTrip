@@ -28,6 +28,8 @@ public interface ContractViewProfile {
         void setAboutUser(String aboutUser);
 
         void showDialogActivity(String viewUsersId);
+
+        void updateUI();
     }
 
     interface Presenter {

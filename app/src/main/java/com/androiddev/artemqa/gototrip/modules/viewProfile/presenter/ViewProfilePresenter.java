@@ -81,6 +81,7 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
     @Override
     public void onFollowOnUser() {
         mView.setIsFollowOnUser(true);
+        mView.updateUI();
     }
 
 
@@ -92,6 +93,7 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
     @Override
     public void onUnFollowUser() {
         mView.setIsFollowOnUser(false);
+        mView.updateUI();
     }
 
     @Override

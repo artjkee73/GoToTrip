@@ -52,7 +52,6 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SearchActivity.this,"кнопка нажата",Toast.LENGTH_SHORT).show();
                 mPresenter.onButtonSearchClicked(mEtUsername.getText().toString());
             }
         });
@@ -101,6 +100,7 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
                         .inflate(R.layout.recycler_view_search_user_item, parent, false);
                 return new UserViewHolder(view);
             }
+
         };
         mRvUsers.setAdapter(firebaseRecyclerAdapter);
     }

@@ -150,6 +150,11 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     }
 
     @Override
+    public void updateUI() {
+        mPresenter.viewIsReady(getViewUsersIdFromIntent());
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_follow_on_user_view_profile_a:

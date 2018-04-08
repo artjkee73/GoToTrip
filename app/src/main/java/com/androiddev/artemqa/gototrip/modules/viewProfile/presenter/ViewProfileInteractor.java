@@ -1,6 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.viewProfile.presenter;
 
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +28,7 @@ public class ViewProfileInteractor {
     }
 
     public void getViewProfileUser(String viewUserId) {
-        DatabaseReference viewUserRef = mRefBaseDatabase.child("users").child(viewUserId);
+        DatabaseReference viewUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(viewUserId);
         viewUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -46,8 +47,8 @@ public class ViewProfileInteractor {
     }
 
     public void followOnUser(String viewUsersId) {
-        final DatabaseReference viewUserRef = mRefBaseDatabase.child("users").child(viewUsersId);
-        final DatabaseReference currentUserRef = mRefBaseDatabase.child("users").child(mCurrentUser.getUid());
+        final DatabaseReference viewUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(viewUsersId);
+        final DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
 
         viewUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -90,8 +91,8 @@ public class ViewProfileInteractor {
     }
 
     public void unFollowUser(String viewUsersId) {
-        final DatabaseReference viewUserRef = mRefBaseDatabase.child("users").child(viewUsersId);
-        final DatabaseReference currentUserRef = mRefBaseDatabase.child("users").child(mCurrentUser.getUid());
+        final DatabaseReference viewUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(viewUsersId);
+        final DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         viewUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

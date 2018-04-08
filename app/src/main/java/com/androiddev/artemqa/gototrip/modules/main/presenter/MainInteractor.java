@@ -1,6 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.main.presenter;
 
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +31,7 @@ public class MainInteractor {
     }
 
     public void getUserFromDB(){
-        DatabaseReference userRef = mBaseRefDatabase.child("users").child(mCurrentUser.getUid());
+        DatabaseReference userRef = mBaseRefDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -21,7 +21,7 @@ public class User {
     private Map <String,Boolean> mFollowings = new HashMap<>();
     private Map <String,Boolean> mPosts = new HashMap<>();
     private Map <String,Boolean> mChats = new HashMap<>();
-    
+
     public User() {
     }
 

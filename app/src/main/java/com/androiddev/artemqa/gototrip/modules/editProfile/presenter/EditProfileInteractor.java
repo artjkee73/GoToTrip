@@ -3,6 +3,7 @@ package com.androiddev.artemqa.gototrip.modules.editProfile.presenter;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.editProfile.EditProfileContract;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +39,7 @@ public class EditProfileInteractor {
     }
 
     public void getUserInformation(){
-        DatabaseReference currentUserRef = mRefBaseDatabase.child("users").child(mCurrentUser.getUid());
+        DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,7 +72,7 @@ public class EditProfileInteractor {
     }
 
     public void setUserUrlPhoto(final String urlPhoto){
-        final DatabaseReference currentUserRef = mRefBaseDatabase.child("users").child(mCurrentUser.getUid());
+        final DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -90,7 +91,7 @@ public class EditProfileInteractor {
 
     public void setUserInfo(final String name, final String country, final String city, final String aboutMe, final String visitedCountries) {
 
-        final DatabaseReference currentUserRef = mRefBaseDatabase.child("users").child(mCurrentUser.getUid());
+        final DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

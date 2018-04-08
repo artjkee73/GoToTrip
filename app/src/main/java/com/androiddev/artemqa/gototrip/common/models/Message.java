@@ -11,19 +11,26 @@ import java.util.HashMap;
 
 public class Message {
 
+
+    private String mMessageId;
     private String mAuthorId;
     private String mChatId;
     private String mText;
     private HashMap<String, Object> mDateCreated;
+    private String mAuthorUrlAvatar;
 
     public Message() {
     }
 
-    public Message(String authorId, String chatId, String text, HashMap<String, Object> dateCreated) {
+    public Message(String messageId, String authorId, String chatId, String text,String authorUrlAvatar) {
+        mMessageId = messageId;
         mAuthorId = authorId;
         mChatId = chatId;
         mText = text;
-        mDateCreated = dateCreated;
+        HashMap<String, Object> dateLastChangedObj = new HashMap<String, Object>();
+        dateLastChangedObj.put("date", ServerValue.TIMESTAMP);
+        this.mDateCreated = dateLastChangedObj;
+        mAuthorUrlAvatar = authorUrlAvatar;
     }
 
 
@@ -71,5 +78,19 @@ public class Message {
         this.mDateCreated = dateCreated;
     }
 
+    public String getMessageId() {
+        return mMessageId;
+    }
+
+    public void setMessageId(String messageId) {
+        mMessageId = messageId;
+    }
+    public String getAuthorUrlAvatar() {
+        return mAuthorUrlAvatar;
+    }
+
+    public void setAuthorUrlAvatar(String authorUrlAvatar) {
+        mAuthorUrlAvatar = authorUrlAvatar;
+    }
 
 }
