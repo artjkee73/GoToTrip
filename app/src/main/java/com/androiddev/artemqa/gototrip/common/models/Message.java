@@ -27,7 +27,7 @@ public class Message {
         mAuthorId = authorId;
         mChatId = chatId;
         mText = text;
-        HashMap<String, Object> dateLastChangedObj = new HashMap<String, Object>();
+        HashMap<String, Object> dateLastChangedObj = new HashMap<>();
         dateLastChangedObj.put("date", ServerValue.TIMESTAMP);
         this.mDateCreated = dateLastChangedObj;
         mAuthorUrlAvatar = authorUrlAvatar;
