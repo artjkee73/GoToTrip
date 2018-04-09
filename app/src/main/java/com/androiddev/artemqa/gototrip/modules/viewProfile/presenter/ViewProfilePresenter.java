@@ -1,6 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.viewProfile.presenter;
 
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
 
 import java.util.HashMap;
@@ -98,12 +99,12 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
 
     @Override
     public void onButtonListFollowersClicked(String viewUsersId) {
-
+        mView.showListFollowers(Constants.INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE,viewUsersId);
     }
 
     @Override
     public void onButtonListFollowingsClicked(String viewUsersId) {
-
+        mView.showListFollowings(Constants.INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE,viewUsersId);
     }
 
 

@@ -91,6 +91,6 @@
 
     <!--ChatActivityRecyclerView-->
     <string name="tv_name_interlocutor_chat_item">Иванов Иван</string>
-    <string name="tv_last_message_chat_chat_item">Приветвую! Как ваши дела? Куда летали? </string>
+    <string name="tv_last_message_chat_chat_item">Прив </string>
 
 </resources>

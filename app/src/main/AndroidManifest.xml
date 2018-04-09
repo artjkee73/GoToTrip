@@ -30,7 +30,8 @@
         <activity android:name=".modules.search.view.SearchActivity" />
         <activity android:name=".modules.viewProfile.view.ViewProfileActivity" />
         <activity android:name=".modules.dialog.view.DialogActivity" />
-        <activity android:name=".modules.chat.view.ChatActivity"></activity>
+        <activity android:name=".modules.chat.view.ChatActivity" />
+        <activity android:name=".modules.listUsers.view.ListUsersActivity"></activity>
     </application>
 
 </manifest>

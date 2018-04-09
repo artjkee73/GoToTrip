@@ -1,6 +1,9 @@
 package com.androiddev.artemqa.gototrip.modules.dialog.presenter;
 
+import android.content.Intent;
+
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -33,8 +36,13 @@ public class DialogPresenter implements ContractDialog.Presenter {
     }
 
     @Override
-    public void viewIsReady(String idInterlocutor) {
-        mInteractor.getInterlocutorAndCurrentUserProfile(idInterlocutor);
+    public void viewIsReady(Intent intent) {
+        if (intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE) != null)
+            mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE));
+        else if (intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT) != null) {
+            currentChatId = intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT);
+            mInteractor.getQueryForGetMessages(currentChatId);
+        }
     }
 
     @Override
@@ -81,6 +89,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
     @Override
     public void onNewMessageAdded() {
         mView.updateUI();
+        mView.clearEtMessage();
     }
 
     private void getChatId(User interlocutorUser, User currentUser) {

@@ -73,14 +73,9 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
 
             }
         });
-        mPresenter.viewIsReady(getInterlocutorIdFromIntent());
+        mPresenter.viewIsReady(getIntent());
 
     }
-
-    private String getInterlocutorIdFromIntent() {
-        return getIntent().getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE);
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -112,7 +107,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
 
     @Override
     public void updateUI() {
-        mPresenter.viewIsReady(getInterlocutorIdFromIntent());
+        mPresenter.viewIsReady(getIntent());
     }
 
     @Override
@@ -154,6 +149,11 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
             }
         };
         mRvMessages.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
+    public void clearEtMessage() {
+        mEtTextMessage.setText("");
     }
 
     @Override

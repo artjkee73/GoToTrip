@@ -13,6 +13,12 @@ public class Constants {
 
     public static String INTENT_CLICKED_USER_ID_SEARCH = "SearchActivity.clickedUserId";
     public static String INTENT_DIALOG_USER_ID_VIEW_PROFILE = "ViewProfileActivity.DialogViewUserId";
+    public static String INTENT_CLICKED_CHAT_ID_CHAT = "ChatActivity.clickedChatId";
+
+    public static String INTENT_LIST_USERS_USER_ID_VIEW_PROFILE = "ViewProfileActivity.DialogViewUserId";
+    public static String INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE = "ViewProfileActivity.listUsersType";
+    public static String INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE = "ViewProfileActivity.followersType";
+    public static String INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE = "ViewProfileActivity.followingsType";
 
     public static String USERS_LOCATION = "users";
     public static String CHATS_LOCATION = "chats";

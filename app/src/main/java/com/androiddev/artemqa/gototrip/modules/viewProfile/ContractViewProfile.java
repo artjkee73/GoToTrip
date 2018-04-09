@@ -30,6 +30,10 @@ public interface ContractViewProfile {
         void showDialogActivity(String viewUsersId);
 
         void updateUI();
+
+        void showListFollowers(String typeFollowers,String CurrentUserId);
+
+        void showListFollowings(String typeFollowers,String CurrentUserId);
     }
 
     interface Presenter {

@@ -13,6 +13,8 @@ public interface ContractChat {
         void updateUI();
 
         void loadRv(Query keyRef, DatabaseReference dataRef);
+
+        void openDialog(String chatClickedId);
     }
 
     interface Presenter {
@@ -22,7 +24,7 @@ public interface ContractChat {
 
         void viewIsReady();
 
-        void onItemRvClicked();
+        void onItemRvClicked(String chatId);
 
         void onGettingQueryForRV(Query keyRef, DatabaseReference dataRef);
     }

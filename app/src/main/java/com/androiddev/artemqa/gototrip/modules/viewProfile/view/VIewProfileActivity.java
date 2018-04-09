@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
+import com.androiddev.artemqa.gototrip.modules.listUsers.view.ListUsersActivity;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.presenter.ViewProfilePresenter;
 import com.squareup.picasso.Picasso;
@@ -155,6 +156,22 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     }
 
     @Override
+    public void showListFollowers(String typeFollowers, String CurrentUserId) {
+        Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
+        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE,CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE,typeFollowers);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showListFollowings(String typeFollowers, String CurrentUserId) {
+        Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
+        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE,CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE,typeFollowers);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_follow_on_user_view_profile_a:
@@ -168,6 +185,15 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
             case R.id.btn_chat_user_view_profile_a:
                 mPresenter.onButtonMessageClicked(getViewUsersIdFromIntent());
                 break;
+
+            case R.id.btn_followers_view_profile_a:
+                mPresenter.onButtonListFollowersClicked(getViewUsersIdFromIntent());
+                break;
+
+            case R.id.btn_followings_user_view_profile_a:
+                mPresenter.onButtonListFollowingsClicked(getViewUsersIdFromIntent());
+                break;
+
         }
     }
 }

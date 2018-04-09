@@ -13,8 +13,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class UserViewHolder extends RecyclerView.ViewHolder {
-    CircleImageView mIvAvatar;
-    TextView mTvName, mTvCountryCity;
+    public CircleImageView mIvAvatar;
+    public TextView mTvName, mTvCountryCity;
 
     public UserViewHolder(View itemView) {
         super(itemView);

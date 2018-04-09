@@ -30,8 +30,8 @@ public class ChatPresenter implements ContractChat.Presenter{
     }
 
     @Override
-    public void onItemRvClicked() {
-
+    public void onItemRvClicked(String chatClickedId) {
+        mView.openDialog(chatClickedId);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.dialog;
 
+import android.content.Intent;
+
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -23,6 +25,8 @@ public interface ContractDialog {
         void updateUI();
 
         void loadRvData(Query keyRef,DatabaseReference dataRef,String currentUserId);
+
+        void clearEtMessage();
     }
 
     interface Presenter {
@@ -31,7 +35,7 @@ public interface ContractDialog {
 
         void detachView();
 
-        void viewIsReady(String idInterlocutor);
+        void viewIsReady(Intent intent);
 
         void onGettingInterlocutorAndCurrentUser(User interlocutorUser, User currentUser);
 
