@@ -107,5 +107,10 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
         mView.showListFollowings(Constants.INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE,viewUsersId);
     }
 
+    @Override
+    public void onButtonListPostsClicked(String viewUsersId) {
+        mView.showListPosts(viewUsersId);
+    }
+
 
 }

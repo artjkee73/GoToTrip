@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_author_avatar_rv_post_item"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/no_avatar" />
+
+    <TextView
+        android:id="@+id/tv_name_author_rv_post_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        android:layout_marginTop="4dp"
+        android:text="@string/tv_name_author_rv_post_item"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toEndOf="@+id/iv_author_avatar_rv_post_item"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_date_post_rv_post_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/tv_date_post_rv_post_item"
+        app:layout_constraintStart_toEndOf="@+id/iv_author_avatar_rv_post_item"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_author_rv_post_item" />
+
+    <TextView
+        android:id="@+id/tv_title_rv_post_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:text="@string/tv_title_rv_post_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_author_avatar_rv_post_item" />
+
+    <ImageView
+        android:id="@+id/iv_image_post_rv_post_item"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item"
+        app:srcCompat="@drawable/ic_no_image" />
+
+    <TextView
+        android:id="@+id/tv_text_post_rv_post_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:maxLines="3"
+        android:text="@string/tv_text_post_rv_post_item"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_image_post_rv_post_item" />
+
+    <Button
+        android:id="@+id/btn_like_rv_post_item"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/ic_like_off"
+        android:text="@string/tv_count_likes_rv_post_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text_post_rv_post_item" />
+
+    <Button
+        android:id="@+id/btn_comment_rv_post_item"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/ic_comment"
+        android:text="@string/tv_count_comments_rv_post_item"
+        app:layout_constraintStart_toEndOf="@+id/btn_like_rv_post_item"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text_post_rv_post_item" />
+
+</android.support.constraint.ConstraintLayout>

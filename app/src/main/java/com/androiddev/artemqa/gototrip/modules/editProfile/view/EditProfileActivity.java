@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.common.models.User;
+import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.editProfile.EditProfileContract;
 import com.androiddev.artemqa.gototrip.modules.editProfile.presenter.EditProfilePresenter;
@@ -23,7 +24,6 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
     CardView mCvBtnSave;
     EditProfileContract.Presenter mPresenter;
     CircleImageView mIvAvatar;
-    private final static int PICK_AVATAR_USER = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +63,14 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
     private void chooseImg() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, PICK_AVATAR_USER);
+        startActivityForResult(photoPickerIntent, Constants.PICK_AVATAR_USER_EDIT_USER);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == PICK_AVATAR_USER) {
+            if (requestCode == Constants.PICK_AVATAR_USER_EDIT_USER) {
                 Uri selectedImageUri = data.getData();
                 byte[] compressPhotoByteArray = Utils.compressPhoto(selectedImageUri, this);
                 mPresenter.saveAvatar(compressPhotoByteArray);

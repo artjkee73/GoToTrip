@@ -32,7 +32,8 @@
         <activity android:name=".modules.dialog.view.DialogActivity" />
         <activity android:name=".modules.chat.view.ChatActivity" />
         <activity android:name=".modules.listUsers.view.ListUsersActivity" />
-        <activity android:name=".modules.NewPostActivity"></activity>
+        <activity android:name=".modules.newPost.view.NewPostActivity" />
+        <activity android:name=".modules.listPosts.view.ListPostsActivity"></activity>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
 import com.androiddev.artemqa.gototrip.modules.listUsers.view.ListUsersActivity;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.presenter.ViewProfilePresenter;
@@ -172,6 +173,13 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     }
 
     @Override
+    public void showListPosts(String currentUserId) {
+        Intent intent = new Intent(ViewProfileActivity.this, ListPostsActivity.class);
+        intent.putExtra(Constants.INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE,currentUserId);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_follow_on_user_view_profile_a:
@@ -193,7 +201,8 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
             case R.id.btn_followings_user_view_profile_a:
                 mPresenter.onButtonListFollowingsClicked(getViewUsersIdFromIntent());
                 break;
-
+            case R.id.btn_posts_user_view_profile_a:
+                mPresenter.onButtonListPostsClicked(getViewUsersIdFromIntent());
         }
     }
 }

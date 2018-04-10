@@ -31,9 +31,11 @@ public interface ContractViewProfile {
 
         void updateUI();
 
-        void showListFollowers(String typeFollowers,String CurrentUserId);
+        void showListFollowers(String typeFollowers,String currentUserId);
 
-        void showListFollowings(String typeFollowers,String CurrentUserId);
+        void showListFollowings(String typeFollowers,String currentUserId);
+
+        void showListPosts(String currentUserId);
     }
 
     interface Presenter {
@@ -59,5 +61,7 @@ public interface ContractViewProfile {
         void onButtonListFollowersClicked(String viewUsersId);
 
         void onButtonListFollowingsClicked(String viewUsersId);
+
+        void onButtonListPostsClicked(String viewUsersId);
     }
 }

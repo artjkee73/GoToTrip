@@ -18,6 +18,7 @@ import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActiv
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.androiddev.artemqa.gototrip.modules.main.presenter.MainPresenter;
+import com.androiddev.artemqa.gototrip.modules.newPost.view.NewPostActivity;
 import com.androiddev.artemqa.gototrip.modules.search.view.SearchActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
                 mPresenter.onClickChatItem();
                 break;
             case R.id.new_post_nav_main :
-
+                mPresenter.onClickNewPostItem();
                 break;
             case R.id.settings_nav_main :
 
@@ -142,6 +143,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     @Override
     public void openChat() {
         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openNewPost() {
+        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
         startActivity(intent);
     }
 }

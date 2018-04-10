@@ -116,8 +116,8 @@ public class User {
         return mPosts;
     }
 
-    public void setPosts(HashMap<String, Boolean> posts) {
-        this.mPosts = mPosts;
+    public void setPosts(Map<String, Boolean> posts) {
+        this.mPosts = posts;
     }
 
     public Map<String, Boolean> getChats() {

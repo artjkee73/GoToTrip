@@ -47,6 +47,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void onClickNewPostItem() {
+        mView.openNewPost();
+    }
+
+    @Override
     public void onGettingUser(User currentUser) {
         mView.setUserInformationOnNavDrawer(currentUser.getName(),currentUser.getEmail(),currentUser.getUriAvatar());
     }

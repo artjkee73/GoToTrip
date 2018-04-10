@@ -78,7 +78,7 @@ public class DialogInteractor {
         Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByKey();
         DatabaseReference dataRef = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
         String currentUserId = mCurrentUser.getUid();
-        mPresenter.onGettingQueryForGetMessages(keyRef,dataRef,currentUserId);
+        mPresenter.onGettingQueryForGetMessages(keyRef, dataRef, currentUserId);
     }
 
     public void addMessageInChat(final String currentChatId, final String textMessage) {
@@ -89,16 +89,16 @@ public class DialogInteractor {
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
+                if (dataSnapshot != null) {
                     User currentUser = dataSnapshot.getValue(User.class);
-                    Message newMessage = new Message (keyMessage,mCurrentUser.getUid(),currentChatId,textMessage,currentUser.getUriAvatar());
+                    Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), currentChatId, textMessage, currentUser.getUriAvatar());
                     newMessageRef.child(keyMessage).setValue(newMessage);
                     currentChatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot!=null){
+                            if (dataSnapshot != null) {
                                 Chat currentChat = dataSnapshot.getValue(Chat.class);
-                                currentChat.getMessages().put(keyMessage,true);
+                                currentChat.getMessages().put(keyMessage, true);
                                 currentChat.setLastMessageId(keyMessage);
                                 currentChatRef.setValue(currentChat);
                                 mPresenter.onNewMessageAdded();
@@ -118,13 +118,6 @@ public class DialogInteractor {
 
             }
         });
-
-
-
-
-
-
-
 
 
     }
@@ -150,10 +143,10 @@ public class DialogInteractor {
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
+                if (dataSnapshot != null) {
                     User currentUser = dataSnapshot.getValue(User.class);
                     String senderUriAvatar = currentUser.getUriAvatar();
-                    Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), keyChat, textMessage,senderUriAvatar);
+                    Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), keyChat, textMessage, senderUriAvatar);
                     refMessagesBase.child(keyMessage).setValue(newMessage);
                 }
             }

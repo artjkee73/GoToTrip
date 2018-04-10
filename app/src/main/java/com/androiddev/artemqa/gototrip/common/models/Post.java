@@ -4,15 +4,26 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by artjk on 09.04.2018.
  */
 
 public class Post {
-    private String mPostId;
 
-    public Post(String postId, String titlePost, String authorId, String authorName, String authorUriAvatar, String textPost, String photoUrlPost, HashMap<String, Object> dateCreated) {
+    private String mPostId;
+    private String mTitlePost;
+    private String mAuthorId;
+    private String mAuthorName;
+    private String mAuthorUriAvatar;
+    private String mTextPost;
+    private String mPhotoUrlPost;
+    private HashMap<String, Object> mDateCreated = new HashMap<>();
+    private Map<String, Boolean> mLikeUsers = new HashMap<>();
+    private Map<String, Boolean> mComments = new HashMap<>();
+
+    public Post(String postId, String titlePost, String authorId, String authorName, String authorUriAvatar, String textPost, String photoUrlPost) {
         mPostId = postId;
         mTitlePost = titlePost;
         mAuthorId = authorId;
@@ -24,16 +35,6 @@ public class Post {
         dateLastChangedObj.put("date", ServerValue.TIMESTAMP);
         mDateCreated = dateLastChangedObj;
     }
-
-    private String mTitlePost;
-    private String mAuthorId;
-    private String mAuthorName;
-    private String mAuthorUriAvatar;
-    private String mTextPost;
-    private String mPhotoUrlPost;
-    private HashMap<String, Object> mDateCreated;
-    private HashMap<String, Boolean> mLikeUsers;
-    private HashMap<String, Boolean> mComments;
 
     public Post() {
 
@@ -96,7 +97,7 @@ public class Post {
         mPhotoUrlPost = photoUrlPost;
     }
 
-    public HashMap<String, Object> getDateCreated() {
+    public Map<String, Object> getDateCreated() {
 
         if (mDateCreated != null) {
             return mDateCreated;
@@ -111,19 +112,19 @@ public class Post {
         mDateCreated = dateCreated;
     }
 
-    public HashMap<String, Boolean> getLikeUsers() {
+    public Map<String, Boolean> getLikeUsers() {
         return mLikeUsers;
     }
 
-    public void setLikeUsers(HashMap<String, Boolean> likeUsers) {
+    public void setLikeUsers(Map<String, Boolean> likeUsers) {
         mLikeUsers = likeUsers;
     }
 
-    public HashMap<String, Boolean> getComments() {
+    public Map<String, Boolean> getComments() {
         return mComments;
     }
 
-    public void setComments(HashMap<String, Boolean> comments) {
+    public void setComments(Map<String, Boolean> comments) {
         mComments = comments;
     }
 

@@ -97,5 +97,16 @@
     <string name="hint_et_title_new_post_a">Заголовок</string>
     <string name="tv_description_trip_new_post_a">Описание путешесвия</string>
     <string name="btn_add_post_new_post_a">Добавить</string>
+    <string name="er_failed_upload_photo_new_post_a">Ошибка загрузки фотографии</string>
+    <string name="er_no_uploaded_photo_new_post_a">Ошибка.Загрузите фотографию</string>
+    <string name="success_add_post_new_post_a">Запись добавлена</string>
 
+    <!--PostRecyclerView-->
+    <string name="tv_name_author_rv_post_item">Иванов Иван</string>
+    <string name="tv_date_post_rv_post_item">30 февраля</string>
+    <string name="tv_title_rv_post_item">Заголовок интересный</string>
+    <string name="tv_text_post_rv_post_item">Очень крутой рассказ о путешесвии,просто отличный, интресный и познавательный, прям жесть какой интересный, вам такой и не увидеть никогда
+    Очень крутой рассказ о путешесвии,просто отличный, интресный и познавательный, прям жесть какой интересный, вам такой и не увидеть никогда</string>
+    <string name="tv_count_likes_rv_post_item">100</string>
+    <string name="tv_count_comments_rv_post_item">100</string>
 </resources>
