@@ -17,6 +17,8 @@ import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
 import com.androiddev.artemqa.gototrip.modules.listPosts.presenter.ListPostsPresenter;
 import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -59,11 +61,11 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull Post model) {
-                Picasso.get().load(model.getAuthorUriAvatar()).into(holder.mIvAvatarAuthor);
+                Glide.with(getApplicationContext()).load(model.getAuthorUriAvatar()).into(holder.mIvAvatarAuthor);
                 holder.mTvNameAuthor.setText(model.getAuthorName());
                 holder.mTvDatePost.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
                 holder.mTvTitlePost.setText(model.getTitlePost());
-                Picasso.get().load(model.getPhotoUrlPost()).into(holder.mIvPostPhoto);
+                Glide.with(getApplicationContext()).load(model.getPhotoUrlPost()).into(holder.mIvPostPhoto);
                 holder.mTvTextPost.setText(model.getTextPost());
                 holder.mBtnLike.setText(String.valueOf(model.getLikeUsers().size()));
                 holder.mBtnComment.setText(String.valueOf(model.getComments().size()));
