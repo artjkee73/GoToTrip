@@ -11,6 +11,7 @@ import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.chat.ContractChat;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -95,7 +96,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
     private void setAvatarInterlocutor(String urlAvatarInterlocutor) {
         mInterlocutorUrlAvatar = urlAvatarInterlocutor;
-        Picasso.get().load(urlAvatarInterlocutor).into(mIvInterlocutorAvatar);
+        Glide.with(itemView.getContext()).load(urlAvatarInterlocutor).into(mIvInterlocutorAvatar);
     }
 
     private void setNameInterlocutor(String nameInterlocutor) {
@@ -109,6 +110,6 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
     private void setAvatarAuthorLastMessage(String urlAvatar) {
         mAuthorUrlAvatar = urlAvatar;
-        Picasso.get().load(urlAvatar).into(mIvAuthorLastMessageAvatar);
+        Glide.with(itemView.getContext()).load(urlAvatar).into(mIvAuthorLastMessageAvatar);
     }
 }

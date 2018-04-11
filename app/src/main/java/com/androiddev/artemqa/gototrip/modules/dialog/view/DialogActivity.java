@@ -20,6 +20,7 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.androiddev.artemqa.gototrip.modules.dialog.presenter.DialogPresenter;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -124,7 +125,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
 
                 holder.mTvTextMessage.setText(model.getText());
                 holder.nTvTimeMessage.setText(String.valueOf(Utils.timestampToDateMessage(model.getDateCreatedLong()) ));
-                Picasso.get().load(model.getAuthorUrlAvatar()).into(holder.mCivAvatar);
+                Glide.with(getApplicationContext()).load(model.getAuthorUrlAvatar()).into(holder.mCivAvatar);
 
             }
 

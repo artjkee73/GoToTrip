@@ -14,6 +14,7 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.editProfile.EditProfileContract;
 import com.androiddev.artemqa.gototrip.modules.editProfile.presenter.EditProfilePresenter;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -113,7 +114,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
 
         }
         if (currentUser.getUriAvatar() != null) {
-            Picasso.get().load(currentUser.getUriAvatar()).into(mIvAvatar);
+            Glide.with(getApplicationContext()).load(currentUser.getUriAvatar()).into(mIvAvatar);
         }
 
     }

@@ -81,8 +81,8 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 // int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                mIvAvatarUser.getLayoutParams().height = height;
+                int heights = bitmap.getHeight();
+                mIvAvatarUser.getLayoutParams().height = heights;
                 mIvAvatarUser.setImageBitmap(bitmap);
             }
 

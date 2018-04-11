@@ -1,6 +1,9 @@
 package com.androiddev.artemqa.gototrip.modules.listPosts.view;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +22,8 @@ import com.androiddev.artemqa.gototrip.modules.listPosts.presenter.ListPostsPres
 import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -66,6 +71,7 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
                 holder.mTvDatePost.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
                 holder.mTvTitlePost.setText(model.getTitlePost());
                 Glide.with(getApplicationContext()).load(model.getPhotoUrlPost()).into(holder.mIvPostPhoto);
+
                 holder.mTvTextPost.setText(model.getTextPost());
                 holder.mBtnLike.setText(String.valueOf(model.getLikeUsers().size()));
                 holder.mBtnComment.setText(String.valueOf(model.getComments().size()));

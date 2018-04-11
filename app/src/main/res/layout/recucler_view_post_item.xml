@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/corner_card_view">
+    android:background="@drawable/corner_card_view"
+    android:layout_marginBottom="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_author_avatar_rv_post_item"
@@ -55,12 +57,14 @@
     <ImageView
         android:id="@+id/iv_image_post_rv_post_item"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item"
-        app:srcCompat="@drawable/ic_no_image" />
+        app:srcCompat="@drawable/ic_no_photo" />
 
     <TextView
         android:id="@+id/tv_text_post_rv_post_item"
@@ -80,10 +84,11 @@
         android:id="@+id/btn_like_rv_post_item"
         android:layout_width="60dp"
         android:layout_height="30dp"
+        android:background="@drawable/button_no_corner_style"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/white"
         android:drawableLeft="@drawable/ic_like_off"
         android:text="@string/tv_count_likes_rv_post_item"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,8 +100,9 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="32dp"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_marginTop="8dp"
-        android:background="@android:color/white"
+        android:background="@drawable/button_no_corner_style"
         android:drawableLeft="@drawable/ic_comment"
         android:text="@string/tv_count_comments_rv_post_item"
         app:layout_constraintStart_toEndOf="@+id/btn_like_rv_post_item"

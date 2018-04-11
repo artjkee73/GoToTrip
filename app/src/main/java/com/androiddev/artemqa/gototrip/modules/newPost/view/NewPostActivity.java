@@ -17,6 +17,7 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.newPost.presenter.NewPostPresenter;
 import com.androiddev.artemqa.gototrip.modules.newPost.ContractNewPost;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 public class NewPostActivity extends BaseActivity implements ContractNewPost.View,View.OnClickListener {
@@ -96,7 +97,7 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
 
     @Override
     public void setPostPhoto(String urlPhoto) {
-        Picasso.get().load(urlPhoto).into(mIvPhotoPost);
+        Glide.with(getApplicationContext()).load(urlPhoto).into(mIvPhotoPost);
     }
 
     @Override

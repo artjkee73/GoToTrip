@@ -20,6 +20,7 @@ import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.androiddev.artemqa.gototrip.modules.main.presenter.MainPresenter;
 import com.androiddev.artemqa.gototrip.modules.newPost.view.NewPostActivity;
 import com.androiddev.artemqa.gototrip.modules.search.view.SearchActivity;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
         TextView tvEmail = headerNavDrawer.findViewById(R.id.tv_email_header_nav_drawer);
         CircleImageView ivAvatar = headerNavDrawer.findViewById(R.id.iv_header_nav_drawer);
         if( urlPhoto != null){
-            Picasso.get().load(urlPhoto).into(ivAvatar);
+            Glide.with(getApplicationContext()).load(urlPhoto).into(ivAvatar);
         }
         tvName.setText(name);
         tvEmail.setText(email);

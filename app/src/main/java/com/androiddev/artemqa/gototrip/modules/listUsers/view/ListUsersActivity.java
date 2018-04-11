@@ -18,6 +18,7 @@ import com.androiddev.artemqa.gototrip.modules.listUsers.ContractListUsers;
 import com.androiddev.artemqa.gototrip.modules.search.view.SearchActivity;
 import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -62,7 +63,7 @@ public class ListUsersActivity extends AppCompatActivity implements ContractList
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull final User model) {
                 holder.mTvName.setText(model.getName());
                 holder.mTvCountryCity.setText(model.getCountry().concat(", ").concat(model.getCity()));
-                Picasso.get().load(model.getUriAvatar()).into(holder.mIvAvatar);
+                Glide.with(getApplicationContext()).load(model.getUriAvatar()).into(holder.mIvAvatar);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
