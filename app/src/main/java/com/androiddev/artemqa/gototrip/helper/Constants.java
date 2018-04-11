@@ -20,11 +20,14 @@ public class Constants {
     public final static String INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE = "ViewProfileActivity.followersType";
     public final static String INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE = "ViewProfileActivity.followingsType";
     public final static String INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE = "ViewProfileActivity.listPostsUserId";
+    public final static String INTENT_VIEW_POST_POST_ID_LIST_POSTS = "ListPostsActivity.listPostsPostId";
+    public final static String INTENT_LIST_COMMENTS_POST_ID_VIEW_POST = "ViewPostActivity.listCommentsPostId";
 
     public final static String USERS_LOCATION = "users";
     public final static String CHATS_LOCATION = "chats";
     public final static String MESSAGES_LOCATION = "messages";
     public final static String POSTS_LOCATION = "posts";
+    public final static String COMMENTS_LOCATION = "comments";
 
     public final static int RV_DIALOG_SEND_MESSAGE_TYPE = 155;
     public final static int RV_DIALOG_RECEIVED_MESSAGE_TYPE = 156;

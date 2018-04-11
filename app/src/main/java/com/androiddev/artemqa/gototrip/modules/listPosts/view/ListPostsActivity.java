@@ -1,9 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.listPosts.view;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,21 +12,16 @@ import android.view.ViewGroup;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Post;
-import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
 import com.androiddev.artemqa.gototrip.modules.listPosts.presenter.ListPostsPresenter;
-import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
+import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
-import com.squareup.picasso.Picasso;
 
 public class ListPostsActivity extends AppCompatActivity implements ContractListPosts.View {
     private RecyclerView mRvPosts;
@@ -56,7 +49,7 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
 
 
     @Override
-    public void loadRv(Query queryKey, DatabaseReference refData) {
+    public void loadRv(Query queryKey, DatabaseReference refData, final String currentUserId) {
 
         FirebaseRecyclerOptions<Post> options =
                 new FirebaseRecyclerOptions.Builder<Post>()
@@ -65,26 +58,50 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
                         .build();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull Post model) {
+            protected void onBindViewHolder(@NonNull final PostViewHolder holder, int position, @NonNull final Post model) {
+                boolean isLike = false;
+                if(model.getLikeUsers().containsKey(currentUserId)){
+                    isLike = true;
+                    holder.mBtnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_on, 0, 0, 0);
+                }
                 Glide.with(getApplicationContext()).load(model.getAuthorUriAvatar()).into(holder.mIvAvatarAuthor);
                 holder.mTvNameAuthor.setText(model.getAuthorName());
                 holder.mTvDatePost.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
                 holder.mTvTitlePost.setText(model.getTitlePost());
                 Glide.with(getApplicationContext()).load(model.getPhotoUrlPost()).into(holder.mIvPostPhoto);
-
                 holder.mTvTextPost.setText(model.getTextPost());
                 holder.mBtnLike.setText(String.valueOf(model.getLikeUsers().size()));
+                final boolean finalIsLike = isLike;
+                holder.mBtnLike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.onLikeClicked(model.getPostId(), finalIsLike);
+                    }
+                });
                 holder.mBtnComment.setText(String.valueOf(model.getComments().size()));
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.onItemRvClicked(model.getPostId());
+                    }
+                });
             }
 
             @NonNull
             @Override
             public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.recucler_view_post_item, parent, false);
+                        .inflate(R.layout.recycler_view_post_item, parent, false);
                 return new PostViewHolder(view);
             }
         };
         mRvPosts.setAdapter(mFirebaseAdapter);
+    }
+
+    @Override
+    public void openViewPost(String postId) {
+        Intent intent = new Intent(ListPostsActivity.this, ViewPostActivity.class);
+        intent.putExtra(Constants.INTENT_VIEW_POST_POST_ID_LIST_POSTS,postId);
+        startActivity(intent);
     }
 }

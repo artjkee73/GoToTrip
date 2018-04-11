@@ -9,7 +9,9 @@ import com.google.firebase.database.Query;
 
 public interface ContractListPosts {
     interface View {
-        void loadRv(Query queryKey, DatabaseReference refData);
+        void loadRv(Query queryKey, DatabaseReference refData,String currentUserId);
+
+        void openViewPost(String postId);
     }
 
     interface Presenter {
@@ -19,6 +21,10 @@ public interface ContractListPosts {
 
         void viewIsReady(String viewUserId);
 
-        void onGettingWueryForRv(Query queryKey, DatabaseReference refData);
+        void onGettingWueryForRv(Query queryKey, DatabaseReference refData,String currentUserId);
+
+        void onItemRvClicked(String postId);
+
+        void onLikeClicked(String postId, boolean finalIsLike);
     }
 }

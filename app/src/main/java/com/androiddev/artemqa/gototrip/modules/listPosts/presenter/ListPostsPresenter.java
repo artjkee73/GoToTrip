@@ -32,7 +32,21 @@ public class ListPostsPresenter implements ContractListPosts.Presenter {
     }
 
     @Override
-    public void onGettingWueryForRv(Query queryKey, DatabaseReference refData) {
-        mView.loadRv(queryKey,refData);
+    public void onGettingWueryForRv(Query queryKey, DatabaseReference refData,String currentUserId) {
+        mView.loadRv(queryKey,refData,currentUserId);
+    }
+
+    @Override
+    public void onItemRvClicked(String postId) {
+        mView.openViewPost(postId);
+    }
+
+    @Override
+    public void onLikeClicked(String postId, boolean isLike) {
+        if(isLike){
+            mInteractor.removeLikeFromPost(postId);
+        }else {
+            mInteractor.addLikeToPost(postId);
+        }
     }
 }
