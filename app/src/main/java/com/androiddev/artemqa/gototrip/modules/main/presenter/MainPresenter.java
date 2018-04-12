@@ -2,6 +2,8 @@ package com.androiddev.artemqa.gototrip.modules.main.presenter;
 
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 /**
  * Created by artemqa on 16.03.2018.
@@ -29,6 +31,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void viewIsReady() {
         mInteractor.getUserFromDB();
+        mInteractor.getQueryForRv();
     }
 
     @Override
@@ -54,5 +57,34 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onGettingUser(User currentUser) {
         mView.setUserInformationOnNavDrawer(currentUser.getName(),currentUser.getEmail(),currentUser.getUriAvatar());
+    }
+
+    @Override
+    public void onAvatarCliked() {
+        mInteractor.getUserId();
+    }
+
+    @Override
+    public void onGettingUserId(String currentUserId) {
+        mView.openViewProfile(currentUserId);
+    }
+
+    @Override
+    public void onGettingQueryForRV(Query queryKey, DatabaseReference refData, String uid) {
+        mView.loadRv(queryKey,refData,uid);
+    }
+
+    @Override
+    public void onLikeClicked(String postId, boolean isLike) {
+        if(isLike){
+            mInteractor.removeLikeFromPost(postId);
+        }else {
+            mInteractor.addLikeToPost(postId);
+        }
+    }
+
+    @Override
+    public void onItemRvClicked(String postId) {
+        mView.openViewPost(postId);
     }
 }

@@ -22,6 +22,7 @@ public class Constants {
     public final static String INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE = "ViewProfileActivity.listPostsUserId";
     public final static String INTENT_VIEW_POST_POST_ID_LIST_POSTS = "ListPostsActivity.listPostsPostId";
     public final static String INTENT_LIST_COMMENTS_POST_ID_VIEW_POST = "ViewPostActivity.listCommentsPostId";
+    public final static String INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE = "MainActivity.ViewProfileUserId";
 
     public final static String USERS_LOCATION = "users";
     public final static String CHATS_LOCATION = "chats";

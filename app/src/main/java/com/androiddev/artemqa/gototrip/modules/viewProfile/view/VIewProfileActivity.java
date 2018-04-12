@@ -22,7 +22,7 @@ import com.androiddev.artemqa.gototrip.modules.viewProfile.presenter.ViewProfile
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-public class ViewProfileActivity extends AppCompatActivity implements ContractViewProfile.View,View.OnClickListener{
+public class ViewProfileActivity extends AppCompatActivity implements ContractViewProfile.View, View.OnClickListener {
 
     ImageView mIvAvatarUser;
     CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -64,7 +64,11 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     }
 
     private String getViewUsersIdFromIntent() {
-        return getIntent().getStringExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH);
+        if (getIntent().getStringExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH) != null) {
+            return getIntent().getStringExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH);
+        } else if (getIntent().getStringExtra(Constants.INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE) != null) {
+            return getIntent().getStringExtra(Constants.INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE);
+        } else return null;
     }
 
     @Override
@@ -120,7 +124,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
 
     @Override
     public void setIsFollowOnUser(boolean isFollow) {
-        if(!isFollow){
+        if (!isFollow) {
             mBtnFollow.setVisibility(View.VISIBLE);
             mBtnUnFollow.setVisibility(View.GONE);
         } else {
@@ -147,7 +151,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     @Override
     public void showDialogActivity(String viewUsersId) {
         Intent intent = new Intent(ViewProfileActivity.this, DialogActivity.class);
-        intent.putExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE,viewUsersId);
+        intent.putExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE, viewUsersId);
         startActivity(intent);
     }
 
@@ -159,29 +163,29 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     @Override
     public void showListFollowers(String typeFollowers, String CurrentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE,CurrentUserId);
-        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE,typeFollowers);
+        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE, CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE, typeFollowers);
         startActivity(intent);
     }
 
     @Override
     public void showListFollowings(String typeFollowers, String CurrentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE,CurrentUserId);
-        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE,typeFollowers);
+        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE, CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE, typeFollowers);
         startActivity(intent);
     }
 
     @Override
     public void showListPosts(String currentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListPostsActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE,currentUserId);
+        intent.putExtra(Constants.INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE, currentUserId);
         startActivity(intent);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_follow_on_user_view_profile_a:
                 mPresenter.onButtonFollowClicked(getViewUsersIdFromIntent());
                 break;

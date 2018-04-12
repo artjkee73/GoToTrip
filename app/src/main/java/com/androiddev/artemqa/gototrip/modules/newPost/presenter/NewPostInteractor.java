@@ -20,6 +20,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Map;
+
 /**
  * Created by artjk on 09.04.2018.
  */
@@ -58,6 +60,7 @@ public class NewPostInteractor {
 
     public void addPost(final String titlePost, final String textPost, final String urlUploadPostPhoto, final String postKey) {
         final DatabaseReference refCurrentUser = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
+        final DatabaseReference mRefBaseUsers = mRefBaseDatabase.child(Constants.USERS_LOCATION);
         refCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -67,6 +70,23 @@ public class NewPostInteractor {
                     Post post = new Post(postKey, titlePost, currentUser.getUserId(), currentUser.getName(), currentUser.getUriAvatar(), textPost, urlUploadPostPhoto);
                     mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postKey).setValue(post);
                     refCurrentUser.setValue(currentUser);
+                    for (final String currentUId : currentUser.getFollowers().keySet()) {
+                        mRefBaseUsers.child(currentUId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    User currentFollower = dataSnapshot.getValue(User.class);
+                                    currentFollower.getFeedPosts().put(postKey, true);
+                                    mRefBaseUsers.child(currentUId).setValue(currentFollower);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                     mPresenter.onSuccessAddPost();
                 }
             }

@@ -21,6 +21,7 @@ public class User {
     private Map <String,Boolean> mFollowings = new HashMap<>();
     private Map <String,Boolean> mPosts = new HashMap<>();
     private Map <String,Boolean> mChats = new HashMap<>();
+    private Map <String,Boolean> mFeedPosts = new HashMap<>();
 
     public User() {
     }
@@ -123,8 +124,17 @@ public class User {
     public Map<String, Boolean> getChats() {
         return mChats;
     }
+
     public void setChats(Map<String, Boolean> chats) {
         mChats = chats;
+    }
+
+    public Map<String, Boolean> getFeedPosts() {
+        return mFeedPosts;
+    }
+
+    public void setFeedPosts(Map<String, Boolean> feedPosts) {
+        mFeedPosts = feedPosts;
     }
 
 }
