@@ -12,6 +12,7 @@ import com.androiddev.artemqa.gototrip.modules.viewPost.presenter.ViewPostIntera
 public class ViewPostPresenter implements ContractViewPost.Presenter {
     private ContractViewPost.View mView;
     private ViewPostInteractor mInteractor;
+    private boolean isLikedPost;
 
     public ViewPostPresenter() {
         mInteractor = new ViewPostInteractor(this);
@@ -59,13 +60,44 @@ public class ViewPostPresenter implements ContractViewPost.Presenter {
             mView.setCommentsCount(String.valueOf(currentPost.getComments().size()));
         }
         if (currentPost.getLikeUsers() != null) {
-            mView.setIsLicked(currentPost.getLikeUsers().containsKey(currentUserId));
+            isLikedPost = currentPost.getLikeUsers().containsKey(currentUserId);
+
+            mView.setIsLiked(isLikedPost);
         }
     }
 
     @Override
     public void onCommentButtonClicked(String postIdFromIntent) {
         mView.openListComments(postIdFromIntent);
+    }
+
+    @Override
+    public void onLikeButtonClicked(String postIdFromIntent) {
+        if (isLikedPost) {
+            mInteractor.removeLikePost(postIdFromIntent);
+        } else {
+            mInteractor.addLikePost(postIdFromIntent);
+        }
+    }
+
+    @Override
+    public void onRemoveLike() {
+        mView.updateUI();
+    }
+
+    @Override
+    public void onAddLike() {
+        mView.updateUI();
+    }
+
+    @Override
+    public void onPhotoPostClicked(String postIdFromIntent) {
+        mInteractor.getUrlPhotoPost(postIdFromIntent);
+    }
+
+    @Override
+    public void onGettingUrlPhotoPost(String photoUrlPost) {
+        mView.openViewPhoto(photoUrlPost);
     }
 
 

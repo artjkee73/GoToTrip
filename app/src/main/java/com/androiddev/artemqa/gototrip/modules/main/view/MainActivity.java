@@ -23,6 +23,7 @@ import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.chat.view.ChatActivity;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
+import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostViewHolder;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
@@ -215,6 +216,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
                     }
                 });
                 holder.mBtnComment.setText(String.valueOf(model.getComments().size()));
+                holder.mBtnComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.onCommentClicked(model.getPostId());
+                    }
+                });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -238,6 +245,13 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     public void openViewPost(String postId) {
         Intent intent = new Intent(MainActivity.this, ViewPostActivity.class);
         intent.putExtra(Constants.INTENT_VIEW_POST_POST_ID_LIST_POSTS,postId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openListComments(String postId) {
+        Intent intent = new Intent(MainActivity.this, ListCommentsActivity.class);
+        intent.putExtra(Constants.INTENT_LIST_COMMENTS_POST_ID_VIEW_POST,postId);
         startActivity(intent);
     }
 }

@@ -47,4 +47,62 @@ public class ViewPostInteractor {
             }
         });
     }
+
+    public void removeLikePost(String postId) {
+        final DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postId);
+        refPost.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    Post currentPost = dataSnapshot.getValue(Post.class);
+                    currentPost.getLikeUsers().remove(mCurrentUser.getUid());
+                    refPost.setValue(currentPost);
+                    mPresenter.onRemoveLike();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addLikePost(String postId) {
+        final DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postId);
+        refPost.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    Post currentPost = dataSnapshot.getValue(Post.class);
+                    currentPost.getLikeUsers().put(mCurrentUser.getUid(),true);
+                    refPost.setValue(currentPost);
+                    mPresenter.onAddLike();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getUrlPhotoPost(String postId) {
+        final DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postId);
+        refPost.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null){
+                    Post post = dataSnapshot.getValue(Post.class);
+                    mPresenter.onGettingUrlPhotoPost(post.getPhotoUrlPost());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

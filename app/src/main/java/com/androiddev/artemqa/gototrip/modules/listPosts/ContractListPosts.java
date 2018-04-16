@@ -12,6 +12,8 @@ public interface ContractListPosts {
         void loadRv(Query queryKey, DatabaseReference refData,String currentUserId);
 
         void openViewPost(String postId);
+
+        void openListComments(String postId);
     }
 
     interface Presenter {
@@ -26,5 +28,7 @@ public interface ContractListPosts {
         void onItemRvClicked(String postId);
 
         void onLikeClicked(String postId, boolean finalIsLike);
+
+        void onCommentClicked(String postId);
     }
 }

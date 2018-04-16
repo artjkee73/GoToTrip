@@ -29,6 +29,8 @@ public interface MainContract {
         void loadRv(Query queryKey, DatabaseReference refData, String uid);
 
         void openViewPost(String postId);
+
+        void openListComments(String postId);
     }
 
     interface Presenter{
@@ -58,5 +60,7 @@ public interface MainContract {
         void onLikeClicked(String postId, boolean finalIsLike);
 
         void onItemRvClicked(String postId);
+
+        void onCommentClicked(String postId);
     }
 }

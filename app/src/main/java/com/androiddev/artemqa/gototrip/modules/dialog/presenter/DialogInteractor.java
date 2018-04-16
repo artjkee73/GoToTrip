@@ -75,7 +75,7 @@ public class DialogInteractor {
     //метод для получения сообщений из чата
 
     public void getQueryForGetMessages(String currentChatId) {
-        Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByKey();
+        Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByValue().limitToLast(10);
         DatabaseReference dataRef = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
         String currentUserId = mCurrentUser.getUid();
         mPresenter.onGettingQueryForGetMessages(keyRef, dataRef, currentUserId);
@@ -191,4 +191,21 @@ public class DialogInteractor {
         });
     }
 
+    public void getInterlocutorUser(String idInterlocutor) {
+        DatabaseReference refInterlocutor = mRefDatabaseBase.child(Constants.USERS_LOCATION).child(idInterlocutor);
+        refInterlocutor.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null){
+                    User interlocutor = dataSnapshot.getValue(User.class);
+                    mPresenter.onGettingInterlocutorUser(interlocutor);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

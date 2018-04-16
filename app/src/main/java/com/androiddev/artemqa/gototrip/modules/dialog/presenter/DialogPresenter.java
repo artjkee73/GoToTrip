@@ -39,9 +39,11 @@ public class DialogPresenter implements ContractDialog.Presenter {
     public void viewIsReady(Intent intent) {
         if (intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE) != null)
             mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE));
-        else if (intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT) != null) {
+        else if (intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT) != null &&
+                intent.getStringExtra(Constants.INTENT_CLICKED_USER_ID_CHAT) != null) {
             currentChatId = intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT);
             mInteractor.getQueryForGetMessages(currentChatId);
+            mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_CLICKED_USER_ID_CHAT));
         }
     }
 
@@ -90,6 +92,16 @@ public class DialogPresenter implements ContractDialog.Presenter {
     public void onNewMessageAdded() {
         mView.updateUI();
         mView.clearEtMessage();
+    }
+
+    @Override
+    public void onGettingInterlocutorUser(User interlocutor) {
+        if (interlocutor.getName() != null) {
+            mView.setInterlocutorName(interlocutor.getName());
+        }
+        if (interlocutor.getUriAvatar() != null) {
+            mView.setAvatarInterlocutor(interlocutor.getUriAvatar());
+        }
     }
 
     private void getChatId(User interlocutorUser, User currentUser) {

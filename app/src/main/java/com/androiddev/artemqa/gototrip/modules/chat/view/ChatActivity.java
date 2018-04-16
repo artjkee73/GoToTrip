@@ -15,9 +15,7 @@ import com.androiddev.artemqa.gototrip.common.models.Chat;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.chat.ContractChat;
 import com.androiddev.artemqa.gototrip.modules.chat.presenter.ChatPresenter;
-import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
-import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -70,7 +68,7 @@ public class ChatActivity extends AppCompatActivity implements ContractChat.View
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mPresenter.onItemRvClicked(model.getChatId());
+                        mPresenter.onItemRvClicked(model.getChatId(),model.getMembers());
                     }
                 });
             }
@@ -89,9 +87,10 @@ public class ChatActivity extends AppCompatActivity implements ContractChat.View
     }
 
     @Override
-    public void openDialog(String chatClickedId) {
+    public void openDialog(String chatClickedId, String interlocutorId) {
         Intent intent = new Intent(ChatActivity.this, DialogActivity.class);
         intent.putExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT,chatClickedId);
+        intent.putExtra(Constants.INTENT_CLICKED_USER_ID_CHAT,interlocutorId);
         startActivity(intent);
     }
 }

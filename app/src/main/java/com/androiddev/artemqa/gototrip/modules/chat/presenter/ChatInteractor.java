@@ -28,4 +28,8 @@ public class ChatInteractor {
         DatabaseReference refData = mRefDatabaseBase.child(Constants.CHATS_LOCATION);
         mPresenter.onGettingQueryForRV(queryKey,refData);
     }
+
+    public String getCurrentUserId() {
+        return mCurrentUser.getUid();
+    }
 }

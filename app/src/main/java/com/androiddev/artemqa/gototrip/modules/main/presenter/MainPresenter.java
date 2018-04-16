@@ -87,4 +87,9 @@ public class MainPresenter implements MainContract.Presenter {
     public void onItemRvClicked(String postId) {
         mView.openViewPost(postId);
     }
+
+    @Override
+    public void onCommentClicked(String postId) {
+        mView.openListComments(postId);
+    }
 }

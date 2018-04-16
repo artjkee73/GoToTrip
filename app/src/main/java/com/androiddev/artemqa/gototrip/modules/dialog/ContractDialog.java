@@ -46,5 +46,7 @@ public interface ContractDialog {
         void onGettingQueryForGetMessages(Query keyRef,DatabaseReference dataRef,String currentUserId);
 
         void onNewMessageAdded();
+
+        void onGettingInterlocutorUser(User interlocutor);
     }
 }

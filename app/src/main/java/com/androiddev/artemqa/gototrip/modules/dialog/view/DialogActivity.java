@@ -36,7 +36,8 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     ImageButton mIbSendMessage;
     EditText mEtTextMessage;
     ContractDialog.Presenter mPresenter;
-    FirebaseRecyclerAdapter<Message, MessageViewHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerAdapter<Message, MessageViewHolder> mFirebaseAdapter;
+    LinearLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,9 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
         mPresenter = new DialogPresenter();
         mPresenter.attachView(this);
         mRvMessages = findViewById(R.id.rv_dialog_a);
-        mRvMessages.setLayoutManager(new LinearLayoutManager(this));
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRvMessages.setLayoutManager(mLayoutManager);
         mTvEmptyDialog = findViewById(R.id.tv_empty_dialog_dialog_a);
         mIvAvatarInterlocutor = findViewById(R.id.iv_avatar_interlocutor_dialog_a);
         mTvNameInterlocutor = findViewById(R.id.tv_name_interlocutor_dialog_a);
@@ -119,12 +122,12 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
                 .setLifecycleOwner(this)
                 .build();
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(options) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
 
                 holder.mTvTextMessage.setText(model.getText());
-                holder.nTvTimeMessage.setText(String.valueOf(Utils.timestampToDateMessage(model.getDateCreatedLong()) ));
+                holder.nTvTimeMessage.setText(String.valueOf(Utils.timestampToDateMessage(model.getDateCreatedLong())));
                 Glide.with(getApplicationContext()).load(model.getAuthorUrlAvatar()).into(holder.mCivAvatar);
 
             }
@@ -149,7 +152,21 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
                         Constants.RV_DIALOG_SEND_MESSAGE_TYPE : Constants.RV_DIALOG_RECEIVED_MESSAGE_TYPE;
             }
         };
-        mRvMessages.setAdapter(firebaseRecyclerAdapter);
+        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
+                int lastVisiblePosition =
+                        mLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    mRvMessages.scrollToPosition(positionStart);
+                }
+            }
+        });
+        mRvMessages.setAdapter(mFirebaseAdapter);
     }
 
     @Override

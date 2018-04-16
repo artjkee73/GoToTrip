@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/iv_view_photo_view_photo_a"
+        android:src="@drawable/ic_no_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/black"/>
+</android.support.constraint.ConstraintLayout>

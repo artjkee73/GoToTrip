@@ -35,7 +35,8 @@
         <activity android:name=".modules.newPost.view.NewPostActivity" />
         <activity android:name=".modules.listPosts.view.ListPostsActivity" />
         <activity android:name=".modules.viewPost.view.ViewPostActivity" />
-        <activity android:name=".modules.listComments.view.ListCommentsActivity"></activity>
+        <activity android:name=".modules.listComments.view.ListCommentsActivity" />
+        <activity android:name=".modules.viewPhoto.view.ViewPhotoActivity"></activity>
     </application>
 
 </manifest>

@@ -24,9 +24,13 @@ public interface ContractViewPost {
 
         void setCommentsCount(String commentsCount);
 
-        void setIsLicked(boolean isLicked);
+        void setIsLiked(boolean isLicked);
 
-        void openListComments(String postIdFromIntent);
+        void openListComments(String postId);
+
+        void updateUI();
+
+        void openViewPhoto(String photoUrlPost);
     }
 
     interface Presenter {
@@ -38,6 +42,16 @@ public interface ContractViewPost {
 
         void onGettingPostData(Post currentPost, String currentUserId);
 
-        void onCommentButtonClicked(String postIdFromIntent);
+        void onCommentButtonClicked(String postId);
+
+        void onLikeButtonClicked(String postId);
+
+        void onRemoveLike();
+
+        void onAddLike();
+
+        void onPhotoPostClicked(String postIdFromIntent);
+
+        void onGettingUrlPhotoPost(String photoUrlPost);
     }
 }

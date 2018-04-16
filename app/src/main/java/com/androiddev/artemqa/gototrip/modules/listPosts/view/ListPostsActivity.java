@@ -14,6 +14,7 @@ import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
+import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
 import com.androiddev.artemqa.gototrip.modules.listPosts.presenter.ListPostsPresenter;
 import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
@@ -79,6 +80,12 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
                     }
                 });
                 holder.mBtnComment.setText(String.valueOf(model.getComments().size()));
+                holder.mBtnComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.onCommentClicked(model.getPostId());
+                    }
+                });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -102,6 +109,13 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
     public void openViewPost(String postId) {
         Intent intent = new Intent(ListPostsActivity.this, ViewPostActivity.class);
         intent.putExtra(Constants.INTENT_VIEW_POST_POST_ID_LIST_POSTS,postId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openListComments(String postId) {
+        Intent intent = new Intent(ListPostsActivity.this, ListCommentsActivity.class);
+        intent.putExtra(Constants.INTENT_LIST_COMMENTS_POST_ID_VIEW_POST,postId);
         startActivity(intent);
     }
 }

@@ -49,4 +49,9 @@ public class ListPostsPresenter implements ContractListPosts.Presenter {
             mInteractor.addLikeToPost(postId);
         }
     }
+
+    @Override
+    public void onCommentClicked(String postId) {
+        mView.openListComments(postId);
+    }
 }
