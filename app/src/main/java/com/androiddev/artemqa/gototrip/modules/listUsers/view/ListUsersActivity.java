@@ -87,7 +87,7 @@ public class ListUsersActivity extends AppCompatActivity implements ContractList
     @Override
     public void openViewProfile(String idUserClicked) {
         Intent intent = new Intent(ListUsersActivity.this, ViewProfileActivity.class);
-        intent.putExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH,idUserClicked);
+        intent.putExtra(Constants.INTENT_USER_ID,idUserClicked);
         startActivity(intent);
     }
 }

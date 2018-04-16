@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.listComments.view;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listComments.ContractListComments;
 import com.androiddev.artemqa.gototrip.modules.listComments.presenter.ListCommentsPresenter;
 import com.androiddev.artemqa.gototrip.modules.search.view.UserViewHolder;
+import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -78,7 +80,7 @@ public class ListCommentsActivity extends AppCompatActivity implements ContractL
     }
 
     private String getPostIdFromIntent() {
-        return getIntent().getStringExtra(Constants.INTENT_LIST_COMMENTS_POST_ID_VIEW_POST);
+        return getIntent().getStringExtra(Constants.INTENT_POST_ID);
     }
 
     @Override
@@ -96,6 +98,12 @@ public class ListCommentsActivity extends AppCompatActivity implements ContractL
                 holder.mTvNameAuthor.setText(model.getNameAuthor());
                 holder.mTvDateCreated.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
                 Glide.with(getApplicationContext()).load(model.getUrlAvatarAuthor()).into(holder.mIvAvatarAuthor);
+                holder.mIvAvatarAuthor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.onAvatarUserClicked(model.getAuthorId());
+                    }
+                });
                 holder.mTvTextComment.setText(model.getTextComment());
             }
 
@@ -114,5 +122,12 @@ public class ListCommentsActivity extends AppCompatActivity implements ContractL
     @Override
     public void clearEtComment() {
         mEtCommentText.setText("");
+    }
+
+    @Override
+    public void openViewProfile(String authorId) {
+        Intent intent = new Intent(ListCommentsActivity.this, ViewProfileActivity.class);
+        intent.putExtra(Constants.INTENT_USER_ID,authorId);
+        startActivity(intent);
     }
 }

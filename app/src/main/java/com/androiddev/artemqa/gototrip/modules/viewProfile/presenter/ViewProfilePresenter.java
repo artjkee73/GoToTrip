@@ -99,17 +99,27 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
 
     @Override
     public void onButtonListFollowersClicked(String viewUsersId) {
-        mView.showListFollowers(Constants.INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE,viewUsersId);
+        mView.showListFollowers(Constants.INTENT_LIST_USERS_TYPE_FOLLOWERS,viewUsersId);
     }
 
     @Override
     public void onButtonListFollowingsClicked(String viewUsersId) {
-        mView.showListFollowings(Constants.INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE,viewUsersId);
+        mView.showListFollowings(Constants.INTENT_LIST_USERS_TYPE_FOLLOWINGS,viewUsersId);
     }
 
     @Override
     public void onButtonListPostsClicked(String viewUsersId) {
         mView.showListPosts(viewUsersId);
+    }
+
+    @Override
+    public void onPhotoPostClicked(String usersId) {
+        mInteractor.getAvatarUrlUser(usersId);
+    }
+
+    @Override
+    public void onGettingUrlPhoto(String uriAvatar) {
+        mView.openViewPhoto(uriAvatar);
     }
 
 

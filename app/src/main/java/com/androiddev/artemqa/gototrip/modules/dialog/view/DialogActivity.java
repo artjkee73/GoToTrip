@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.dialog.view;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.androiddev.artemqa.gototrip.modules.dialog.presenter.DialogPresenter;
+import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -50,11 +52,11 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
         mPresenter = new DialogPresenter();
         mPresenter.attachView(this);
         mRvMessages = findViewById(R.id.rv_dialog_a);
-
         mLayoutManager = new LinearLayoutManager(this);
         mRvMessages.setLayoutManager(mLayoutManager);
         mTvEmptyDialog = findViewById(R.id.tv_empty_dialog_dialog_a);
         mIvAvatarInterlocutor = findViewById(R.id.iv_avatar_interlocutor_dialog_a);
+        mIvAvatarInterlocutor.setOnClickListener(this);
         mTvNameInterlocutor = findViewById(R.id.tv_name_interlocutor_dialog_a);
         mIbSendMessage = findViewById(R.id.ib_send_message_dialog_a);
         mIbSendMessage.setOnClickListener(this);
@@ -175,9 +177,22 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     }
 
     @Override
+    public void openViewProfile(String interlocutorId) {
+        Intent intent = new Intent(DialogActivity.this, ViewProfileActivity.class);
+        intent.putExtra(Constants.INTENT_USER_ID,interlocutorId);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ib_send_message_dialog_a) {
             mPresenter.onSendMessageClicked(mEtTextMessage.getText().toString());
+        } else if(view.getId()== R.id.iv_avatar_interlocutor_dialog_a){
+            mPresenter.onAvatarInterlocutorClicked(getInterlocutorIdFromIntent());
         }
+    }
+
+    private String getInterlocutorIdFromIntent() {
+        return getIntent().getStringExtra(Constants.INTENT_USER_ID);
     }
 }

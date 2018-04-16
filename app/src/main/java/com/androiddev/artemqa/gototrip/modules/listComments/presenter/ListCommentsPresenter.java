@@ -46,4 +46,9 @@ public class ListCommentsPresenter implements ContractListComments.Presenter {
     public void onAddedComment() {
         mView.clearEtComment();
     }
+
+    @Override
+    public void onAvatarUserClicked(String authorId) {
+        mView.openViewProfile(authorId);
+    }
 }

@@ -37,13 +37,13 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     @Override
     public void viewIsReady(Intent intent) {
-        if (intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE) != null)
-            mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE));
-        else if (intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT) != null &&
-                intent.getStringExtra(Constants.INTENT_CLICKED_USER_ID_CHAT) != null) {
-            currentChatId = intent.getStringExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT);
+        if (intent.getStringExtra(Constants.INTENT_CHAT_ID) != null &&
+                intent.getStringExtra(Constants.INTENT_USER_ID) != null) {
+            currentChatId = intent.getStringExtra(Constants.INTENT_CHAT_ID);
             mInteractor.getQueryForGetMessages(currentChatId);
-            mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_CLICKED_USER_ID_CHAT));
+            mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_USER_ID));
+        } else {
+            mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_USER_ID));
         }
     }
 
@@ -102,6 +102,11 @@ public class DialogPresenter implements ContractDialog.Presenter {
         if (interlocutor.getUriAvatar() != null) {
             mView.setAvatarInterlocutor(interlocutor.getUriAvatar());
         }
+    }
+
+    @Override
+    public void onAvatarInterlocutorClicked(String interlocutorId) {
+        mView.openViewProfile(interlocutorId);
     }
 
     private void getChatId(User interlocutorUser, User currentUser) {

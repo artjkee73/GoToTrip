@@ -36,6 +36,8 @@ public interface ContractViewProfile {
         void showListFollowings(String typeFollowers,String currentUserId);
 
         void showListPosts(String currentUserId);
+
+        void openViewPhoto(String uriAvatar);
     }
 
     interface Presenter {
@@ -63,5 +65,9 @@ public interface ContractViewProfile {
         void onButtonListFollowingsClicked(String viewUsersId);
 
         void onButtonListPostsClicked(String viewUsersId);
+
+        void onPhotoPostClicked(String viewUsersIdFromIntent);
+
+        void onGettingUrlPhoto(String uriAvatar);
     }
 }

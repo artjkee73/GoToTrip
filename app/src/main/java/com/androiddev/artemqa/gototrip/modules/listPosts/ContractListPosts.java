@@ -14,6 +14,10 @@ public interface ContractListPosts {
         void openViewPost(String postId);
 
         void openListComments(String postId);
+
+        void openViewProfile(String authorId);
+
+        void openViewPhoto(String photoUrlPost);
     }
 
     interface Presenter {
@@ -30,5 +34,9 @@ public interface ContractListPosts {
         void onLikeClicked(String postId, boolean finalIsLike);
 
         void onCommentClicked(String postId);
+
+        void onAvatarUserClicked(String authorId);
+
+        void onPostPhotoClicked(String photoUrlPost);
     }
 }

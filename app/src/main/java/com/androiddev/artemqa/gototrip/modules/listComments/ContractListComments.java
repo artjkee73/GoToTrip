@@ -12,6 +12,8 @@ public interface ContractListComments {
         void loadRV(Query queryKey, DatabaseReference refData);
 
         void clearEtComment();
+
+        void openViewProfile(String urlAvatarAuthor);
     }
 
     interface Presenter {
@@ -26,5 +28,7 @@ public interface ContractListComments {
         void onButtonSendCommentClicked(String textComment, String postId);
 
         void onAddedComment();
+
+        void onAvatarUserClicked(String authorId);
     }
 }

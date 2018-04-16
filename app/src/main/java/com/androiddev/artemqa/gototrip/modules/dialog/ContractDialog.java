@@ -27,6 +27,8 @@ public interface ContractDialog {
         void loadRvData(Query keyRef,DatabaseReference dataRef,String currentUserId);
 
         void clearEtMessage();
+
+        void openViewProfile(String interlocutorId);
     }
 
     interface Presenter {
@@ -48,5 +50,7 @@ public interface ContractDialog {
         void onNewMessageAdded();
 
         void onGettingInterlocutorUser(User interlocutor);
+
+        void onAvatarInterlocutorClicked(String interlocutorIdFromIntent);
     }
 }

@@ -50,7 +50,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     }
 
     private String getPostIdFromIntent() {
-        return getIntent().getStringExtra(Constants.INTENT_VIEW_POST_POST_ID_LIST_POSTS);
+        return getIntent().getStringExtra(Constants.INTENT_POST_ID);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     public void openListComments(String postIdFromIntent) {
         Intent intent = new Intent(ViewPostActivity.this, ListCommentsActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_COMMENTS_POST_ID_VIEW_POST,postIdFromIntent);
+        intent.putExtra(Constants.INTENT_POST_ID,postIdFromIntent);
         startActivity(intent);
     }
 
@@ -125,7 +125,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     public void openViewPhoto(String photoUrlPost) {
         Intent intent = new Intent(ViewPostActivity.this,ViewPhotoActivity.class);
-        intent.putExtra(Constants.INTENT_VIEW_PHOTO_PHOTO_URL_VIEW_POST,photoUrlPost);
+        intent.putExtra(Constants.INTENT_PHOTO_URL,photoUrlPost);
         startActivity(intent);
     }
 

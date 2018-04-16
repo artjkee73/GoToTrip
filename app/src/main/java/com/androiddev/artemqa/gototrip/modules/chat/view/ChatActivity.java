@@ -89,8 +89,8 @@ public class ChatActivity extends AppCompatActivity implements ContractChat.View
     @Override
     public void openDialog(String chatClickedId, String interlocutorId) {
         Intent intent = new Intent(ChatActivity.this, DialogActivity.class);
-        intent.putExtra(Constants.INTENT_CLICKED_CHAT_ID_CHAT,chatClickedId);
-        intent.putExtra(Constants.INTENT_CLICKED_USER_ID_CHAT,interlocutorId);
+        intent.putExtra(Constants.INTENT_CHAT_ID,chatClickedId);
+        intent.putExtra(Constants.INTENT_USER_ID,interlocutorId);
         startActivity(intent);
     }
 }

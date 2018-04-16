@@ -109,7 +109,7 @@ public class SearchActivity extends AppCompatActivity implements ContractSearch.
     @Override
     public void openViewProfileActivity(String idUserClicked) {
         Intent intent = new Intent(SearchActivity.this, ViewProfileActivity.class);
-        intent.putExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH,idUserClicked);
+        intent.putExtra(Constants.INTENT_USER_ID,idUserClicked);
         startActivity(intent);
     }
 }

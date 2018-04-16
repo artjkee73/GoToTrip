@@ -28,7 +28,7 @@ public class ViewPhotoActivity extends AppCompatActivity implements ContractView
     }
 
     private String getViewPhotoUrl() {
-        return getIntent().getStringExtra(Constants.INTENT_VIEW_PHOTO_PHOTO_URL_VIEW_POST);
+        return getIntent().getStringExtra(Constants.INTENT_PHOTO_URL);
     }
 
     @Override

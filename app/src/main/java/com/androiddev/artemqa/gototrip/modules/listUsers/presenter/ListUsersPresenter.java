@@ -30,12 +30,12 @@ public class ListUsersPresenter implements ContractListUsers.Presenter {
 
     @Override
     public void viewIsReady(Intent intent) {
-        if(intent.getStringExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE)
-                .equals(Constants.INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE)){
-            mInteractor.getFollowersQueryForRv(intent.getStringExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE));
-        }else if(intent.getStringExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE)
-                .equals(Constants.INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE)){
-            mInteractor.getFollowingsQueryForRv(intent.getStringExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE));
+        if(intent.getStringExtra(Constants.INTENT_LIST_USERS_TYPE_USER)
+                .equals(Constants.INTENT_LIST_USERS_TYPE_FOLLOWERS)){
+            mInteractor.getFollowersQueryForRv(intent.getStringExtra(Constants.INTENT_USER_ID));
+        }else if(intent.getStringExtra(Constants.INTENT_LIST_USERS_TYPE_USER)
+                .equals(Constants.INTENT_LIST_USERS_TYPE_FOLLOWINGS)){
+            mInteractor.getFollowingsQueryForRv(intent.getStringExtra(Constants.INTENT_USER_ID));
         }
     }
 

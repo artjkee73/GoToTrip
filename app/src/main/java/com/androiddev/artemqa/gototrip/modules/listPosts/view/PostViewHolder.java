@@ -15,7 +15,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by artemqa on 10.04.2018.
  */
 
-public class PostViewHolder extends RecyclerView.ViewHolder {
+public class PostViewHolder extends RecyclerView.ViewHolder{
     public CircleImageView mIvAvatarAuthor;
     public ImageView mIvPostPhoto;
     public TextView mTvNameAuthor, mTvDatePost, mTvTitlePost, mTvTextPost;
@@ -32,4 +32,5 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mBtnLike = itemView.findViewById(R.id.btn_like_rv_post_item);
         mBtnComment = itemView.findViewById(R.id.btn_comment_rv_post_item);
     }
+
 }

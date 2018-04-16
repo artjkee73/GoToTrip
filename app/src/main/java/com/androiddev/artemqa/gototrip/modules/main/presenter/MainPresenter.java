@@ -92,4 +92,14 @@ public class MainPresenter implements MainContract.Presenter {
     public void onCommentClicked(String postId) {
         mView.openListComments(postId);
     }
+
+    @Override
+    public void onAvatarUserClicked(String authorId) {
+        mView.openViewProfile(authorId);
+    }
+
+    @Override
+    public void onPostPhotoClicked(String photoUrlPost) {
+        mView.openViewPhoto(photoUrlPost);
+    }
 }

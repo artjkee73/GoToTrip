@@ -31,6 +31,8 @@ public interface MainContract {
         void openViewPost(String postId);
 
         void openListComments(String postId);
+
+        void openViewPhoto(String photoUrlPost);
     }
 
     interface Presenter{
@@ -62,5 +64,9 @@ public interface MainContract {
         void onItemRvClicked(String postId);
 
         void onCommentClicked(String postId);
+
+        void onAvatarUserClicked(String authorId);
+
+        void onPostPhotoClicked(String photoUrlPost);
     }
 }

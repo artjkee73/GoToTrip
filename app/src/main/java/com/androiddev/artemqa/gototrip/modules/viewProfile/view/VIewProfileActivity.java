@@ -17,6 +17,7 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
 import com.androiddev.artemqa.gototrip.modules.listUsers.view.ListUsersActivity;
+import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.ContractViewProfile;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.presenter.ViewProfilePresenter;
 import com.squareup.picasso.Picasso;
@@ -29,7 +30,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     Toolbar mToolbar;
     Button mBtnChat, mBtnFollow, mBtnUnFollow, mBtnPostsUser, mBtnFollowersUser, mBtnFollowingsUser;
     TextView mTvLocationUser, mTvVisitedCountries, mTvAboutUser;
-    ViewProfilePresenter mPresenter;
+    ContractViewProfile.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
         mPresenter = new ViewProfilePresenter();
         mPresenter.attachView(this);
         mIvAvatarUser = findViewById(R.id.iv_avatar_user_view_profile_a);
+        mIvAvatarUser.setOnClickListener(this);
         mCollapsingToolbarLayout = findViewById(R.id.ctl_view_profile_a);
         mToolbar = findViewById(R.id.toolbar_view_profile_a);
         mBtnChat = findViewById(R.id.btn_chat_user_view_profile_a);
@@ -64,11 +66,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     }
 
     private String getViewUsersIdFromIntent() {
-        if (getIntent().getStringExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH) != null) {
-            return getIntent().getStringExtra(Constants.INTENT_CLICKED_USER_ID_SEARCH);
-        } else if (getIntent().getStringExtra(Constants.INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE) != null) {
-            return getIntent().getStringExtra(Constants.INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE);
-        } else return null;
+            return getIntent().getStringExtra(Constants.INTENT_USER_ID);
     }
 
     @Override
@@ -151,7 +149,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     @Override
     public void showDialogActivity(String viewUsersId) {
         Intent intent = new Intent(ViewProfileActivity.this, DialogActivity.class);
-        intent.putExtra(Constants.INTENT_DIALOG_USER_ID_VIEW_PROFILE, viewUsersId);
+        intent.putExtra(Constants.INTENT_USER_ID, viewUsersId);
         startActivity(intent);
     }
 
@@ -163,23 +161,30 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     @Override
     public void showListFollowers(String typeFollowers, String CurrentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE, CurrentUserId);
-        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE, typeFollowers);
+        intent.putExtra(Constants.INTENT_USER_ID, CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_USER, typeFollowers);
         startActivity(intent);
     }
 
     @Override
     public void showListFollowings(String typeFollowers, String CurrentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListUsersActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_USERS_USER_ID_VIEW_PROFILE, CurrentUserId);
-        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE, typeFollowers);
+        intent.putExtra(Constants.INTENT_USER_ID, CurrentUserId);
+        intent.putExtra(Constants.INTENT_LIST_USERS_TYPE_USER, typeFollowers);
         startActivity(intent);
     }
 
     @Override
     public void showListPosts(String currentUserId) {
         Intent intent = new Intent(ViewProfileActivity.this, ListPostsActivity.class);
-        intent.putExtra(Constants.INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE, currentUserId);
+        intent.putExtra(Constants.INTENT_USER_ID, currentUserId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openViewPhoto(String uriAvatar) {
+        Intent intent = new Intent(ViewProfileActivity.this, ViewPhotoActivity.class);
+        intent.putExtra(Constants.INTENT_PHOTO_URL,uriAvatar);
         startActivity(intent);
     }
 
@@ -207,6 +212,10 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
                 break;
             case R.id.btn_posts_user_view_profile_a:
                 mPresenter.onButtonListPostsClicked(getViewUsersIdFromIntent());
+                break;
+            case R.id.iv_avatar_user_view_profile_a:
+                mPresenter.onPhotoPostClicked(getViewUsersIdFromIntent());
+                break;
         }
     }
 }

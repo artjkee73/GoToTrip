@@ -11,19 +11,13 @@ public class Constants {
     public final static String SHARED_PREFERENCES_SAVE_LOGIN_SW_IS_CHECKED = "com.androiddev.artemqa.gototrip.SharedPreferencesSaveLoginSwIsChecked";
     public final static String FIREBASE_NO_USER_PHOTO_URL = "https://firebasestorage.googleapis.com/v0/b/artjkee-gototrip.appspot.com/o/common%2Fimages%2Fno_user.png?alt=media&token=95c6fc57-f1ec-4bf4-8c27-e9bc00bf8361";
 
-    public final static String INTENT_CLICKED_USER_ID_SEARCH = "SearchActivity.clickedUserId";
-    public final static String INTENT_DIALOG_USER_ID_VIEW_PROFILE = "ViewProfileActivity.DialogViewUserId";
-    public final static String INTENT_CLICKED_CHAT_ID_CHAT = "ChatActivity.clickedChatId";
-    public final static String INTENT_CLICKED_USER_ID_CHAT = "ChatActivity.clickedInterlocutorId";
-    public final static String INTENT_LIST_USERS_USER_ID_VIEW_PROFILE = "ViewProfileActivity.dialogViewUserId";
-    public final static String INTENT_LIST_USERS_TYPE_LIST_USERS_VIEW_PROFILE = "ViewProfileActivity.listUsersType";
-    public final static String INTENT_LIST_USERS_FOLLOWERS_TYPE_PROFILE = "ViewProfileActivity.followersType";
-    public final static String INTENT_LIST_USERS_FOLLOWINGS_TYPE_PROFILE = "ViewProfileActivity.followingsType";
-    public final static String INTENT_LIST_POSTS_USER_ID_VIEW_PROFILE = "ViewProfileActivity.listPostsUserId";
-    public final static String INTENT_VIEW_POST_POST_ID_LIST_POSTS = "ListPostsActivity.listPostsPostId";
-    public final static String INTENT_LIST_COMMENTS_POST_ID_VIEW_POST = "ViewPostActivity.listCommentsPostId";
-    public final static String INTENT_VIEW_PROFILE_USER_ID_VIEW_PROFILE = "MainActivity.ViewProfileUserId";
-    public final static String INTENT_VIEW_PHOTO_PHOTO_URL_VIEW_POST = "ViewPostActivity.ViewUrlPhoto";
+    public final static String INTENT_USER_ID = "com.androiddev.artemqa.gototrip.UserId";
+    public final static String INTENT_CHAT_ID = "ChatActivity.clickedChatId";
+    public final static String INTENT_LIST_USERS_TYPE_USER = "com.androiddev.artemqa.gototrip.ListsUser.TypeUser";
+    public final static String INTENT_LIST_USERS_TYPE_FOLLOWERS = "com.androiddev.artemqa.gototrip.ListsUser.TypeUserFollowers";
+    public final static String INTENT_LIST_USERS_TYPE_FOLLOWINGS = "com.androiddev.artemqa.gototrip.ListsUser.TypeUserFollowings";
+    public final static String INTENT_POST_ID = "com.androiddev.artemqa.gototrip.PostId";
+    public final static String INTENT_PHOTO_URL = "ViewPostActivity.ViewUrlPhoto";
 
 
     public final static String USERS_LOCATION = "users";

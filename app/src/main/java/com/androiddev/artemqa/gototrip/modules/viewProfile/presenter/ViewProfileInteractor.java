@@ -129,4 +129,22 @@ public class ViewProfileInteractor {
             }
         });
     }
+
+    public void getAvatarUrlUser(String usersId) {
+        final DatabaseReference viewUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(usersId);
+        viewUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null){
+                    User user = dataSnapshot.getValue(User.class);
+                    mPresenter.onGettingUrlPhoto(user.getUriAvatar());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
