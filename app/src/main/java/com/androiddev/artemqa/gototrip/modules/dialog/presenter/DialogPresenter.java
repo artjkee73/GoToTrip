@@ -38,6 +38,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
                 intent.getStringExtra(Constants.INTENT_USER_ID) != null) {
             currentChatId = intent.getStringExtra(Constants.INTENT_CHAT_ID);
             mInteractor.getInitialDataForRV(currentChatId);
+//            mInteractor.setNewMessageListenerOnRv(currentChatId);
             mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_USER_ID));
         } else {
             mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_USER_ID));
@@ -59,6 +60,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
         if (currentChatId != null) {
             mInteractor.getInitialDataForRV(currentChatId);
+//            mInteractor.setNewMessageListenerOnRv(currentChatId);
         } else {
             mView.showEmptyRV();
         }
@@ -87,7 +89,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     @Override
     public void onNewMessageAdded() {
-        mView.updateUI();
+//        mView.updateUI();
         mView.clearEtMessage();
     }
 
@@ -113,12 +115,27 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     @Override
     public void onSwipeToRefresh(String lastItemId) {
-        mInteractor.getOldDataForRecyclerView(lastItemId,currentChatId);
+        mInteractor.getOldDataForRecyclerView(lastItemId, currentChatId);
     }
 
     @Override
     public void onLoadOldDataForRV(ArrayList<Message> messages) {
         mView.setOldDataForRecyclerView(messages);
+    }
+
+    @Override
+    public void onGettingNewMessageForRV(Message newMessage) {
+        mView.setNewMessageInRV(newMessage);
+    }
+
+    @Override
+    public void onLoadRV(String lastItemId) {
+        mInteractor.setNewMessageListenerOnRv(currentChatId,lastItemId);
+    }
+
+    @Override
+    public void onEndOldDataForLoadInRV() {
+        mView.showEndOldDataForRv();
     }
 
     private void getChatId(User interlocutorUser, User currentUser) {

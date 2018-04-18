@@ -62,12 +62,21 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<MessageViewHolde
     }
 
     public void addItems(List<Message> newMessage) {
-        int initialSize = mMessages.size();
-        mMessages.addAll(0,newMessage);
+        mMessages.addAll(0, newMessage);
         notifyItemRangeInserted(0, newMessage.size());
     }
 
-    public String getLastItemId() {
+    public String getFirstItemId() {
         return mMessages.get(0).getMessageId();
+    }
+
+    public String getLastItemId() {
+        return mMessages.get(mMessages.size() - 1).getMessageId();
+    }
+
+    public void addNewItem(Message message) {
+        int initialSize = mMessages.size();
+        mMessages.add(message);
+        notifyItemInserted(initialSize);
     }
 }

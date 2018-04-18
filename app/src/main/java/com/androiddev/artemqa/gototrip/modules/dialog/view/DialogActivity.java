@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Message;
@@ -32,7 +33,6 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     ImageButton mIbSendMessage;
     EditText mEtTextMessage;
     ContractDialog.Presenter mPresenter;
-//    FirebaseRecyclerAdapter<Message, MessageViewHolder> mFirebaseAdapter;
     LinearLayoutManager mLayoutManager;
     DialogRecyclerAdapter mRecyclerAdapter;
     SwipeRefreshLayout mSrlLoadMessages;
@@ -61,7 +61,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
         mSrlLoadMessages.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.onSwipeToRefresh(mRecyclerAdapter.getLastItemId());
+                mPresenter.onSwipeToRefresh(mRecyclerAdapter.getFirstItemId());
             }
         });
 
@@ -120,65 +120,6 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
         mPresenter.viewIsReady(getIntent());
     }
 
-//    @Override
-//    public void loadRvData(Query keyRef, DatabaseReference dataRef, String currentUserId) {
-//
-//    }
-
-//    @Override
-//    public void loadRvData(Query keyRef, DatabaseReference dataRef, final String currentUserId) {
-//
-//        FirebaseRecyclerOptions<Message> options = new FirebaseRecyclerOptions.Builder<Message>()
-//                .setIndexedQuery(keyRef, dataRef, Message.class)
-//                .setLifecycleOwner(this)
-//                .build();
-//
-//        mFirebaseAdapter = new FirebaseRecyclerAdapter<Message, MessageViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
-//
-//                holder.mTvTextMessage.setText(model.getText());
-//                holder.nTvTimeMessage.setText(String.valueOf(Utils.timestampToDateMessage(model.getDateCreatedLong())));
-//                Glide.with(getApplicationContext()).load(model.getAuthorUrlAvatar()).into(holder.mCivAvatar);
-//
-//            }
-//
-//            @NonNull
-//            @Override
-//            public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view;
-//                if (viewType == Constants.RV_DIALOG_SEND_MESSAGE_TYPE) {
-//                    view = LayoutInflater.from(parent.getContext())
-//                            .inflate(R.layout.recycler_view_dialog_item_send, parent, false);
-//                } else {
-//                    view = LayoutInflater.from(parent.getContext())
-//                            .inflate(R.layout.recycler_view_dialog_item_recieved, parent, false);
-//                }
-//                return new MessageViewHolder(view);
-//            }
-//
-//            @Override
-//            public int getItemViewType(int position) {
-//                return getItem(position).getAuthorId().equals(currentUserId) ?
-//                        Constants.RV_DIALOG_SEND_MESSAGE_TYPE : Constants.RV_DIALOG_RECEIVED_MESSAGE_TYPE;
-//            }
-//        };
-//        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//            @Override
-//            public void onItemRangeInserted(int positionStart, int itemCount) {
-//                super.onItemRangeInserted(positionStart, itemCount);
-//                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
-//                int lastVisiblePosition =
-//                        mLayoutManager.findLastCompletelyVisibleItemPosition();
-//                if (lastVisiblePosition == -1 ||
-//                        (positionStart >= (friendlyMessageCount - 1) &&
-//                                lastVisiblePosition == (positionStart - 1))) {
-//                    mRvMessages.scrollToPosition(positionStart);
-//                }
-//            }
-//        });
-//        mRvMessages.setAdapter(mFirebaseAdapter);
-//    }
 
     @Override
     public void clearEtMessage() {
@@ -188,7 +129,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     @Override
     public void openViewProfile(String interlocutorId) {
         Intent intent = new Intent(DialogActivity.this, ViewProfileActivity.class);
-        intent.putExtra(Constants.INTENT_USER_ID,interlocutorId);
+        intent.putExtra(Constants.INTENT_USER_ID, interlocutorId);
         startActivity(intent);
     }
 
@@ -196,6 +137,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     public void setInitialDataForAdapter(ArrayList<Message> messages) {
         mRecyclerAdapter = new DialogRecyclerAdapter(messages);
         mRvMessages.setAdapter(mRecyclerAdapter);
+        mPresenter.onLoadRV(mRecyclerAdapter.getLastItemId());
     }
 
     @Override
@@ -205,10 +147,22 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     }
 
     @Override
+    public void setNewMessageInRV(Message newMessage) {
+        mRecyclerAdapter.addNewItem(newMessage);
+       mRvMessages.smoothScrollToPosition(mRecyclerAdapter.getItemCount());
+    }
+
+    @Override
+    public void showEndOldDataForRv() {
+        mSrlLoadMessages.setRefreshing(false);
+        Toast.makeText(DialogActivity.this,R.string.toast_end_old_messages_dialog_a,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ib_send_message_dialog_a) {
             mPresenter.onSendMessageClicked(mEtTextMessage.getText().toString());
-        } else if(view.getId()== R.id.iv_avatar_interlocutor_dialog_a){
+        } else if (view.getId() == R.id.iv_avatar_interlocutor_dialog_a) {
             mPresenter.onAvatarInterlocutorClicked(getInterlocutorIdFromIntent());
         }
     }

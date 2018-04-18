@@ -85,6 +85,7 @@
     <string name="tv_name_user_dialog_a">Иван Иванов</string>
     <string name="hint_text_message_dialog_a">Введите сообщение...</string>
     <string name="tv_empty_dialog_dialog_a">В данном диалоге отсутвуют сообщения \n\n Напишите первым!</string>
+    <string name="toast_end_old_messages_dialog_a">Загружены все сообщения!</string>
     <!--DialogActivityRecuclerView -->
     <string name="tv_message_rv_dialog_item">Приветвую! Как ваши дела? Куда летали? </string>
     <string name="tv_date_rv_dialog_item">12:00 01-01-2018</string>

@@ -25,8 +25,6 @@ public interface ContractDialog {
 
         void updateUI();
 
-//        void loadRvData(Query keyRef,DatabaseReference dataRef,String currentUserId);
-
         void clearEtMessage();
 
         void openViewProfile(String interlocutorId);
@@ -34,6 +32,10 @@ public interface ContractDialog {
         void setInitialDataForAdapter(ArrayList<Message> message);
 
         void setOldDataForRecyclerView(ArrayList<Message> messages);
+
+        void setNewMessageInRV(Message newMessage);
+
+        void showEndOldDataForRv();
     }
 
     interface Presenter {
@@ -50,8 +52,6 @@ public interface ContractDialog {
 
         void onFirstMessageAdded();
 
-//        void onGettingQueryForGetMessages(Query keyRef,DatabaseReference dataRef,String currentUserId);
-
         void onNewMessageAdded();
 
         void onGettingInterlocutorUser(User interlocutor);
@@ -63,5 +63,11 @@ public interface ContractDialog {
         void onSwipeToRefresh(String lastItemId);
 
         void onLoadOldDataForRV(ArrayList<Message> messages);
+
+        void onGettingNewMessageForRV(Message newMessage);
+
+        void onLoadRV(String lastItemId);
+
+        void onEndOldDataForLoadInRV();
     }
 }

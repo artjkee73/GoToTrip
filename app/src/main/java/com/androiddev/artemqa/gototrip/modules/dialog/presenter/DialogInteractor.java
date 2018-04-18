@@ -8,6 +8,7 @@ import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.androiddev.artemqa.gototrip.modules.main.view.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,15 +74,6 @@ public class DialogInteractor {
         });
 
     }
-
-    //метод для получения сообщений из чата
-
-//    public void getQueryForGetMessages(String currentChatId) {
-//        Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByValue().limitToLast(10);
-//        DatabaseReference dataRef = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
-//        String currentUserId = mCurrentUser.getUid();
-//        mPresenter.onGettingQueryForGetMessages(keyRef, dataRef, currentUserId);
-//    }
 
     public void addMessageInChat(final String currentChatId, final String textMessage) {
         final DatabaseReference currentChatRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId);
@@ -231,7 +223,7 @@ public class DialogInteractor {
                                 if (dataSnapshot != null) {
                                     Message message = dataSnapshot.getValue(Message.class);
                                     messages.add(message);
-                                    if(messages.size() == idMessages.size()){
+                                    if (messages.size() == idMessages.size()) {
                                         mPresenter.onLoadInitialDataForAdapter(messages);
                                     }
 
@@ -264,32 +256,81 @@ public class DialogInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     for (DataSnapshot id : dataSnapshot.getChildren()) {
-                        if(!id.getKey().equals(lastItemId)){
-                        idMessages.add(id.getKey());
+                        if (!id.getKey().equals(lastItemId)) {
+                            idMessages.add(id.getKey());
                         }
                     }
-                    for (final String idMessage : idMessages) {
-                        final DatabaseReference messageRef = queryMassageBase.child(idMessage);
-                        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot != null) {
-                                    Message message = dataSnapshot.getValue(Message.class);
-                                    messages.add(message);
-                                    if(messages.size() == idMessages.size()){
-                                        mPresenter.onLoadOldDataForRV(messages);
+                    if (!idMessages.isEmpty()){
+                        for (final String idMessage : idMessages) {
+                            final DatabaseReference messageRef = queryMassageBase.child(idMessage);
+                            messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot != null) {
+                                        Message message = dataSnapshot.getValue(Message.class);
+                                        messages.add(message);
+                                        if (messages.size() == idMessages.size()) {
+                                            mPresenter.onLoadOldDataForRV(messages);
+                                        }
+
                                     }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
+                            });
+                        }
+                }else mPresenter.onEndOldDataForLoadInRV();
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setNewMessageListenerOnRv(String currentChatId, final String lastItemId) {
+        DatabaseReference refCurrentChat = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages");
+        final DatabaseReference refMessagesBase = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
+        refCurrentChat.orderByKey().startAt(lastItemId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null && !dataSnapshot.getKey().equals(lastItemId)) {
+                    String messageId = dataSnapshot.getKey();
+                    refMessagesBase.child(messageId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot != null) {
+                                Message newMessage = dataSnapshot.getValue(Message.class);
+                                mPresenter.onGettingNewMessageForRV(newMessage);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
