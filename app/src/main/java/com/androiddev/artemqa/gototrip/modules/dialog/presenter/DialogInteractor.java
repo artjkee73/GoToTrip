@@ -15,7 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,12 +76,12 @@ public class DialogInteractor {
 
     //метод для получения сообщений из чата
 
-    public void getQueryForGetMessages(String currentChatId) {
-        Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByValue().limitToLast(10);
-        DatabaseReference dataRef = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
-        String currentUserId = mCurrentUser.getUid();
-        mPresenter.onGettingQueryForGetMessages(keyRef, dataRef, currentUserId);
-    }
+//    public void getQueryForGetMessages(String currentChatId) {
+//        Query keyRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByValue().limitToLast(10);
+//        DatabaseReference dataRef = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
+//        String currentUserId = mCurrentUser.getUid();
+//        mPresenter.onGettingQueryForGetMessages(keyRef, dataRef, currentUserId);
+//    }
 
     public void addMessageInChat(final String currentChatId, final String textMessage) {
         final DatabaseReference currentChatRef = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId);
@@ -196,9 +198,97 @@ public class DialogInteractor {
         refInterlocutor.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
+                if (dataSnapshot != null) {
                     User interlocutor = dataSnapshot.getValue(User.class);
                     mPresenter.onGettingInterlocutorUser(interlocutor);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getInitialDataForRV(String currentChatId) {
+        final ArrayList<String> idMessages = new ArrayList<>();
+        final ArrayList<Message> messages = new ArrayList<>();
+        Query queryKeys = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByValue().limitToLast(10);
+        final DatabaseReference queryMassageBase = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idMessages.add(id.getKey());
+                    }
+                    for (final String idMessage : idMessages) {
+                        final DatabaseReference messageRef = queryMassageBase.child(idMessage);
+                        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Message message = dataSnapshot.getValue(Message.class);
+                                    messages.add(message);
+                                    if(messages.size() == idMessages.size()){
+                                        mPresenter.onLoadInitialDataForAdapter(messages);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getOldDataForRecyclerView(final String lastItemId, String currentChatId) {
+        final ArrayList<String> idMessages = new ArrayList<>();
+        final ArrayList<Message> messages = new ArrayList<>();
+        Query queryKeys = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages").orderByKey().endAt(lastItemId).limitToLast(11);
+        final DatabaseReference queryMassageBase = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        if(!id.getKey().equals(lastItemId)){
+                        idMessages.add(id.getKey());
+                        }
+                    }
+                    for (final String idMessage : idMessages) {
+                        final DatabaseReference messageRef = queryMassageBase.child(idMessage);
+                        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Message message = dataSnapshot.getValue(Message.class);
+                                    messages.add(message);
+                                    if(messages.size() == idMessages.size()){
+                                        mPresenter.onLoadOldDataForRV(messages);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                 }
             }
 

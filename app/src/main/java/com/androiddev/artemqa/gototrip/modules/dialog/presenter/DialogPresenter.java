@@ -2,15 +2,12 @@ package com.androiddev.artemqa.gototrip.modules.dialog.presenter;
 
 import android.content.Intent;
 
+import com.androiddev.artemqa.gototrip.common.models.Message;
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by artemqa on 05.04.2018.
@@ -40,7 +37,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
         if (intent.getStringExtra(Constants.INTENT_CHAT_ID) != null &&
                 intent.getStringExtra(Constants.INTENT_USER_ID) != null) {
             currentChatId = intent.getStringExtra(Constants.INTENT_CHAT_ID);
-            mInteractor.getQueryForGetMessages(currentChatId);
+            mInteractor.getInitialDataForRV(currentChatId);
             mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_USER_ID));
         } else {
             mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_USER_ID));
@@ -61,7 +58,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
         }
 
         if (currentChatId != null) {
-            mInteractor.getQueryForGetMessages(currentChatId);
+            mInteractor.getInitialDataForRV(currentChatId);
         } else {
             mView.showEmptyRV();
         }
@@ -83,10 +80,10 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     }
 
-    @Override
-    public void onGettingQueryForGetMessages(Query keyRef, DatabaseReference dataRef, String currentUserId) {
-        mView.loadRvData(keyRef, dataRef, currentUserId);
-    }
+//    @Override
+//    public void onGettingQueryForGetMessages(Query keyRef, DatabaseReference dataRef, String currentUserId) {
+//        mView.loadRvData(keyRef, dataRef, currentUserId);
+//    }
 
     @Override
     public void onNewMessageAdded() {
@@ -107,6 +104,21 @@ public class DialogPresenter implements ContractDialog.Presenter {
     @Override
     public void onAvatarInterlocutorClicked(String interlocutorId) {
         mView.openViewProfile(interlocutorId);
+    }
+
+    @Override
+    public void onLoadInitialDataForAdapter(ArrayList<Message> messages) {
+        mView.setInitialDataForAdapter(messages);
+    }
+
+    @Override
+    public void onSwipeToRefresh(String lastItemId) {
+        mInteractor.getOldDataForRecyclerView(lastItemId,currentChatId);
+    }
+
+    @Override
+    public void onLoadOldDataForRV(ArrayList<Message> messages) {
+        mView.setOldDataForRecyclerView(messages);
     }
 
     private void getChatId(User interlocutorUser, User currentUser) {
