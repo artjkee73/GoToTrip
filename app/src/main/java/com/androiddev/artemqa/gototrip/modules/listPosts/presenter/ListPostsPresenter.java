@@ -1,8 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.listPosts.presenter;
 
+import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 
 /**
  * Created by artemqa on 10.04.2018.
@@ -28,12 +27,7 @@ public class ListPostsPresenter implements ContractListPosts.Presenter {
 
     @Override
     public void viewIsReady(String viewUserId) {
-        mInteractor.getQueryForRV(viewUserId);
-    }
-
-    @Override
-    public void onGettingWueryForRv(Query queryKey, DatabaseReference refData,String currentUserId) {
-        mView.loadRv(queryKey,refData,currentUserId);
+        mInteractor.getInitialDataForRV(viewUserId);
     }
 
     @Override
@@ -63,5 +57,40 @@ public class ListPostsPresenter implements ContractListPosts.Presenter {
     @Override
     public void onPostPhotoClicked(String photoUrlPost) {
         mView.openViewPhoto(photoUrlPost);
+    }
+
+    @Override
+    public void onLoadInitialDataForAdapter(Post post) {
+        mView.setInitialDataInRv(post);
+    }
+
+    @Override
+    public void loadNewDataForRV(String viewUserId, String firstItemId) {
+        mInteractor.getNewDataForRV(viewUserId,firstItemId);
+    }
+
+    @Override
+    public void onLoadDataNewPosts(Post post) {
+        mView.setNewDataForRv(post);
+    }
+
+    @Override
+    public void loadOldItemsInRv(String viewUserIdFromIntent, String lastItemId) {
+        mInteractor.getOldDataForRv(viewUserIdFromIntent,lastItemId);
+    }
+
+    @Override
+    public void onLoadOldDataForRv(Post post) {
+        mView.setOldDataInRv(post);
+    }
+
+    @Override
+    public void onEmptyLoadNewDataPosts() {
+        mView.showNoNewDataForRv();
+    }
+
+    @Override
+    public void onEmptyLoadOldDataForRv() {
+        mView.showNoOldDataForRv();
     }
 }

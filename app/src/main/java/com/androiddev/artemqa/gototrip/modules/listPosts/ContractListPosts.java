@@ -1,7 +1,8 @@
 package com.androiddev.artemqa.gototrip.modules.listPosts;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
+import com.androiddev.artemqa.gototrip.common.models.Post;
+
+import java.util.ArrayList;
 
 /**
  * Created by artemqa on 10.04.2018.
@@ -9,8 +10,6 @@ import com.google.firebase.database.Query;
 
 public interface ContractListPosts {
     interface View {
-        void loadRv(Query queryKey, DatabaseReference refData,String currentUserId);
-
         void openViewPost(String postId);
 
         void openListComments(String postId);
@@ -18,6 +17,16 @@ public interface ContractListPosts {
         void openViewProfile(String authorId);
 
         void openViewPhoto(String photoUrlPost);
+
+        void setInitialDataInRv(Post post);
+
+        void setNewDataForRv(Post post);
+
+        void setOldDataInRv(Post post);
+
+        void showNoNewDataForRv();
+
+        void showNoOldDataForRv();
     }
 
     interface Presenter {
@@ -26,9 +35,7 @@ public interface ContractListPosts {
         void detachView();
 
         void viewIsReady(String viewUserId);
-
-        void onGettingWueryForRv(Query queryKey, DatabaseReference refData,String currentUserId);
-
+        
         void onItemRvClicked(String postId);
 
         void onLikeClicked(String postId, boolean finalIsLike);
@@ -38,5 +45,19 @@ public interface ContractListPosts {
         void onAvatarUserClicked(String authorId);
 
         void onPostPhotoClicked(String photoUrlPost);
+
+        void onLoadInitialDataForAdapter(Post posts);
+
+        void loadNewDataForRV(String viewUserIdFromIntent, String firstItemId);
+
+        void onLoadDataNewPosts(Post post);
+
+        void loadOldItemsInRv(String viewUserIdFromIntent, String lastItemId);
+
+        void onLoadOldDataForRv(Post post);
+
+        void onEmptyLoadNewDataPosts();
+
+        void onEmptyLoadOldDataForRv();
     }
 }

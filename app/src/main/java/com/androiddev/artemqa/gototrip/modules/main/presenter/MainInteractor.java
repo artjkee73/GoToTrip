@@ -14,6 +14,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by artemqa on 17.03.2018.
  */
@@ -52,11 +56,7 @@ public class MainInteractor {
         mPresenter.onGettingUserId(mCurrentUser.getUid());
     }
 
-    public void getQueryForRv() {
-        Query queryKey = mBaseRefDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("feedPosts").orderByValue();
-        DatabaseReference refData = mBaseRefDatabase.child(Constants.POSTS_LOCATION);
-        mPresenter.onGettingQueryForRV(queryKey, refData, mCurrentUser.getUid());
-    }
+
 
     public void removeLikeFromPost(String postId) {
         final DatabaseReference refPost = mBaseRefDatabase.child(Constants.POSTS_LOCATION).child(postId);
@@ -94,5 +94,137 @@ public class MainInteractor {
 
             }
         });
+    }
+
+    public void getInitialDataForRV() {
+        final ArrayList<String> idPosts = new ArrayList<>();
+        Query queryKeys = mBaseRefDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("feedPosts").orderByKey().limitToLast(3);
+        final DatabaseReference refPostBase = mBaseRefDatabase.child(Constants.POSTS_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idPosts.add(id.getKey());
+                    }
+                    Collections.reverse(idPosts);
+                    for (String idPost : idPosts) {
+                        refPostBase.child(idPost).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Post post = dataSnapshot.getValue(Post.class);
+                                    mPresenter.onLoadInitialDataForAdapter(post);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void getOldDataForRv(final String lastItemId) {
+        final List<String> idPosts = new ArrayList<>();
+        mBaseRefDatabase.child(Constants.USERS_LOCATION)
+                .child(lastItemId).child("feedPosts").orderByKey()
+                .endAt(lastItemId).limitToLast(3)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null) {
+                            for (DataSnapshot id : dataSnapshot.getChildren()) {
+                                if (!id.getKey().equals(lastItemId)) {
+                                    idPosts.add(id.getKey());
+                                }
+                            }
+                            if (!idPosts.isEmpty()) {
+                                Collections.reverse(idPosts);
+                                for (String postId : idPosts) {
+                                    mBaseRefDatabase.child(Constants.POSTS_LOCATION).child(postId).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot != null) {
+                                                Post post = dataSnapshot.getValue(Post.class);
+                                                mPresenter.onLoadOldDataForRv(post);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                            } else {
+                                mPresenter.onEmptyLoadOldDataForRv();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    public void getNewDataForRV(final String firstItemId) {
+        final List<String> idPosts = new ArrayList<>();
+        mBaseRefDatabase.child(Constants.USERS_LOCATION).
+                child(mCurrentUser.getUid()).
+                child("feedPosts").
+                orderByKey().
+                startAt(firstItemId).
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null) {
+                            for (DataSnapshot id : dataSnapshot.getChildren()) {
+                                if (!id.getKey().equals(firstItemId)) {
+                                    idPosts.add(id.getKey());
+                                }
+                            }
+                            if (!idPosts.isEmpty()) {
+                                for (String idPost : idPosts) {
+                                    mBaseRefDatabase.child(Constants.POSTS_LOCATION).child(idPost).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot != null) {
+                                                Post post = dataSnapshot.getValue(Post.class);
+                                                mPresenter.onLoadDataNewPosts(post);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            } else {
+                                mPresenter.onEmptyLoadNewDataPosts();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 }

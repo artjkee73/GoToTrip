@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.main;
 
+import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
@@ -25,14 +26,23 @@ public interface MainContract {
         void openNewPost();
 
         void openViewProfile(String currentUserId);
-
-        void loadRv(Query queryKey, DatabaseReference refData, String uid);
+        
 
         void openViewPost(String postId);
 
         void openListComments(String postId);
 
         void openViewPhoto(String photoUrlPost);
+
+        void setInitialDataInRv(Post post);
+
+        void setOldDataInRv(Post post);
+
+        void showNoOldDataForRv();
+
+        void setNewDataForRv(Post post);
+
+        void showNoNewDataForRv();
     }
 
     interface Presenter{
@@ -53,11 +63,10 @@ public interface MainContract {
 
         void onGettingUser(User currentUser);
 
-        void onAvatarCliked();
+        void onAvatarClicked();
 
         void onGettingUserId(String currentUserId);
-
-        void onGettingQueryForRV(Query queryKey, DatabaseReference refData, String uid);
+        
 
         void onLikeClicked(String postId, boolean finalIsLike);
 
@@ -68,5 +77,19 @@ public interface MainContract {
         void onAvatarUserClicked(String authorId);
 
         void onPostPhotoClicked(String photoUrlPost);
+
+        void loadNewDataForRV(String firstItemId);
+
+        void loadOldItemsInRv(String lastItemId);
+
+        void onLoadInitialDataForAdapter(Post post);
+
+        void onLoadOldDataForRv(Post post);
+
+        void onEmptyLoadOldDataForRv();
+
+        void onLoadDataNewPosts(Post post);
+
+        void onEmptyLoadNewDataPosts();
     }
 }

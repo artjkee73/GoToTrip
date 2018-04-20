@@ -5,27 +5,31 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
-import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.chat.view.ChatActivity;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
-import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostViewHolder;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostsRecyclerAdapter;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnAvatarUserInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnCommentInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnItemInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnLikeInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostPhotoInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.androiddev.artemqa.gototrip.modules.main.presenter.MainPresenter;
 import com.androiddev.artemqa.gototrip.modules.newPost.view.NewPostActivity;
@@ -34,14 +38,6 @@ import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
 import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.squareup.picasso.Picasso;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements MainContract.View, NavigationView.OnNavigationItemSelectedListener {
@@ -51,7 +47,11 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     NavigationView mNavigationView;
     MainContract.Presenter mPresenter;
     RecyclerView mRvFeedPosts;
-    FirebaseRecyclerAdapter<Post,PostViewHolder> mFirebaseAdapter;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    ProgressBar mPbLoafItems;
+    LinearLayoutManager mLinearLayoutManager;
+    PostsRecyclerAdapter mPostsRecyclerAdapter;
+    boolean isLoadingOldItem;
 
 
     @Override
@@ -66,8 +66,70 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
         mDrawerLayout = findViewById(R.id.drawer_layout_main_a);
         mNavigationView = findViewById(R.id.nav_view_main_a);
         mRvFeedPosts = findViewById(R.id.rv_feed_posts_main_a);
-        mRvFeedPosts.setLayoutManager(new LinearLayoutManager(this));
         setToggleButtonInNavDrawer();
+        mPresenter = new MainPresenter();
+        mPresenter.attachView(this);
+        mPbLoafItems = findViewById(R.id.pb_load_items_main_a);
+        mSwipeRefreshLayout = findViewById(R.id.srl_list_posts_main_a);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                mPresenter.loadNewDataForRV(mPostsRecyclerAdapter.getFirstItemId());
+            }
+        });
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRvFeedPosts.setLayoutManager(mLinearLayoutManager);
+        mPresenter.viewIsReady();
+        mPostsRecyclerAdapter = new PostsRecyclerAdapter();
+        mPostsRecyclerAdapter.setOnAvatarUserInRecyclerViewPostsClickListener(new OnAvatarUserInRecyclerViewPostsClickListener() {
+            @Override
+            public void onAvatarUserClicked(String authorId) {
+                mPresenter.onAvatarUserClicked(authorId);
+            }
+        });
+        mPostsRecyclerAdapter.setOnCommentInRecyclerViewPostsClickListener(new OnCommentInRecyclerViewPostsClickListener() {
+            @Override
+            public void onCommentClicked(String postId) {
+                mPresenter.onCommentClicked(postId);
+            }
+        });
+        mPostsRecyclerAdapter.setOnLikeInRecyclerViewPostsClickListener(new OnLikeInRecyclerViewPostsClickListener() {
+            @Override
+            public void onLikeClicked(String postId, boolean isLike) {
+                mPresenter.onLikeClicked(postId, isLike);
+            }
+        });
+        mPostsRecyclerAdapter.setOnPostPhotoInRecyclerViewPostsClickListener(new OnPostPhotoInRecyclerViewPostsClickListener() {
+            @Override
+            public void onPostPhotoClicked(String photoUrlPost) {
+                mPresenter.onPostPhotoClicked(photoUrlPost);
+            }
+        });
+        mPostsRecyclerAdapter.setOnItemInRecyclerViewPostsClickListener(new OnItemInRecyclerViewPostsClickListener() {
+            @Override
+            public void onItemClicked(String postId) {
+                mPresenter.onItemRvClicked(postId);
+            }
+        });
+        mRvFeedPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = mLinearLayoutManager.getItemCount();
+                int lastVisibleItemPosition = mLinearLayoutManager.findLastVisibleItemPosition() + 1;
+                if (!isLoadingOldItem && totalItemCount > 2 && totalItemCount <= lastVisibleItemPosition) {
+                    isLoadingOldItem = true;
+                    mPbLoafItems.setVisibility(View.VISIBLE);
+                    mPresenter.loadOldItemsInRv(mPostsRecyclerAdapter.getLastItemId());
+                }
+            }
+        });
+
+        mRvFeedPosts.setAdapter(mPostsRecyclerAdapter);
+
+
+
         mPresenter = new MainPresenter();
         mPresenter.attachView(this);
         mPresenter.viewIsReady();
@@ -139,7 +201,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.onAvatarCliked();
+                mPresenter.onAvatarClicked();
             }
         });
         if( urlPhoto != null){
@@ -188,73 +250,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
     }
 
     @Override
-    public void loadRv(Query queryKey, DatabaseReference refData, final String currentUserId) {
-        FirebaseRecyclerOptions<Post> options =
-                new FirebaseRecyclerOptions.Builder<Post>()
-                        .setIndexedQuery(queryKey,refData, Post.class)
-                        .setLifecycleOwner(this)
-                        .build();
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull final PostViewHolder holder, int position, @NonNull final Post model) {
-                boolean isLike = false;
-                if(model.getLikeUsers().containsKey(currentUserId)){
-                    isLike = true;
-                    holder.mBtnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_on, 0, 0, 0);
-                }
-                Glide.with(getApplicationContext()).load(model.getAuthorUriAvatar()).into(holder.mIvAvatarAuthor);
-                holder.mIvAvatarAuthor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPresenter.onAvatarUserClicked(model.getAuthorId());
-                    }
-                });
-                holder.mTvNameAuthor.setText(model.getAuthorName());
-                holder.mTvDatePost.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
-                holder.mTvTitlePost.setText(model.getTitlePost());
-                Glide.with(getApplicationContext()).load(model.getPhotoUrlPost()).into(holder.mIvPostPhoto);
-                holder.mIvPostPhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPresenter.onPostPhotoClicked(model.getPhotoUrlPost());
-                    }
-                });
-                holder.mTvTextPost.setText(model.getTextPost());
-                holder.mBtnLike.setText(String.valueOf(model.getLikeUsers().size()));
-                final boolean finalIsLike = isLike;
-                holder.mBtnLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPresenter.onLikeClicked(model.getPostId(), finalIsLike);
-                    }
-                });
-                holder.mBtnComment.setText(String.valueOf(model.getComments().size()));
-                holder.mBtnComment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPresenter.onCommentClicked(model.getPostId());
-                    }
-                });
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPresenter.onItemRvClicked(model.getPostId());
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.recycler_view_post_item, parent, false);
-                return new PostViewHolder(view);
-            }
-        };
-        mRvFeedPosts.setAdapter(mFirebaseAdapter);
-    }
-
-    @Override
     public void openViewPost(String postId) {
         Intent intent = new Intent(MainActivity.this, ViewPostActivity.class);
         intent.putExtra(Constants.INTENT_POST_ID,postId);
@@ -273,5 +268,36 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
         Intent intent = new Intent(MainActivity.this,ViewPhotoActivity.class);
         intent.putExtra(Constants.INTENT_PHOTO_URL,photoUrlPost);
         startActivity(intent);
+    }
+
+    @Override
+    public void setInitialDataInRv(Post post) {
+        mPostsRecyclerAdapter.addOrUpdateItem(post);
+    }
+
+    @Override
+    public void setOldDataInRv(Post post) {
+        mPostsRecyclerAdapter.addOrUpdateItem(post);
+        mPbLoafItems.setVisibility(View.GONE);
+        isLoadingOldItem = false;
+    }
+
+    @Override
+    public void showNoOldDataForRv() {
+        mRvFeedPosts.clearOnScrollListeners();
+        isLoadingOldItem = false;
+        mPbLoafItems.setVisibility(View.GONE);
+        Toast.makeText(MainActivity.this,R.string.toast_end_old_messages_dialog_a,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setNewDataForRv(Post post) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mPostsRecyclerAdapter.addOrUpdateNewItem(post);
+    }
+
+    @Override
+    public void showNoNewDataForRv() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

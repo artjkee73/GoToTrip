@@ -8,9 +8,13 @@ import android.view.ViewGroup;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Post;
-import com.androiddev.artemqa.gototrip.helper.Utils;
-import com.bumptech.glide.Glide;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnAvatarUserInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnCommentInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnItemInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnLikeInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostPhotoInRecyclerViewPostsClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,11 +22,16 @@ import java.util.List;
  */
 
 public class PostsRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
-    private List<Post> mPosts;
+    private List<Post> mPosts = new ArrayList<>();
+    private OnAvatarUserInRecyclerViewPostsClickListener mOnAvatarUserInRecyclerViewPostsClickListener;
+    private OnCommentInRecyclerViewPostsClickListener mOnCommentInRecyclerViewPostsClickListener;
+    private OnItemInRecyclerViewPostsClickListener mOnItemInRecyclerViewPostsClickListener;
+    private OnLikeInRecyclerViewPostsClickListener mOnLikeInRecyclerViewPostsClickListener;
+    private OnPostPhotoInRecyclerViewPostsClickListener mOnPostPhotoInRecyclerViewPostsClickListener;
 
-    public PostsRecyclerAdapter(List<Post> posts) {
-        mPosts = posts;
-    }
+//    public PostsRecyclerAdapter(List<Post> posts) {
+//        mPosts = posts;
+//    }
 
     @NonNull
     @Override
@@ -33,55 +42,83 @@ public class PostsRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder,final int position) {
-        boolean isLike = false;
-        if (mPosts.get(position).getLikeUsers().containsKey(currentUserId)) {
-            isLike = true;
-            holder.mBtnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_on, 0, 0, 0);
-        }
-        Glide.with(holder.itemView.getContext()).load(mPosts.get(position).getAuthorUriAvatar()).into(holder.mIvAvatarAuthor);
-        holder.mIvAvatarAuthor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onAvatarUserClicked(mPosts.get(position).getAuthorId());
-            }
-        });
-        holder.mTvNameAuthor.setText(mPosts.get(position).getAuthorName());
-        holder.mTvDatePost.setText(Utils.timestampToDateMessage(mPosts.get(position).getDateCreatedLong()));
-        holder.mTvTitlePost.setText(mPosts.get(position).getTitlePost());
-        Glide.with(holder.itemView.getContext()).load(mPosts.get(position).getPhotoUrlPost()).into(holder.mIvPostPhoto);
-        holder.mIvPostPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onPostPhotoClicked(mPosts.get(position).getPhotoUrlPost());
-            }
-        });
-        holder.mTvTextPost.setText(mPosts.get(position).getTextPost());
-        holder.mBtnLike.setText(String.valueOf(mPosts.get(position).getLikeUsers().size()));
-        final boolean finalIsLike = isLike;
-        holder.mBtnLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onLikeClicked(mPosts.get(position).getPostId(), finalIsLike);
-            }
-        });
-        holder.mBtnComment.setText(String.valueOf(mPosts.get(position).getComments().size()));
-        holder.mBtnComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onCommentClicked(mPosts.get(position).getPostId());
-            }
-        });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.onItemRvClicked(mPosts.get(position).getPostId());
-            }
-        });
+    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+        holder.bind(mPosts.get(position),
+                mOnAvatarUserInRecyclerViewPostsClickListener,
+                mOnCommentInRecyclerViewPostsClickListener,
+                mOnItemInRecyclerViewPostsClickListener,
+                mOnLikeInRecyclerViewPostsClickListener,
+                mOnPostPhotoInRecyclerViewPostsClickListener);
     }
 
     @Override
     public int getItemCount() {
         return mPosts.size();
+    }
+
+    public void setOnAvatarUserInRecyclerViewPostsClickListener(OnAvatarUserInRecyclerViewPostsClickListener onAvatarUserInRecyclerViewPostsClickListener) {
+        mOnAvatarUserInRecyclerViewPostsClickListener = onAvatarUserInRecyclerViewPostsClickListener;
+    }
+
+    public void setOnCommentInRecyclerViewPostsClickListener(OnCommentInRecyclerViewPostsClickListener onCommentInRecyclerViewPostsClickListener) {
+        mOnCommentInRecyclerViewPostsClickListener = onCommentInRecyclerViewPostsClickListener;
+    }
+
+    public void setOnItemInRecyclerViewPostsClickListener(OnItemInRecyclerViewPostsClickListener onItemInRecyclerViewPostsClickListener) {
+        mOnItemInRecyclerViewPostsClickListener = onItemInRecyclerViewPostsClickListener;
+    }
+
+    public void setOnLikeInRecyclerViewPostsClickListener(OnLikeInRecyclerViewPostsClickListener onLikeInRecyclerViewPostsClickListener) {
+        mOnLikeInRecyclerViewPostsClickListener = onLikeInRecyclerViewPostsClickListener;
+    }
+
+    public void setOnPostPhotoInRecyclerViewPostsClickListener(OnPostPhotoInRecyclerViewPostsClickListener onPostPhotoInRecyclerViewPostsClickListener) {
+        mOnPostPhotoInRecyclerViewPostsClickListener = onPostPhotoInRecyclerViewPostsClickListener;
+    }
+
+    public void addOrUpdateItem(Post item) {
+        Post containsPost = null;
+
+        if (!mPosts.isEmpty()) {
+            for (Post post : mPosts) {
+                if (post.getPostId().equals(item.getPostId())) {
+                    containsPost = post;
+                }
+            }
+            if (containsPost != null) {
+                mPosts.set(mPosts.indexOf(containsPost), item);
+                notifyDataSetChanged();
+            } else {
+                mPosts.add(item);
+                notifyItemInserted(mPosts.size() - 1);
+            }
+        } else {
+            mPosts.add(item);
+            notifyItemInserted(mPosts.size() - 1);
+        }
+    }
+
+    public String getLastItemId() {
+        return mPosts.get(mPosts.size() - 1).getPostId();
+    }
+
+    public String getFirstItemId() {
+        return mPosts.get(0).getPostId();
+    }
+
+    public void addOrUpdateNewItem(Post newPost) {
+        Post containsPost = null;
+        for (Post post : mPosts) {
+            if (post.getPostId().equals(newPost.getPostId())) {
+                containsPost = post;
+            }
+        }
+        if (containsPost != null) {
+            mPosts.set(mPosts.indexOf(containsPost), newPost);
+            notifyDataSetChanged();
+        } else {
+            mPosts.add(0,newPost);
+            notifyItemInserted(0);
+        }
     }
 }

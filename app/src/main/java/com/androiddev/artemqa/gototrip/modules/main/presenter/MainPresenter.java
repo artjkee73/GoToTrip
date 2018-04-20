@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.main.presenter;
 
+import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.modules.main.MainContract;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void viewIsReady() {
         mInteractor.getUserFromDB();
-        mInteractor.getQueryForRv();
+        mInteractor.getInitialDataForRV();
     }
 
     @Override
@@ -60,7 +61,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onAvatarCliked() {
+    public void onAvatarClicked() {
         mInteractor.getUserId();
     }
 
@@ -69,10 +70,7 @@ public class MainPresenter implements MainContract.Presenter {
         mView.openViewProfile(currentUserId);
     }
 
-    @Override
-    public void onGettingQueryForRV(Query queryKey, DatabaseReference refData, String uid) {
-        mView.loadRv(queryKey,refData,uid);
-    }
+
 
     @Override
     public void onLikeClicked(String postId, boolean isLike) {
@@ -101,5 +99,40 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onPostPhotoClicked(String photoUrlPost) {
         mView.openViewPhoto(photoUrlPost);
+    }
+
+    @Override
+    public void loadNewDataForRV(String firstItemId) {
+        mInteractor.getNewDataForRV(firstItemId);
+    }
+
+    @Override
+    public void loadOldItemsInRv(String lastItemId) {
+        mInteractor.getOldDataForRv(lastItemId);
+    }
+
+    @Override
+    public void onLoadInitialDataForAdapter(Post post) {
+        mView.setInitialDataInRv(post);
+    }
+
+    @Override
+    public void onLoadOldDataForRv(Post post) {
+        mView.setOldDataInRv(post);
+    }
+
+    @Override
+    public void onEmptyLoadOldDataForRv() {
+        mView.showNoOldDataForRv();
+    }
+
+    @Override
+    public void onLoadDataNewPosts(Post post) {
+        mView.setNewDataForRv(post);
+    }
+
+    @Override
+    public void onEmptyLoadNewDataPosts() {
+        mView.showNoNewDataForRv();
     }
 }
