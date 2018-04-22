@@ -96,7 +96,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
     private void setAvatarInterlocutor(String urlAvatarInterlocutor) {
         mInterlocutorUrlAvatar = urlAvatarInterlocutor;
-        Glide.with(itemView.getContext()).load(urlAvatarInterlocutor).into(mIvInterlocutorAvatar);
+        Glide.with(itemView.getContext()).load(urlAvatarInterlocutor).thumbnail(0.1f).into(mIvInterlocutorAvatar);
     }
 
     private void setNameInterlocutor(String nameInterlocutor) {
@@ -110,6 +110,6 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
     private void setAvatarAuthorLastMessage(String urlAvatar) {
         mAuthorUrlAvatar = urlAvatar;
-        Glide.with(itemView.getContext()).load(urlAvatar).into(mIvAuthorLastMessageAvatar);
+        Glide.with(itemView.getContext()).load(urlAvatar).thumbnail(0.1f).into(mIvAuthorLastMessageAvatar);
     }
 }
