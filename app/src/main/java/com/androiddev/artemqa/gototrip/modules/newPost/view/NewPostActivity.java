@@ -106,7 +106,7 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
         if (resultCode == RESULT_OK) {
             if (requestCode == Constants.PICK_PHOTO_NEW_POST) {
                 Uri selectedImageUri = data.getData();
-                byte[] compressPhotoByteArray = Utils.compressPhoto(selectedImageUri, this);
+                byte[] compressPhotoByteArray = Utils.compressPhotoOriginal(selectedImageUri, this);
                 mPresenter.savePhoto(compressPhotoByteArray);
             }
         }

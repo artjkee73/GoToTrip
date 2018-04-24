@@ -16,6 +16,8 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.chat.ContractChat;
 import com.androiddev.artemqa.gototrip.modules.chat.presenter.ChatPresenter;
 import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +31,7 @@ public class ChatActivity extends AppCompatActivity implements ContractChat.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        Glide.get(getApplicationContext()).setMemoryCategory(MemoryCategory.HIGH);
         loadView();
     }
 

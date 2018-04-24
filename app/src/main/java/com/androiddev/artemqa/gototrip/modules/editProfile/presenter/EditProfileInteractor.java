@@ -54,10 +54,11 @@ public class EditProfileInteractor {
         });
     }
 
-    public void setUserAvatar(byte[] compressPhotoByteArray){
-    StorageReference refPhoto = mBaseStorageReference.child(mCurrentUser.getUid()).child("images").child("avatar_"+ mCurrentUser.getUid() + ".jpeg");
-        UploadTask uploadTask = refPhoto.putBytes(compressPhotoByteArray);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+    public void setUserAvatar(byte[] compressPhotoOriginalByteArray, final byte[] compressThumbnailPhotoByteArray){
+    StorageReference refPhotoOriginal = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("orig_avatar_"+ mCurrentUser.getUid() + ".jpeg");
+    final StorageReference refPhotoThumbnail = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("thumb_avatar_"+ mCurrentUser.getUid() + ".jpeg");
+        UploadTask uploadTaskOriginal = refPhotoOriginal.putBytes(compressPhotoOriginalByteArray);
+        uploadTaskOriginal.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 mPresenter.onFailedUploadPhoto();
@@ -65,19 +66,33 @@ public class EditProfileInteractor {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                mPresenter.onSuccessUploadPhoto(downloadUrl.toString());
+                final Uri downloadUrlOriginal = taskSnapshot.getDownloadUrl();
+                UploadTask uploadTaskThumbnail = refPhotoThumbnail.putBytes(compressThumbnailPhotoByteArray);
+                uploadTaskThumbnail.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mPresenter.onFailedUploadPhoto();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri downloadUrlThumbnail = taskSnapshot.getDownloadUrl();
+                        mPresenter.onSuccessUploadPhoto(downloadUrlOriginal.toString(),downloadUrlThumbnail.toString());
+                    }
+                });
+
             }
         });
     }
 
-    public void setUserUrlPhoto(final String urlPhoto){
+    public void setUserUrlPhoto(final String urlUserPhotoOriginal, final String urlUserPhotoThumbnail){
         final DatabaseReference currentUserRef = mRefBaseDatabase.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid());
         currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User currentUser = dataSnapshot.getValue(User.class);
-                currentUser.setUriAvatar(urlPhoto);
+                currentUser.setUriAvatar(urlUserPhotoOriginal);
+                currentUser.setUriAvatarThumbnail(urlUserPhotoThumbnail);
                 currentUserRef.setValue(currentUser);
                 mPresenter.onLoadUser(currentUser);
             }

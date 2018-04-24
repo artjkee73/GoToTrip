@@ -20,6 +20,8 @@ import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.dialog.ContractDialog;
 import com.androiddev.artemqa.gototrip.modules.dialog.presenter.DialogPresenter;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class DialogActivity extends AppCompatActivity implements ContractDialog.
     }
 
     private void initView() {
+
         mPresenter = new DialogPresenter();
         mPresenter.attachView(this);
         mRvMessages = findViewById(R.id.rv_dialog_a);

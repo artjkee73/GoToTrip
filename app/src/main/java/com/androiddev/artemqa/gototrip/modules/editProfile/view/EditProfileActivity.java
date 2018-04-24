@@ -1,7 +1,10 @@
 package com.androiddev.artemqa.gototrip.modules.editProfile.view;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -18,7 +21,10 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class EditProfileActivity extends BaseActivity implements EditProfileContract.View {
 
     TextInputEditText mEtName, mEtCountry, mEtCity, mEtAboutMe, mEtCountyList;
@@ -48,7 +54,6 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         mCvBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 mPresenter.onBtnSaveClicked(mEtName.getText().toString(),mEtCountry.getText().toString()
                         ,mEtCity.getText().toString(),mEtAboutMe.getText().toString(),mEtCountyList.getText().toString());
             }
@@ -56,12 +61,13 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         mIvAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseImg();
+                EditProfileActivityPermissionsDispatcher.chooseImgWithPermissionCheck(EditProfileActivity.this);
             }
         });
     }
 
-    private void chooseImg() {
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public void chooseImg() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, Constants.PICK_AVATAR_USER_EDIT_USER);
@@ -73,8 +79,9 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         if (resultCode == RESULT_OK) {
             if (requestCode == Constants.PICK_AVATAR_USER_EDIT_USER) {
                 Uri selectedImageUri = data.getData();
-                byte[] compressPhotoByteArray = Utils.compressPhoto(selectedImageUri, this);
-                mPresenter.saveAvatar(compressPhotoByteArray);
+                byte[] compressOriginalPhotoByteArray = Utils.compressPhotoOriginal(selectedImageUri, this);
+                byte[] compressThumbnailPhotoByteArray = Utils.compressPhotoThumbnail(selectedImageUri,this);
+                mPresenter.saveAvatar(compressOriginalPhotoByteArray,compressThumbnailPhotoByteArray);
             }
         }
 
@@ -133,5 +140,11 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EditProfileActivityPermissionsDispatcher.onRequestPermissionsResult(EditProfileActivity.this,requestCode,grantResults);
     }
 }

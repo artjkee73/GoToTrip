@@ -2,13 +2,23 @@ package com.androiddev.artemqa.gototrip.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
-import android.provider.ContactsContract;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.format.DateFormat;
+import android.widget.ImageView;
+
+import com.androiddev.artemqa.gototrip.R;
+import com.androiddev.artemqa.gototrip.common.GlideApp;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +27,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import id.zelory.compressor.Compressor;
 
 
 /**
@@ -25,16 +36,49 @@ import java.util.Set;
 
 public class Utils {
 
-    public static byte[] compressPhoto(Uri photoUri, Context context) {
-        ByteArrayOutputStream bos = null;
+//    public static byte[] compressPhoto(Uri photoUri, Context context) {
+//        ByteArrayOutputStream bos = null;
+//        try {
+//            Bitmap originalPhotoBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
+//            bos = new ByteArrayOutputStream();
+//            originalPhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return bos.toByteArray();
+//    }
+
+
+    public static byte[] compressPhotoThumbnail(Uri photoUri, Context context){
+        Bitmap resizedBitmap = null;
         try {
-            Bitmap originalPhotoBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
-            bos = new ByteArrayOutputStream();
-            originalPhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos);
+            resizedBitmap = new Compressor(context)
+                    .setMaxWidth(100)
+                    .setMaxHeight(100)
+                    .setQuality(50)
+                    .compressToBitmap(new File(photoUri.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return bos.toByteArray();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        return stream.toByteArray();
+    }
+
+    public static byte[] compressPhotoOriginal(Uri photoUri, Context context)  {
+        Bitmap resizedBitmap = null;
+        try {
+           resizedBitmap = new Compressor(context)
+                    .setMaxWidth(640)
+                    .setMaxHeight(480)
+                    .setQuality(60)
+                    .compressToBitmap(new File(photoUri.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        return stream.toByteArray();
     }
 
     public static String timestampToDateMessage(Long timestamp) {
@@ -75,4 +119,12 @@ public class Utils {
             return new ArrayList<>(set).get(0);
         }
     }
+    public static void loadImage(Context context, String urlImage, ImageView setView){
+        StorageReference refUrlImage = FirebaseStorage.getInstance().getReferenceFromUrl(urlImage);
+        GlideApp.with(context)
+                .load(refUrlImage)
+                .thumbnail(0.2f)
+                .into(setView);
+    }
+
 }

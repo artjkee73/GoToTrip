@@ -44,14 +44,14 @@ public class EditProfilePresenter implements EditProfileContract.Presenter {
     }
 
     @Override
-    public void saveAvatar(byte[] compressPhotoByteArray)  {
-        mInteractor.setUserAvatar(compressPhotoByteArray);
+    public void saveAvatar(byte[] compressOriginalPhotoByteArray, byte[] compressThumbnailPhotoByteArray)  {
+        mInteractor.setUserAvatar(compressOriginalPhotoByteArray,compressThumbnailPhotoByteArray);
         mView.showProgress();
     }
 
     @Override
-    public void onSuccessUploadPhoto(String urlUserPhoto) {
-        mInteractor.setUserUrlPhoto(urlUserPhoto);
+    public void onSuccessUploadPhoto(String urlUserPhotoOriginal, String urlUserPhotoThumbnail) {
+        mInteractor.setUserUrlPhoto(urlUserPhotoOriginal , urlUserPhotoThumbnail);
         mView.hideProgress();
     }
 

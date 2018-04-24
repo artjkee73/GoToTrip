@@ -16,6 +16,7 @@ public class User {
     private String mCity;
     private String mCountry;
     private String mUriAvatar;
+    private String mUriAvatarThumbnail;
     private String mListVisitedCountries;
     private Map <String,Boolean> mFollowers = new HashMap<>();
     private Map <String,Boolean> mFollowings = new HashMap<>();
@@ -137,4 +138,11 @@ public class User {
         mFeedPosts = feedPosts;
     }
 
+    public String getUriAvatarThumbnail() {
+        return mUriAvatarThumbnail;
+    }
+
+    public void setUriAvatarThumbnail(String uriAvatarThumbnail) {
+        mUriAvatarThumbnail = uriAvatarThumbnail;
+    }
 }
