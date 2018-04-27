@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.chat.view.ChatActivity;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.R;
@@ -198,15 +199,13 @@ public class MainActivity extends BaseActivity implements MainContract.View, Nav
         TextView tvName = headerNavDrawer.findViewById(R.id.tv_name_header_nav_drawer);
         TextView tvEmail = headerNavDrawer.findViewById(R.id.tv_email_header_nav_drawer);
         CircleImageView ivAvatar = headerNavDrawer.findViewById(R.id.iv_header_nav_drawer);
+        Utils.loadImage(MainActivity.this,urlPhoto,ivAvatar);
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPresenter.onAvatarClicked();
             }
         });
-        if( urlPhoto != null){
-            Glide.with(getApplicationContext()).load(urlPhoto).into(ivAvatar);
-        }
         tvName.setText(name);
         tvEmail.setText(email);
 

@@ -69,7 +69,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         if(isLike){
             mBtnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_on, 0, 0, 0);
         }else mBtnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_off, 0, 0, 0);
-        Glide.with(itemView.getContext()).load(item.getAuthorUriAvatar()).into(mIvAvatarAuthor);
+        Utils.loadImage(itemView.getContext(),item.getAuthorUriAvatar(),mIvAvatarAuthor);
         mIvAvatarAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +79,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mTvNameAuthor.setText(item.getAuthorName());
         mTvDatePost.setText(Utils.timestampToDateMessage(item.getDateCreatedLong()));
         mTvTitlePost.setText(item.getTitlePost());
-        Glide.with(itemView.getContext()).load(item.getPhotoUrlPost()).into(mIvPostPhoto);
+        Utils.loadImage(itemView.getContext(),item.getPhotoUrlPost(),mIvPostPhoto);
         mIvPostPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

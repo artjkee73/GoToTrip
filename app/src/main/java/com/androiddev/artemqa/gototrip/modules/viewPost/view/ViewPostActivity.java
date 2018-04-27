@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.ContractViewPost;
@@ -61,7 +62,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
 
     @Override
     public void setAvatarAuthor(String urlAvatarAuthor) {
-        Glide.with(getApplicationContext()).load(urlAvatarAuthor).into(mIvAvatarAuthor);
+        Utils.loadImage(ViewPostActivity.this,urlAvatarAuthor,mIvAvatarAuthor);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
 
     @Override
     public void setUrlPostPhoto(String urlPostPhoto) {
-        Glide.with(getApplicationContext()).load(urlPostPhoto).into(mIvPostPhoto);
+        Utils.loadImage(ViewPostActivity.this,urlPostPhoto,mIvPostPhoto);
     }
 
     @Override

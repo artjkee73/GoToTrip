@@ -3,13 +3,16 @@ package com.androiddev.artemqa.gototrip.modules.editProfile.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Toast;
+
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.common.models.User;
@@ -18,13 +21,19 @@ import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.editProfile.EditProfileContract;
 import com.androiddev.artemqa.gototrip.modules.editProfile.presenter.EditProfilePresenter;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 
-@RuntimePermissions
 public class EditProfileActivity extends BaseActivity implements EditProfileContract.View {
 
     TextInputEditText mEtName, mEtCountry, mEtCity, mEtAboutMe, mEtCountyList;
@@ -42,6 +51,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
 
     private void initForm() {
         mPresenter = new EditProfilePresenter();
+
         mPresenter.attachView(this);
         mPresenter.viewIsReady();
         mIvAvatar = findViewById(R.id.iv_avatar_user_edit_profile_a);
@@ -54,23 +64,47 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         mCvBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.onBtnSaveClicked(mEtName.getText().toString(),mEtCountry.getText().toString()
-                        ,mEtCity.getText().toString(),mEtAboutMe.getText().toString(),mEtCountyList.getText().toString());
+                mPresenter.onBtnSaveClicked(mEtName.getText().toString(), mEtCountry.getText().toString()
+                        , mEtCity.getText().toString(), mEtAboutMe.getText().toString(), mEtCountyList.getText().toString());
             }
         });
         mIvAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditProfileActivityPermissionsDispatcher.chooseImgWithPermissionCheck(EditProfileActivity.this);
+                permissions();
             }
         });
     }
 
-    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void chooseImg() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        Intent photoPickerIntent = new Intent();
+        photoPickerIntent.setAction(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, Constants.PICK_AVATAR_USER_EDIT_USER);
+        startActivityForResult(Intent.createChooser(photoPickerIntent, "Выберите аватар"), Constants.PICK_AVATAR_USER_EDIT_USER);
+    }
+
+    private void permissions() {
+        Dexter.withActivity(EditProfileActivity.this)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            if (ContextCompat.checkSelfPermission(EditProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    == PackageManager.PERMISSION_GRANTED) {
+                                chooseImg();
+                            } else
+                                Toast.makeText(getApplicationContext(), "All permissions are NOT granted!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                })
+                .check();
     }
 
     @Override
@@ -79,11 +113,25 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         if (resultCode == RESULT_OK) {
             if (requestCode == Constants.PICK_AVATAR_USER_EDIT_USER) {
                 Uri selectedImageUri = data.getData();
-                byte[] compressOriginalPhotoByteArray = Utils.compressPhotoOriginal(selectedImageUri, this);
-                byte[] compressThumbnailPhotoByteArray = Utils.compressPhotoThumbnail(selectedImageUri,this);
-                mPresenter.saveAvatar(compressOriginalPhotoByteArray,compressThumbnailPhotoByteArray);
+                CropImage.activity(selectedImageUri)
+                        .setAspectRatio(1, 1)
+                        .start(this);
             }
         }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                Uri resultUri = result.getUri();
+                byte[] compressOriginalPhotoByteArray = Utils.compressPhotoOriginal(resultUri, this);
+                byte[] compressThumbnailPhotoByteArray = Utils.compressPhotoThumbnail(resultUri, this);
+                mPresenter.saveAvatar(compressOriginalPhotoByteArray, compressThumbnailPhotoByteArray);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
 
     }
 
@@ -121,7 +169,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
 
         }
         if (currentUser.getUriAvatar() != null) {
-            Glide.with(getApplicationContext()).load(currentUser.getUriAvatar()).into(mIvAvatar);
+            Utils.loadImage(EditProfileActivity.this,currentUser.getUriAvatarThumbnail(),mIvAvatar);
         }
 
     }
@@ -133,7 +181,7 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
 
     @Override
     public void showSuccessSetUserInfo() {
-        Toast.makeText(EditProfileActivity.this,R.string.toast_success_saving_info_edit_profile_a,Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditProfileActivity.this, R.string.toast_success_saving_info_edit_profile_a, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -142,9 +190,4 @@ public class EditProfileActivity extends BaseActivity implements EditProfileCont
         mPresenter.detachView();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EditProfileActivityPermissionsDispatcher.onRequestPermissionsResult(EditProfileActivity.this,requestCode,grantResults);
-    }
 }

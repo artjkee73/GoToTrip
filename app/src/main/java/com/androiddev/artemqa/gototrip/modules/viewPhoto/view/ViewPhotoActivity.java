@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.ContractViewPhoto;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -39,6 +40,6 @@ public class ViewPhotoActivity extends AppCompatActivity implements ContractView
 
     @Override
     public void setViewPhoto(String viewPhotoUrl) {
-        Glide.with(getApplicationContext()).load(viewPhotoUrl).into(mIvViewPhoto);
+        Utils.loadImage(ViewPhotoActivity.this,viewPhotoUrl,mIvViewPhoto);
     }
 }

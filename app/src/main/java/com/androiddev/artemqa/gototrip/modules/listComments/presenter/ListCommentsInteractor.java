@@ -56,7 +56,7 @@ public class ListCommentsInteractor {
                                 Post currentPost = dataSnapshot.getValue(Post.class);
                                 currentPost.getComments().put(keyComment,true);
                                 refCurrentPostComment.setValue(currentPost);
-                                Comment comment = new Comment(keyComment,currentUser.getUserId(),currentUser.getName(),currentUser.getUriAvatar(),textComment,postId);
+                                Comment comment = new Comment(keyComment,currentUser.getUserId(),currentUser.getName(),currentUser.getUriAvatarThumbnail(),textComment,postId);
                                 refCurrentComment.setValue(comment);
                                 mPresenter.onAddedComment();
                             }

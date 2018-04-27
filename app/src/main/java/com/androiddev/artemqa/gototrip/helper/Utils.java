@@ -1,34 +1,37 @@
 package com.androiddev.artemqa.gototrip.helper;
-
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.GlideApp;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
+import com.developers.imagezipper.ImageZipper;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import id.zelory.compressor.Compressor;
-
 
 /**
  * Created by artemqa on 16.03.2018.
@@ -49,36 +52,38 @@ public class Utils {
 //    }
 
 
-    public static byte[] compressPhotoThumbnail(Uri photoUri, Context context){
-        Bitmap resizedBitmap = null;
+    public static byte[] compressPhotoThumbnail(Uri photoUri, Context context) {
+        Bitmap compressBitmap = null;
         try {
-            resizedBitmap = new Compressor(context)
+            compressBitmap = new ImageZipper(context)
+                    .setQuality(15)
                     .setMaxWidth(100)
                     .setMaxHeight(100)
-                    .setQuality(50)
+                    .setCompressFormat(Bitmap.CompressFormat.WEBP)
                     .compressToBitmap(new File(photoUri.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        resizedBitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-        return stream.toByteArray();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100 , baos);
+        return baos.toByteArray();
     }
 
-    public static byte[] compressPhotoOriginal(Uri photoUri, Context context)  {
-        Bitmap resizedBitmap = null;
+    public static byte[] compressPhotoOriginal(Uri photoUri, Context context) {
+        Bitmap compressBitmap = null;
         try {
-           resizedBitmap = new Compressor(context)
+            compressBitmap = new ImageZipper(context)
+                    .setQuality(50)
                     .setMaxWidth(640)
-                    .setMaxHeight(480)
-                    .setQuality(60)
+                    .setMaxHeight(640)
+                    .setCompressFormat(Bitmap.CompressFormat.WEBP)
                     .compressToBitmap(new File(photoUri.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        resizedBitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
-        return stream.toByteArray();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100 , baos);
+        return baos.toByteArray();
     }
 
     public static String timestampToDateMessage(Long timestamp) {
@@ -109,20 +114,21 @@ public class Utils {
     }
 
     public static String getInterlocutorId(Map<String, Boolean> members, String currentUserId) {
-        if (members.size()>1){
+        if (members.size() > 1) {
             members.remove(currentUserId);
             Set<String> set = members.keySet();
             return new ArrayList<>(set).get(0);
-        }
-        else {
+        } else {
             Set<String> set = members.keySet();
             return new ArrayList<>(set).get(0);
         }
     }
-    public static void loadImage(Context context, String urlImage, ImageView setView){
+
+    public static void loadImage(Context context, String urlImage, ImageView setView) {
         StorageReference refUrlImage = FirebaseStorage.getInstance().getReferenceFromUrl(urlImage);
         GlideApp.with(context)
                 .load(refUrlImage)
+                .error(R.color.black_overlay)
                 .thumbnail(0.2f)
                 .into(setView);
     }

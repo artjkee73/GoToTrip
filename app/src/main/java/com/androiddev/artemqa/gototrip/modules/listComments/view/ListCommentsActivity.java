@@ -97,7 +97,7 @@ public class ListCommentsActivity extends AppCompatActivity implements ContractL
             protected void onBindViewHolder(@NonNull CommentViewHolder holder, int position, @NonNull final Comment model) {
                 holder.mTvNameAuthor.setText(model.getNameAuthor());
                 holder.mTvDateCreated.setText(Utils.timestampToDateMessage(model.getDateCreatedLong()));
-                Glide.with(getApplicationContext()).load(model.getUrlAvatarAuthor()).into(holder.mIvAvatarAuthor);
+               Utils.loadImage(holder.itemView.getContext(),model.getUrlAvatarAuthor(),holder.mIvAvatarAuthor);
                 holder.mIvAvatarAuthor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

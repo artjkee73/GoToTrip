@@ -2,7 +2,6 @@ package com.androiddev.artemqa.gototrip.common;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
-
 import com.androiddev.artemqa.gototrip.R;
 
 /**
@@ -10,7 +9,7 @@ import com.androiddev.artemqa.gototrip.R;
  */
 
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public ProgressDialog mProgressDialog;
 

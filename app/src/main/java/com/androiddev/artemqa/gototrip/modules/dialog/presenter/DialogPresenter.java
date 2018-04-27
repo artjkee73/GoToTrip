@@ -38,7 +38,6 @@ public class DialogPresenter implements ContractDialog.Presenter {
                 intent.getStringExtra(Constants.INTENT_USER_ID) != null) {
             currentChatId = intent.getStringExtra(Constants.INTENT_CHAT_ID);
             mInteractor.getInitialDataForRV(currentChatId);
-//            mInteractor.setNewMessageListenerOnRv(currentChatId);
             mInteractor.getInterlocutorUser(intent.getStringExtra(Constants.INTENT_USER_ID));
         } else {
             mInteractor.getInterlocutorAndCurrentUserProfile(intent.getStringExtra(Constants.INTENT_USER_ID));
@@ -55,12 +54,11 @@ public class DialogPresenter implements ContractDialog.Presenter {
         }
 
         if (interlocutorUser.getUriAvatar() != null) {
-            mView.setAvatarInterlocutor(interlocutorUser.getUriAvatar());
+            mView.setAvatarInterlocutor(interlocutorUser.getUriAvatarThumbnail());
         }
 
         if (currentChatId != null) {
             mInteractor.getInitialDataForRV(currentChatId);
-//            mInteractor.setNewMessageListenerOnRv(currentChatId);
         } else {
             mView.showEmptyRV();
         }
@@ -82,10 +80,6 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     }
 
-//    @Override
-//    public void onGettingQueryForGetMessages(Query keyRef, DatabaseReference dataRef, String currentUserId) {
-//        mView.loadRvData(keyRef, dataRef, currentUserId);
-//    }
 
     @Override
     public void onNewMessageAdded() {

@@ -67,7 +67,7 @@ public class NewPostInteractor {
                 if (dataSnapshot != null) {
                     User currentUser = dataSnapshot.getValue(User.class);
                     currentUser.getPosts().put(postKey, true);
-                    Post post = new Post(postKey, titlePost, currentUser.getUserId(), currentUser.getName(), currentUser.getUriAvatar(), textPost, urlUploadPostPhoto);
+                    Post post = new Post(postKey, titlePost, currentUser.getUserId(), currentUser.getName(), currentUser.getUriAvatarThumbnail(), textPost, urlUploadPostPhoto);
                     mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postKey).setValue(post);
                     refCurrentUser.setValue(currentUser);
                     for (final String currentUId : currentUser.getFollowers().keySet()) {

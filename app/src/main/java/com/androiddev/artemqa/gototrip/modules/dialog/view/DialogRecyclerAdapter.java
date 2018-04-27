@@ -47,7 +47,7 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<MessageViewHolde
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         holder.mTvTextMessage.setText(mMessages.get(position).getText());
         holder.nTvTimeMessage.setText(String.valueOf(Utils.timestampToDateMessage(mMessages.get(position).getDateCreatedLong())));
-        Glide.with(holder.itemView.getContext()).load(mMessages.get(position).getAuthorUrlAvatar()).into(holder.mCivAvatar);
+        Utils.loadImage(holder.itemView.getContext(),mMessages.get(position).getAuthorUrlAvatar(),holder.mCivAvatar);
     }
 
     @Override

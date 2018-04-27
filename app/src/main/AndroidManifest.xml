@@ -37,6 +37,8 @@
         <activity android:name=".modules.viewPost.view.ViewPostActivity" />
         <activity android:name=".modules.listComments.view.ListCommentsActivity" />
         <activity android:name=".modules.viewPhoto.view.ViewPhotoActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>

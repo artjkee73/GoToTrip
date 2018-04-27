@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.User;
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listUsers.presenter.ListUsersPresenter;
 import com.androiddev.artemqa.gototrip.modules.listUsers.ContractListUsers;
 import com.androiddev.artemqa.gototrip.modules.search.view.SearchActivity;
@@ -63,7 +64,7 @@ public class ListUsersActivity extends AppCompatActivity implements ContractList
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull final User model) {
                 holder.mTvName.setText(model.getName());
                 holder.mTvCountryCity.setText(model.getCountry().concat(", ").concat(model.getCity()));
-                Glide.with(getApplicationContext()).load(model.getUriAvatar()).into(holder.mIvAvatar);
+                Utils.loadImage(ListUsersActivity.this,model.getUriAvatarThumbnail(),holder.mIvAvatar);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

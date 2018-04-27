@@ -78,7 +78,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
 
     @Override
     public void setUserAvatar(String urlAvatar) {
-
+//пофиксить нужно
         Picasso.get().load(urlAvatar).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

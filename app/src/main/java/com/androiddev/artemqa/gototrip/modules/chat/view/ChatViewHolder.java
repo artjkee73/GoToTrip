@@ -58,7 +58,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot!=null){
                     User interlocutorUser  = dataSnapshot.getValue(User.class);
-                    setAvatarInterlocutor(interlocutorUser.getUriAvatar());
+                    setAvatarInterlocutor(interlocutorUser.getUriAvatarThumbnail());
                     setNameInterlocutor(interlocutorUser.getName());
                 }
             }

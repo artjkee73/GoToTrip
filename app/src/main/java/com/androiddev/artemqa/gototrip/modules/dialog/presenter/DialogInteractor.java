@@ -85,7 +85,7 @@ public class DialogInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     User currentUser = dataSnapshot.getValue(User.class);
-                    Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), currentChatId, textMessage, currentUser.getUriAvatar());
+                    Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), currentChatId, textMessage, currentUser.getUriAvatarThumbnail());
                     newMessageRef.child(keyMessage).setValue(newMessage);
                     currentChatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -139,7 +139,7 @@ public class DialogInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     User currentUser = dataSnapshot.getValue(User.class);
-                    String senderUriAvatar = currentUser.getUriAvatar();
+                    String senderUriAvatar = currentUser.getUriAvatarThumbnail();
                     Message newMessage = new Message(keyMessage, mCurrentUser.getUid(), keyChat, textMessage, senderUriAvatar);
                     refMessagesBase.child(keyMessage).setValue(newMessage);
                 }
