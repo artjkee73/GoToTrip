@@ -5,16 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     tools:context=".modules.newPost.view.NewPostActivity">
 
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mv_new_place_location_new_post_a"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                mapbox:mapbox_styleUrl="@string/mapbox_style_satellite_streets"
+
+                mapbox:mapbox_uiRotateGestures="false"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_title_new_post_a"
@@ -24,8 +41,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/mv_new_place_location_new_post_a">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/et_title_new_post_a"
@@ -35,46 +53,31 @@
             </android.support.design.widget.TextInputLayout>
 
 
-
-            <ImageView
-                android:id="@+id/iv_photo_new_post_a"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_images_place_new_post_a"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_title_new_post_a"
-                app:srcCompat="@drawable/ic_no_photo" />
-
-            <TextView
-                android:id="@+id/tv_description_trip_new_post_a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/tv_description_trip_new_post_a"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_photo_new_post_a" />
+                app:layout_constraintTop_toBottomOf="@+id/et_description_text_new_post_a" />
 
             <EditText
                 android:id="@+id/et_description_text_new_post_a"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:hint="@string/et_description_trip_new_post_a"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_description_trip_new_post_a"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/til_title_new_post_a" />
 
             <Button
                 android:id="@+id/btn_add_post_new_post_a"
@@ -83,14 +86,12 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/button_corner_blue_style"
                 android:text="@string/btn_add_post_new_post_a"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_description_text_new_post_a" />
+                app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

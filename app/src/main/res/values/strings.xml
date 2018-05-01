@@ -96,7 +96,7 @@
 
     <!--NewPostActivity-->
     <string name="hint_et_title_new_post_a">Заголовок</string>
-    <string name="tv_description_trip_new_post_a">Описание путешествия</string>
+    <string name="et_description_trip_new_post_a">Описание путешествия</string>
     <string name="btn_add_post_new_post_a">Добавить</string>
     <string name="er_failed_upload_photo_new_post_a">Ошибка загрузки фотографии</string>
     <string name="er_no_uploaded_photo_new_post_a">Ошибка.Загрузите фотографию</string>

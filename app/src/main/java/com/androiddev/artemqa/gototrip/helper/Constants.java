@@ -31,6 +31,8 @@ public class Constants {
     public final static int PICK_AVATAR_USER_EDIT_USER = 100;
     public final static int PICK_PHOTO_NEW_POST = 101;
 
+    public final static String MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiYXJ0amtlZTczIiwiYSI6ImNqZ2c5YWFkaDB0YjAycW1vcnkycmw2dHEifQ.L_HGFwxO5chKzzws18DLnw";
+
 
 
 
