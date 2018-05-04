@@ -33,6 +33,12 @@ public class Constants {
 
     public final static String MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiYXJ0amtlZTczIiwiYSI6ImNqZ2c5YWFkaDB0YjAycW1vcnkycmw2dHEifQ.L_HGFwxO5chKzzws18DLnw";
 
+    public final static int INTENT_PICK_LOCATION_FROM_NEW_POST = 301;
+    public final static String INTENT_PICKED_LOCATION_BUNDLE= "com.androiddev.artemqa.gototrip.PickedLocationBundle";
+    public final static String INTENT_PICKED_LOCATION_LATLNG = "com.androiddev.artemqa.gototrip.PickedLocationLatLng";
+
+    public final static int MAX_PICK_IMAGE_IN_POST = 5;
+
 
 
 

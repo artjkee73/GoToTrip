@@ -39,8 +39,8 @@ public class NewPostPresenter implements ContractNewPost.Presenter {
     }
 
     @Override
-    public void onPhotoPostClicked() {
-        mView.choosePhoto();
+    public void onPhotoPostClicked(int maxImagePicked) {
+        mView.choosePhoto(maxImagePicked);
     }
 
     @Override

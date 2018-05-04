@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".common.AppGoToTrip"
@@ -38,9 +38,11 @@
         <activity android:name=".modules.listPosts.view.ListPostsActivity" />
         <activity android:name=".modules.viewPost.view.ViewPostActivity" />
         <activity android:name=".modules.listComments.view.ListCommentsActivity" />
-        <activity android:name=".modules.viewPhoto.view.ViewPhotoActivity"/>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity android:name=".modules.viewPhoto.view.ViewPhotoActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".modules.PickLocationActivity" />
     </application>
 
 </manifest>

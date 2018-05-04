@@ -6,7 +6,7 @@ package com.androiddev.artemqa.gototrip.modules.newPost;
 
 public interface ContractNewPost {
     interface View {
-        void choosePhoto();
+        void choosePhoto(int maxImagePicked);
 
         void showErrorUploadPhoto();
 
@@ -28,7 +28,7 @@ public interface ContractNewPost {
 
         void onButtonAddPostClicked(String titlePost,String textPost);
 
-        void onPhotoPostClicked();
+        void onPhotoPostClicked(int maxImagePicked);
 
         void savePhoto(byte[] compressPhotoByteArray);
 

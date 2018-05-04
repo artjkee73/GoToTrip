@@ -127,4 +127,12 @@
     <string name="tv_name_author_rv_comment_item">Иван Иванов</string>
     <string name="tv_date_comment_rv_comment_item">12-01-2018</string>
     <string name="tv_text_comment_rv_comment_item">Очень клевый комментарий,захватывающий как моя жизнь (шутка)</string>
+
+    <!--PickLocationActivity-->
+    <string name="tv_toolbar_choose_location_pick_location_a">Выбор локации</string>
+    <string name="btn_choose_location_pick_location_a">Выберите локацию</string>
+    <string name="btn_choosed_location_pick_location_a">Локация выбрана</string>
+    <string name="item_confirm_location_pick_location_a">Выбрать</string>
+    <string name="toast_choose_location_pick_location_a">Выберите локацию</string>
+
 </resources>
