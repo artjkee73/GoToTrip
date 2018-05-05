@@ -10,12 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 mapbox:mapbox_myLocation="true"
@@ -70,15 +67,17 @@
             <GridView
                 android:id="@+id/gv_add_images_new_post_a"
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
+                android:layout_height="212dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:columnWidth="100dp"
-                android:horizontalSpacing="5dp"
-                android:maxHeight="205dp"
+                android:horizontalSpacing="0dp"
+                android:maxHeight="212dp"
+                android:minHeight="106dp"
+                android:nestedScrollingEnabled="false"
                 android:numColumns="3"
-                android:verticalSpacing="5dp"
+                android:verticalSpacing="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,9 +87,9 @@
                 android:id="@+id/btn_add_post_new_post_a"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
+                android:layout_marginBottom="24dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
                 android:background="@drawable/button_corner_blue_style"
                 android:text="@string/btn_add_post_new_post_a"
                 android:textColor="@android:color/white"

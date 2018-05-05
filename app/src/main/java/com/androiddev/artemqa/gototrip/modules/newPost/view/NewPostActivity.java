@@ -21,8 +21,9 @@ import android.widget.Toast;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.helper.Constants;
+import com.androiddev.artemqa.gototrip.helper.GlideV4ImageEngine;
 import com.androiddev.artemqa.gototrip.modules.PickLocationActivity;
-import com.androiddev.artemqa.gototrip.modules.main.view.MainActivity;
+
 import com.androiddev.artemqa.gototrip.modules.newPost.interfaces.OnAddImageClickListener;
 import com.androiddev.artemqa.gototrip.modules.newPost.presenter.NewPostPresenter;
 import com.androiddev.artemqa.gototrip.modules.newPost.ContractNewPost;
@@ -48,7 +49,6 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,34 +88,6 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
         });
         mGrAddImagesPost.setAdapter(mImagesGridAdapter);
     }
-
-//    private void initImagePicker() {
-//        final View bottomSheet = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
-//        final Dialog mBottomSheetDialog = new Dialog(this, R.style.MaterialDialogSheet);
-//        mBottomSheetDialog.setContentView(bottomSheet);
-//        mBottomSheetDialog.setCancelable(true);
-//        mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
-//
-//        CustomImagePicker imagePicker = new CustomImagePicker();
-//        imagePicker.setHeight(100);
-//        imagePicker.setWidth(100);
-//        ImageAdapter adapter = imagePicker.getAdapter(NewPostActivity.this);
-//
-//        TwoWayGridView gridview = bottomSheet.findViewById(R.id.gridview);
-//        gridview.getLayoutParams().height = Utils.dpToPx(NewPostActivity.this, 200);
-//        gridview.setNumRows(2);
-//        gridview.setAdapter(adapter);
-//        gridview.setOnItemClickListener(new TwoWayAdapterView.OnItemClickListener() {
-//            public void onItemClick(TwoWayAdapterView parent, View v, int position, long id) {
-//                imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-//                //Do what you want with the returned imageUri here.
-//                mBottomSheetDialog.dismiss();
-//            }
-//        });
-//
-//        mBottomSheetDialog.show();
-//    }
 
     private void initView(Bundle savedInstanceState) {
         mPresenter = new NewPostPresenter();
@@ -181,8 +153,8 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
                 .countable(true)
                 .maxSelectable(maxImagePicked)
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
+                .thumbnailScale(0.35f)
+                .imageEngine(new GlideV4ImageEngine())
                 .forResult(Constants.PICK_PHOTO_NEW_POST);
     }
 
@@ -297,9 +269,9 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
 
                 case Constants.PICK_PHOTO_NEW_POST:
                     List<String> strUriSelectedImage = new ArrayList<>();
-                    List<Uri> mSelected = Matisse.obtainResult(data);
-                    for (Uri uriImg : mSelected) {
-                        strUriSelectedImage.add(uriImg.toString());
+                    List<Uri> uriPickedImages =  Matisse.obtainResult(data);
+                    for( Uri uriImage :uriPickedImages ){
+                        strUriSelectedImage.add(uriImage.toString());
                     }
                     mImagesGridAdapter.addItems(strUriSelectedImage);
                     break;
