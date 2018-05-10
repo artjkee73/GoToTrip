@@ -15,6 +15,7 @@ import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.newPost.interfaces.OnAddImageClickListener;
+import com.androiddev.artemqa.gototrip.modules.newPost.interfaces.OnImageClickListener;
 import com.bumptech.glide.Glide;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -27,8 +28,9 @@ import java.util.List;
 public class AddPostImagesGridAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<String> mUrisImages = new ArrayList<>();
+    private List<Uri> mUrisImages = new ArrayList<>();
     private OnAddImageClickListener mOnAddImageClickListener;
+    private OnImageClickListener mOnImageClickListener;
 
     public AddPostImagesGridAdapter(Context c) {
         mContext = c;
@@ -38,6 +40,10 @@ public class AddPostImagesGridAdapter extends BaseAdapter {
 
     public void setOnAddImageClickListener(OnAddImageClickListener onAddImageClickListener) {
         mOnAddImageClickListener = onAddImageClickListener;
+    }
+
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        mOnImageClickListener = onImageClickListener;
     }
 
     @Override
@@ -55,9 +61,12 @@ public class AddPostImagesGridAdapter extends BaseAdapter {
         return position;
     }
 
-    public void addItems(List<String> newItems) {
+    public void addItems(List<Uri> newItems) {
         mUrisImages.addAll(newItems);
         notifyDataSetChanged();
+        if (mUrisImages.size() > 5) {
+            mUrisImages.remove(Utils.getUriStringFromResource(mContext, R.drawable.ic_add));
+        }
     }
 
     @Override
@@ -69,12 +78,14 @@ public class AddPostImagesGridAdapter extends BaseAdapter {
         }
 
         final ImageView imageView = convertView.findViewById(R.id.iv_image_images_grid_view);
-        Glide.with(parent.getContext()).load(Uri.parse(mUrisImages.get(position))).into(imageView);
+        Glide.with(parent.getContext()).load(mUrisImages.get(position)).into(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mUrisImages.get(position).equals(Utils.getUriStringFromResource(mContext, R.drawable.ic_add))) {
                     mOnAddImageClickListener.onAddImageClicked(Constants.MAX_PICK_IMAGE_IN_POST - (getCount() - 1));
+                } else {
+                    mOnImageClickListener.OnItemClicked(position);
                 }
             }
         });
@@ -82,4 +93,21 @@ public class AddPostImagesGridAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public List<String> getItemsFromAdapter() {
+        List<String> images = new ArrayList<>();
+        for (Uri uriImg : mUrisImages) {
+            if (Utils.getPath(mContext, uriImg) != null) {
+                images.add(Utils.getPath(mContext, uriImg));
+            }
+        }
+        return images;
+    }
+
+    public void removeImage(int itemPosition) {
+        mUrisImages.remove(itemPosition);
+        notifyDataSetChanged();
+        if (mUrisImages.size() < 5 && !mUrisImages.contains(Utils.getUriStringFromResource(mContext, R.drawable.ic_add))) {
+            mUrisImages.add(Utils.getUriStringFromResource(mContext, R.drawable.ic_add));
+        }
+    }
 }

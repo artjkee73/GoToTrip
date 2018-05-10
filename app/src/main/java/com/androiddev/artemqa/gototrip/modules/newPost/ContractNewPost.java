@@ -1,5 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.newPost;
 
+import java.util.List;
+
 /**
  * Created by artjk on 09.04.2018.
  */
@@ -18,7 +20,13 @@ public interface ContractNewPost {
 
         void showSuccessAddPost();
 
-        void setPostPhoto(String urlPhoto);
+        void compressImage(String uriImage);
+
+        void incrementDialog();
+
+        void showSuccessUploadPost();
+
+        void showProgressAddingPost(int size);
     }
 
     interface Presenter {
@@ -26,16 +34,17 @@ public interface ContractNewPost {
 
         void detachView();
 
-        void onButtonAddPostClicked(String titlePost,String textPost);
+        void onButtonAddPostClicked(String titlePost, String textPost, List<String> imagePickedUri ,Double latitude , Double longitude , Long postDate );
 
         void onPhotoPostClicked(int maxImagePicked);
 
-        void savePhoto(byte[] compressPhotoByteArray);
+        void addPhoto(byte[] compressPhotoByteArrayOriginal,byte[] compressPhotoByteArrayThumbnail);
 
-        void onSuccessUploadPhoto(String s, String postKey);
 
         void onFailedUploadPhoto();
 
         void onSuccessAddPost();
+
+        void onAddPhoto(String photoKey);
     }
 }

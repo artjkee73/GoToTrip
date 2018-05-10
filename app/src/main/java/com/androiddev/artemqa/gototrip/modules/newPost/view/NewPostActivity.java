@@ -2,27 +2,40 @@ package com.androiddev.artemqa.gototrip.modules.newPost.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.BaseActivity;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.GlideV4ImageEngine;
-import com.androiddev.artemqa.gototrip.modules.PickLocationActivity;
+import com.androiddev.artemqa.gototrip.helper.GridViewScrollable;
+import com.androiddev.artemqa.gototrip.helper.Utils;
+import com.androiddev.artemqa.gototrip.modules.newPost.interfaces.OnImageClickListener;
+import com.androiddev.artemqa.gototrip.modules.pickLocation.PickLocationActivity;
 
 import com.androiddev.artemqa.gototrip.modules.newPost.interfaces.OnAddImageClickListener;
 import com.androiddev.artemqa.gototrip.modules.newPost.presenter.NewPostPresenter;
@@ -48,24 +61,29 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NewPostActivity extends BaseActivity implements ContractNewPost.View, View.OnClickListener, LocationEngineListener {
-    private TextInputEditText mEtTitle;
+    private EditText mEtTitle;
     private EditText mEtTextPost;
-    private Button mBtnAddPost;
     private ContractNewPost.Presenter mPresenter;
     private MapView mMvPostLocation;
     private MapboxMap mMapboxMap;
     private LocationLayerPlugin mLocationLayerPlugin;
     private LocationEngine mLocationEngine;
-    private Uri imageUri;
-    private List<String> uriSelectImages;
-    private GridView mGrAddImagesPost;
+    private Toolbar mToolbar;
+    private ConstraintLayout mBtnDatePicker;
+    private GridViewScrollable mGrAddImagesPost;
     private AddPostImagesGridAdapter mImagesGridAdapter;
+    private TextView mTvCurrentDate;
+    private Calendar mCurrentDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    MaterialDialog dialogAddingPost;
+    LatLng pickedLocation;
 
 
     @Override
@@ -73,25 +91,56 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
         initView(savedInstanceState);
-//        initImagePicker();
         initAddImagesGridView();
     }
 
     private void initAddImagesGridView() {
         mGrAddImagesPost = findViewById(R.id.gv_add_images_new_post_a);
         mImagesGridAdapter = new AddPostImagesGridAdapter(NewPostActivity.this);
+
         mImagesGridAdapter.setOnAddImageClickListener(new OnAddImageClickListener() {
             @Override
             public void onAddImageClicked(int maxImagePicked) {
                 checkPermissionsPhoto(maxImagePicked);
             }
         });
+        mImagesGridAdapter.setOnImageClickListener(new OnImageClickListener() {
+            @Override
+            public void OnItemClicked(int itemPosition) {
+                imagesDialog(itemPosition);
+            }
+        });
         mGrAddImagesPost.setAdapter(mImagesGridAdapter);
+    }
+
+    private void imagesDialog(int itemPosition) {
+        MaterialDialog imageDialog = new MaterialDialog.Builder(this)
+                .customView(R.layout.images_dialog_new_post_a, false)
+                .show();
+
+        View view = imageDialog.getCustomView();
+        Button delete = view.findViewById(R.id.btn_delete_images_dialog_new_post_a);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mImagesGridAdapter.removeImage(itemPosition);
+                imageDialog.dismiss();
+            }
+        });
+
     }
 
     private void initView(Bundle savedInstanceState) {
         mPresenter = new NewPostPresenter();
         mPresenter.attachView(this);
+        mTvCurrentDate = findViewById(R.id.tv_date_value_new_post_a);
+        mCurrentDate = Calendar.getInstance();
+        mToolbar = findViewById(R.id.toolbar_new_post_a);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mBtnDatePicker = findViewById(R.id.btn_set_date_new_post_a);
+        mBtnDatePicker.setOnClickListener(this);
+        setDatePickerListener();
         mMvPostLocation = findViewById(R.id.mv_new_place_location_new_post_a);
         mMvPostLocation.onCreate(savedInstanceState);
         mMvPostLocation.getMapAsync(new OnMapReadyCallback() {
@@ -110,16 +159,33 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
         });
         mEtTitle = findViewById(R.id.et_title_new_post_a);
         mEtTextPost = findViewById(R.id.et_description_text_new_post_a);
-        mBtnAddPost = findViewById(R.id.btn_add_post_new_post_a);
-        mBtnAddPost.setOnClickListener(this);
+    }
+
+    private void setDatePickerListener() {
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                mCurrentDate.set(Calendar.YEAR, year);
+                mCurrentDate.set(Calendar.MONTH, monthOfYear);
+                mCurrentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setInitialDateTime();
+            }
+        };
+    }
+
+    private void setInitialDateTime() {
+
+        mTvCurrentDate.setText(Utils.millisTimeToReadbleString(mCurrentDate.getTimeInMillis()));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_add_post_new_post_a:
-                //
-                break;
+            case R.id.btn_set_date_new_post_a:
+                new DatePickerDialog(NewPostActivity.this, mDateSetListener,
+                        mCurrentDate.get(Calendar.YEAR),
+                        mCurrentDate.get(Calendar.MONTH),
+                        mCurrentDate.get(Calendar.DAY_OF_MONTH))
+                        .show();
         }
     }
 
@@ -147,9 +213,42 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
                 .check();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pick_location, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.item_confirm_menu_pick_location) {
+            setDataForAddPost();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setDataForAddPost() {
+        String title = mEtTitle.getText().toString();
+        String textPost = mEtTextPost.getText().toString();
+        Double latitude;
+        Double longitude;
+        if (pickedLocation != null) {
+        latitude = pickedLocation.getLatitude();
+        longitude = pickedLocation.getLongitude();
+        } else {
+            latitude = mLocationEngine.getLastLocation().getLatitude();
+            longitude = mLocationEngine.getLastLocation().getLongitude();
+        }
+        Long datePost = mCurrentDate.getTimeInMillis();
+        List<String> uriImagesPicked = mImagesGridAdapter.getItemsFromAdapter();
+        mPresenter.onButtonAddPostClicked(title,textPost,uriImagesPicked,latitude,longitude,datePost);
+    }
+
     public void choosePhoto(int maxImagePicked) {
         Matisse.from(NewPostActivity.this)
-                .choose(MimeType.allOf())
+                .choose(MimeType.of(MimeType.JPEG,MimeType.PNG))
                 .countable(true)
                 .maxSelectable(maxImagePicked)
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
@@ -233,48 +332,68 @@ public class NewPostActivity extends BaseActivity implements ContractNewPost.Vie
     }
 
     @Override
-    public void setPostPhoto(String urlPhoto) {
-
+    public void compressImage(String uriImage) {
+        byte[] compressPhotoOriginal = Utils.compressPhotoOriginal(Uri.parse(uriImage),NewPostActivity.this);
+        byte [] compressPhotoThumbnail  = Utils.compressPhotoThumbnail(Uri.parse(uriImage),NewPostActivity.this );
+        mPresenter.addPhoto(compressPhotoOriginal,compressPhotoThumbnail);
     }
 
+    @Override
+    public void incrementDialog() {
+                dialogAddingPost.incrementProgress(1);
+    }
+
+    @Override
+    public void showSuccessUploadPost() {
+        dialogAddingPost.setContent(R.string.dialog_add_post_success_upload_new_post_a);
+        dialogAddingPost.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+        dialogAddingPost.getActionButton(DialogAction.NEGATIVE).setEnabled(false);
+    }
+
+
+    public void showProgressAddingPost(int imageCount) {
+        dialogAddingPost = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_add_post_title_new_post_a)
+                .content(R.string.dialog_add_post_content_new_post_a)
+                .progress(false, imageCount, true)
+                .positiveText(R.string.dialog_add_post_btn_positive_new_post_a)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Toast.makeText(NewPostActivity.this, "Сохраняем пост", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .positiveColor(Color.GRAY)
+                .negativeText(R.string.dialog_add_post_btn_negative_new_post_a)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Toast.makeText(NewPostActivity.this, "Отмена кнопкой", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+
+                dialogAddingPost.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-//                case Constants.PICK_PHOTO_NEW_POST:
-//                    Uri selectedImageUri = data.getData();
-//                    CropImage.activity(selectedImageUri)
-//                            .start(this);
-//                    break;
-//
-//                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-//                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//                    imageUri = result.getUri();
-////                    byte[] compressOriginalPhotoByteArray = Utils.compressPhotoOriginal(resultUri, this);
-////                    mPresenter.savePhoto(compressOriginalPhotoByteArray);
-//                    break;
-//
-//                case CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE:
-//                    Exception error = CropImage.getActivityResult(data).getError();
-//                    break;
 
                 case Constants.INTENT_PICK_LOCATION_FROM_NEW_POST:
-                    LatLng pickedLocation = data.getExtras()
+                    pickedLocation = data.getExtras()
                             .getBundle(Constants.INTENT_PICKED_LOCATION_BUNDLE)
                             .getParcelable(Constants.INTENT_PICKED_LOCATION_LATLNG);
                     setNewPositionOnMap(pickedLocation);
                     break;
 
                 case Constants.PICK_PHOTO_NEW_POST:
-                    List<String> strUriSelectedImage = new ArrayList<>();
-                    List<Uri> uriPickedImages =  Matisse.obtainResult(data);
-                    for( Uri uriImage :uriPickedImages ){
-                        strUriSelectedImage.add(uriImage.toString());
-                    }
-                    mImagesGridAdapter.addItems(strUriSelectedImage);
-                    break;
+                    List<Uri> uriPickedImages = Matisse.obtainResult(data);
+
+                    mImagesGridAdapter.addItems(uriPickedImages);
             }
         }
     }

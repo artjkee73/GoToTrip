@@ -1,6 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.listPosts.presenter;
 
 import com.androiddev.artemqa.gototrip.common.models.Message;
+import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
@@ -20,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by artemqa on 10.04.2018.
@@ -95,7 +97,7 @@ public class ListPostsInteractor {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot != null) {
                                     Post post = dataSnapshot.getValue(Post.class);
-                                    mPresenter.onLoadInitialDataForAdapter(post);
+                                    addPhotosInPostForLoadInitialData(post);
                                 }
                             }
 
@@ -115,6 +117,50 @@ public class ListPostsInteractor {
         });
 
     }
+
+    private void addPhotosInPostForLoadInitialData(Post post) {
+        final ArrayList<Photo> listPhotos = new ArrayList<>();
+        final ArrayList<String> idPhotos = new ArrayList<>();
+        Query queryKeys = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId()).child("listPhoto").orderByKey();
+        final DatabaseReference refPhotoBase = mRefBaseDatabase.child(Constants.PHOTOS_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idPhotos.add(id.getKey());
+                    }
+                    for (String idPhoto : idPhotos) {
+                        refPhotoBase.child(idPhoto).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Photo photo = dataSnapshot.getValue(Photo.class);
+                                    listPhotos.add(photo);
+                                    if(idPhotos.size() == listPhotos.size()){
+                                        post.setPhotos(listPhotos);
+                                        mPresenter.onLoadInitialDataForAdapter(post);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     public void getNewDataForRV(final String viewUserId, final String firstItemId) {
         final List<String> idPosts = new ArrayList<>();
@@ -139,7 +185,7 @@ public class ListPostsInteractor {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             if (dataSnapshot != null) {
                                                 Post post = dataSnapshot.getValue(Post.class);
-                                                mPresenter.onLoadDataNewPosts(post);
+                                                addPhotosInPostForLoadNewData(post);
                                             }
                                         }
 
@@ -160,6 +206,49 @@ public class ListPostsInteractor {
 
                     }
                 });
+    }
+
+    private void addPhotosInPostForLoadNewData(Post post) {
+        final ArrayList<Photo> listPhotos = new ArrayList<>();
+        final ArrayList<String> idPhotos = new ArrayList<>();
+        Query queryKeys = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId()).child("listPhoto").orderByKey();
+        final DatabaseReference refPhotoBase = mRefBaseDatabase.child(Constants.PHOTOS_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idPhotos.add(id.getKey());
+                    }
+                    for (String idPhoto : idPhotos) {
+                        refPhotoBase.child(idPhoto).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Photo photo = dataSnapshot.getValue(Photo.class);
+                                    listPhotos.add(photo);
+                                    if(idPhotos.size() == listPhotos.size()){
+                                        post.setPhotos(listPhotos);
+                                        mPresenter.onLoadDataNewPosts(post);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getOldDataForRv(String viewUserIdFromIntent, final String lastItemId) {
@@ -184,7 +273,7 @@ public class ListPostsInteractor {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             if (dataSnapshot != null) {
                                                 Post post = dataSnapshot.getValue(Post.class);
-                                                mPresenter.onLoadOldDataForRv(post);
+                                                addPhotosInPostForLoadOldData(post);
                                             }
                                         }
 
@@ -207,5 +296,48 @@ public class ListPostsInteractor {
 
                     }
                 });
+    }
+
+    private void addPhotosInPostForLoadOldData(Post post) {
+        final ArrayList<Photo> listPhotos = new ArrayList<>();
+        final ArrayList<String> idPhotos = new ArrayList<>();
+        Query queryKeys = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId()).child("listPhoto").orderByKey();
+        final DatabaseReference refPhotoBase = mRefBaseDatabase.child(Constants.PHOTOS_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idPhotos.add(id.getKey());
+                    }
+                    for (String idPhoto : idPhotos) {
+                        refPhotoBase.child(idPhoto).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Photo photo = dataSnapshot.getValue(Photo.class);
+                                    listPhotos.add(photo);
+                                    if(idPhotos.size() == listPhotos.size()){
+                                        post.setPhotos(listPhotos);
+                                        mPresenter.onLoadOldDataForRv(post);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

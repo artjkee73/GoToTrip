@@ -47,8 +47,8 @@ public class ViewPostPresenter implements ContractViewPost.Presenter {
         if (currentPost.getTitlePost() != null) {
             mView.setTitlePost(currentPost.getTitlePost());
         }
-        if (currentPost.getPhotoUrlPost() != null) {
-            mView.setUrlPostPhoto(currentPost.getPhotoUrlPost());
+        if (currentPost.getPhotos() != null) {
+            mView.setUrlPostPhoto(currentPost.getPhotos());
         }
         if (currentPost.getTextPost() != null) {
             mView.setTextPost(currentPost.getTextPost());
@@ -92,7 +92,7 @@ public class ViewPostPresenter implements ContractViewPost.Presenter {
 
     @Override
     public void onPhotoPostClicked(String postIdFromIntent) {
-        mInteractor.getUrlPhotoPost(postIdFromIntent);
+        mView.openViewPhoto(postIdFromIntent);
     }
 
     @Override

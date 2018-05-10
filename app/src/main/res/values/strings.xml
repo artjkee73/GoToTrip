@@ -101,6 +101,15 @@
     <string name="er_failed_upload_photo_new_post_a">Ошибка загрузки фотографии</string>
     <string name="er_no_uploaded_photo_new_post_a">Ошибка.Загрузите фотографию</string>
     <string name="success_add_post_new_post_a">Запись добавлена</string>
+    <string name="item_confirm_adding_post_new_post_a">Добавить</string>
+    <string name="title_toolbar_new_post">Добавить запись</string>
+    <string name="tv_hint_date_new_post_a">Дата</string>
+    <string name="tv_date_value_new_post_a">Сейчас</string>
+    <string name="dialog_add_post_title_new_post_a">Добавление записи</string>
+    <string name="dialog_add_post_content_new_post_a">Загрузка изображений</string>
+    <string name="dialog_add_post_btn_positive_new_post_a">ok</string>
+    <string name="dialog_add_post_btn_negative_new_post_a">отмена</string>
+    <string name="dialog_add_post_success_upload_new_post_a">Пост успешно добавлен!</string>
 
     <!--PostRecyclerView-->
     <string name="tv_name_author_rv_post_item">Иванов Иван</string>

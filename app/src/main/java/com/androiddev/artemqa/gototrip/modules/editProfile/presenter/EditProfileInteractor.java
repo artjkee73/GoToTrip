@@ -55,8 +55,8 @@ public class EditProfileInteractor {
     }
 
     public void setUserAvatar(byte[] compressPhotoOriginalByteArray, final byte[] compressThumbnailPhotoByteArray){
-    StorageReference refPhotoOriginal = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("orig_avatar_"+ mCurrentUser.getUid() + ".jpeg");
-    final StorageReference refPhotoThumbnail = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("thumb_avatar_"+ mCurrentUser.getUid() + ".jpeg");
+    StorageReference refPhotoOriginal = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("orig_avatar_"+ mCurrentUser.getUid() + ".webp");
+    final StorageReference refPhotoThumbnail = mBaseStorageReference.child(Constants.USERS_LOCATION).child(mCurrentUser.getUid()).child("images").child("thumb_avatar_"+ mCurrentUser.getUid() + ".webp");
         UploadTask uploadTaskOriginal = refPhotoOriginal.putBytes(compressPhotoOriginalByteArray);
         uploadTaskOriginal.addOnFailureListener(new OnFailureListener() {
             @Override

@@ -1,14 +1,25 @@
 package com.androiddev.artemqa.gototrip.helper;
+
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
@@ -26,6 +37,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +80,7 @@ public class Utils {
             e.printStackTrace();
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100 , baos);
+        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
         return baos.toByteArray();
     }
 
@@ -85,7 +97,7 @@ public class Utils {
             e.printStackTrace();
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100 , baos);
+        compressBitmap.compress(Bitmap.CompressFormat.WEBP, 100, baos);
         return baos.toByteArray();
     }
 
@@ -142,7 +154,7 @@ public class Utils {
         return px;
     }
 
-    public static String getUriStringFromResource(Context context,int resourceId){
+    public static Uri getUriStringFromResource(Context context, int resourceId) {
         Resources resources = context.getResources();
         Uri uri = new Uri.Builder()
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -150,7 +162,82 @@ public class Utils {
                 .appendPath(resources.getResourceTypeName(resourceId))
                 .appendPath(resources.getResourceEntryName(resourceId))
                 .build();
-        return uri.toString();
+        return uri;
+    }
+    public static String millisTimeToReadbleString (Long currentTimeMillis ){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        Date resultDate = new Date(currentTimeMillis);
+        return sdf.format(resultDate);
+    }
+    public static String getPath(Context context, Uri uri){
+        final boolean needToCheckUri = Build.VERSION.SDK_INT >= 19;
+        String selection = null;
+        String[] selectionArgs = null;
+        // Uri is different in versions after KITKAT (Android 4.4), we need to
+        // deal with different Uris.
+        if (needToCheckUri && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                return Environment.getExternalStorageDirectory() + "/" + split[1];
+            } else if (isDownloadsDocument(uri)) {
+                final String id = DocumentsContract.getDocumentId(uri);
+                uri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+            } else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("image".equals(type)) {
+                    uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+                selection = "_id=?";
+                selectionArgs = new String[]{ split[1] };
+            }
+        }
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
 }

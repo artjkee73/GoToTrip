@@ -1,4 +1,4 @@
-package com.androiddev.artemqa.gototrip.modules;
+package com.androiddev.artemqa.gototrip.modules.pickLocation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,7 +27,6 @@ import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.location.LocationEnginePriority;
 import com.mapbox.android.core.location.LocationEngineProvider;
-import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.geocoding.v5.GeocodingCriteria;
 import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
@@ -102,15 +100,12 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
         hoveringMarker.setLayoutParams(params);
         mMapView.addView(hoveringMarker);
 
-        // Button for user to drop marker or to pick marker back up.
         mBtnSelectLocation = findViewById(R.id.select_location_button);
         mBtnSelectLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mMapboxMap != null) {
                     if (droppedMarker == null) {
-                        // We first find where the hovering marker position is relative to the mapboxMap.
-                        // Then we set the visibility to gone.
                         float coordinateX = hoveringMarker.getLeft() + (hoveringMarker.getWidth() / 2);
                         float coordinateY = hoveringMarker.getBottom();
                         float[] coords = new float[]{coordinateX, coordinateY};
@@ -188,20 +183,16 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
 
-            // Retrieve selected location's CarmenFeature
             CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
 
-            // Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above
             FeatureCollection featureCollection = FeatureCollection.fromFeatures(
                     new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())});
 
-            // Retrieve and update the source designated for showing a selected location's symbol layer icon
             GeoJsonSource source = mMapboxMap.getSourceAs(geojsonSourceLayerId);
             if (source != null) {
                 source.setGeoJson(featureCollection);
             }
 
-            // Move map camera to the selected location
             CameraPosition newCameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
                             ((Point) selectedCarmenFeature.geometry()).longitude()))
@@ -218,10 +209,8 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
 
     @SuppressLint("MissingPermission")
     private void enableLocationPlugin() {
-        // Check if permissions are enabled and if not request
 
         initializeLocationEngine();
-
         mLocationPlugin = new LocationLayerPlugin(mMapView, mMapboxMap, mLocationEngine);
         mLocationPlugin.setLocationLayerEnabled(true);
 
@@ -313,7 +302,6 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
     }
 
     private void reverseGeocode(final Point point) {
-        // This method is used to reverse geocode where the user has dropped the marker.
         try {
 
             MapboxGeocoding client = MapboxGeocoding.builder()
@@ -329,9 +317,7 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
                     List<CarmenFeature> results = response.body().features();
                     if (results.size() > 0) {
                         CarmenFeature feature = results.get(0);
-                        // If the geocoder returns a result, we take the first in the list and update
-                        // the dropped marker snippet with the information. Lastly we open the info
-                        // window.
+
                         if (droppedMarker != null) {
                             droppedMarker.setSnippet(feature.placeName());
                             mMapboxMap.selectMarker(droppedMarker);
@@ -354,5 +340,5 @@ public class PickLocationActivity extends AppCompatActivity implements LocationE
             Log.e(TAG, "Error geocoding: " + servicesException.toString());
             servicesException.printStackTrace();
         }
-    } // reverseGeocode
+    }
 }

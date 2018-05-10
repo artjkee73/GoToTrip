@@ -54,18 +54,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_author_avatar_rv_post_item" />
 
-    <ImageView
-        android:id="@+id/iv_image_post_rv_post_item"
-        android:layout_width="0dp"
+    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+        android:id="@+id/agv_image_post_rv_post_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item"
-        app:srcCompat="@drawable/ic_no_photo" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item" />
     <TextView
         android:id="@+id/tv_text_post_rv_post_item"
         android:layout_width="0dp"
@@ -78,7 +73,7 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_image_post_rv_post_item" />
+        app:layout_constraintTop_toBottomOf="@+id/agv_image_post_rv_post_item" />
 
     <Button
         android:id="@+id/btn_like_rv_post_item"

@@ -1,9 +1,11 @@
 package com.androiddev.artemqa.gototrip.common.models;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,27 +21,45 @@ public class Post {
     private String mAuthorUriAvatar;
     private String mTextPost;
     private String mPhotoUrlPost;
+    private Long mPostDate;
+    private Double mLatitudeMap;
+    private Double mLongitudeMap;
+    @Exclude
+    private List<Photo> mPhotos;
     private HashMap<String, Object> mDateCreated = new HashMap<>();
     private Map<String, Boolean> mLikeUsers = new HashMap<>();
     private Map<String, Boolean> mComments = new HashMap<>();
+    private Map<String,Boolean> mListPhoto = new HashMap<>();
 
-    public Post(String postId, String titlePost, String authorId, String authorName, String authorUriAvatar, String textPost, String photoUrlPost) {
+    public Post(String postId,String titlePost, String authorId, String authorName,
+                String authorUriAvatar, String textPost,
+                Long postDate,Map<String,Boolean> listPhoto,Double latitudeMap,Double longitudeMap) {
         mPostId = postId;
         mTitlePost = titlePost;
         mAuthorId = authorId;
         mAuthorName = authorName;
         mAuthorUriAvatar = authorUriAvatar;
         mTextPost = textPost;
-        mPhotoUrlPost = photoUrlPost;
         HashMap<String, Object> dateLastChangedObj = new HashMap<>();
         dateLastChangedObj.put("date", ServerValue.TIMESTAMP);
         mDateCreated = dateLastChangedObj;
+        mPostDate = postDate;
+        mListPhoto = listPhoto;
+        mLatitudeMap = latitudeMap;
+        mLongitudeMap = longitudeMap;
     }
 
     public Post() {
 
     }
 
+    public Long getPostDate() {
+        return mPostDate;
+    }
+
+    public void setPostDate(Long postDate) {
+        mPostDate = postDate;
+    }
 
     public String getPostId() {
         return mPostId;
@@ -131,5 +151,36 @@ public class Post {
     @Exclude
     public long getDateCreatedLong() {
         return (long) mDateCreated.get("date");
+    }
+    public Double getLatitudeMap() {
+        return mLatitudeMap;
+    }
+
+    public void setLatitudeMap(Double latitudeMap) {
+        mLatitudeMap = latitudeMap;
+    }
+
+    public Double getLongitudeMap() {
+        return mLongitudeMap;
+    }
+
+    public void setLongitudeMap(Double longitudeMap) {
+        mLongitudeMap = longitudeMap;
+    }
+
+    public Map<String, Boolean> getListPhoto() {
+        return mListPhoto;
+    }
+
+    public void setListPhoto(Map<String, Boolean> listPhoto) {
+        mListPhoto = listPhoto;
+    }
+
+    public List<Photo> getPhotos() {
+        return mPhotos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        mPhotos = photos;
     }
 }

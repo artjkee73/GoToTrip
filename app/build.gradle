@@ -68,6 +68,10 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:3.0.1'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places:0.3.0'
     implementation 'com.zhihu.android:matisse:0.4.3'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+    implementation 'com.felipecsl.asymmetricgridview:library:2.0.1'
+
 
 
 }

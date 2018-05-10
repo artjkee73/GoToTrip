@@ -1,5 +1,6 @@
 package com.androiddev.artemqa.gototrip.modules.viewPost.presenter;
 
+import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.modules.viewPost.ContractViewPost;
@@ -9,9 +10,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 /**
  * Created by artemqa on 11.04.2018.
@@ -37,7 +41,7 @@ public class ViewPostInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     Post currentPost = dataSnapshot.getValue(Post.class);
-                    mPresenter.onGettingPostData(currentPost,mCurrentUser.getUid());
+                    addPhotosInPost(currentPost);
                 }
             }
 
@@ -47,6 +51,50 @@ public class ViewPostInteractor {
             }
         });
     }
+
+    private void addPhotosInPost(Post post) {
+        final ArrayList<Photo> listPhotos = new ArrayList<>();
+        final ArrayList<String> idPhotos = new ArrayList<>();
+        Query queryKeys = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId()).child("listPhoto").orderByKey();
+        final DatabaseReference refPhotoBase = mRefBaseDatabase.child(Constants.PHOTOS_LOCATION);
+        queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    for (DataSnapshot id : dataSnapshot.getChildren()) {
+                        idPhotos.add(id.getKey());
+                    }
+                    for (String idPhoto : idPhotos) {
+                        refPhotoBase.child(idPhoto).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    Photo photo = dataSnapshot.getValue(Photo.class);
+                                    listPhotos.add(photo);
+                                    if(idPhotos.size() == listPhotos.size()){
+                                        post.setPhotos(listPhotos);
+                                        mPresenter.onGettingPostData(post, mCurrentUser.getUid());
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     public void removeLikePost(String postId) {
         final DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postId);
@@ -75,27 +123,9 @@ public class ViewPostInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     Post currentPost = dataSnapshot.getValue(Post.class);
-                    currentPost.getLikeUsers().put(mCurrentUser.getUid(),true);
+                    currentPost.getLikeUsers().put(mCurrentUser.getUid(), true);
                     refPost.setValue(currentPost);
                     mPresenter.onAddLike();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void getUrlPhotoPost(String postId) {
-        final DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(postId);
-        refPost.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
-                    Post post = dataSnapshot.getValue(Post.class);
-                    mPresenter.onGettingUrlPhotoPost(post.getPhotoUrlPost());
                 }
             }
 

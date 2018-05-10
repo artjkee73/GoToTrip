@@ -1,6 +1,9 @@
 package com.androiddev.artemqa.gototrip.modules.viewPost;
 
+import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.common.models.Post;
+
+import java.util.List;
 
 /**
  * Created by artemqa on 11.04.2018.
@@ -16,7 +19,7 @@ public interface ContractViewPost {
 
         void setTitlePost(String titlePost);
 
-        void setUrlPostPhoto(String urlPostPhoto);
+        void setUrlPostPhoto(List<Photo> urlPostPhoto);
 
         void setTextPost(String textPost);
 

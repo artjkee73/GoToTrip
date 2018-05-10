@@ -25,6 +25,7 @@ public class Constants {
     public final static String MESSAGES_LOCATION = "messages";
     public final static String POSTS_LOCATION = "posts";
     public final static String COMMENTS_LOCATION = "comments";
+    public final static String PHOTOS_LOCATION = "photos";
 
     public final static int RV_DIALOG_SEND_MESSAGE_TYPE = 155;
     public final static int RV_DIALOG_RECEIVED_MESSAGE_TYPE = 156;

@@ -2,6 +2,9 @@ package com.androiddev.artemqa.gototrip.modules.newPost.presenter;
 
 import com.androiddev.artemqa.gototrip.modules.newPost.ContractNewPost;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by artjk on 09.04.2018.
  */
@@ -9,8 +12,13 @@ import com.androiddev.artemqa.gototrip.modules.newPost.ContractNewPost;
 public class NewPostPresenter implements ContractNewPost.Presenter {
     private ContractNewPost.View mView;
     private NewPostInteractor mInteractor;
-    private String mUrlUploadPostPhoto;
-    private String mPostKey;
+    private String mTitlePost;
+    private String mTextPost;
+    private List<String> mImagePickedUri;
+    private Double mLatitudeLoc;
+    private Double mLongitudeLoc;
+    private Long mPostDate;
+    private List<String> mPhotoUploadedId = new ArrayList<>();
 
     public NewPostPresenter() {
         mInteractor = new NewPostInteractor(this);
@@ -26,17 +34,24 @@ public class NewPostPresenter implements ContractNewPost.Presenter {
         mView = null;
     }
 
-
     @Override
-    public void onButtonAddPostClicked(String titlePost, String textPost) {
-        if (mUrlUploadPostPhoto != null && mPostKey != null) {
-            mInteractor.addPost(titlePost, textPost, mUrlUploadPostPhoto, mPostKey);
-        } else {
-            mView.showErrorNoPhotoPost();
-        }
-
-
+    public void onButtonAddPostClicked(String titlePost, String textPost, List<String> imagePickedUri, Double latitude, Double longitude, Long postDate) {
+        mTitlePost = titlePost;
+        mTextPost = textPost;
+        mImagePickedUri = imagePickedUri;
+        mLatitudeLoc = latitude;
+        mLongitudeLoc = longitude;
+        mPostDate = postDate;
+        mView.showProgressAddingPost(mImagePickedUri.size());
+        uploadImagePost(imagePickedUri);
     }
+
+    private void uploadImagePost(List<String> imagePickedUri) {
+        for (String imageUriUpload : imagePickedUri) {
+            mView.compressImage(imageUriUpload);
+        }
+    }
+
 
     @Override
     public void onPhotoPostClicked(int maxImagePicked) {
@@ -44,19 +59,10 @@ public class NewPostPresenter implements ContractNewPost.Presenter {
     }
 
     @Override
-    public void savePhoto(byte[] compressorPhotoByteArray) {
-        mInteractor.setPhotoPost(compressorPhotoByteArray);
-        mView.showProgress();
+    public void addPhoto(byte[] compressPhotoByteArrayOriginal, byte[] compressPhotoByteArrayThumbnail) {
+        mInteractor.addPhoto(compressPhotoByteArrayOriginal, compressPhotoByteArrayThumbnail);
     }
 
-    @Override
-    public void onSuccessUploadPhoto(String photoUrl, String postKey) {
-        mPostKey = postKey;
-        mUrlUploadPostPhoto = photoUrl;
-        mView.hideProgress();
-        mView.setPostPhoto(photoUrl);
-
-    }
 
     @Override
     public void onFailedUploadPhoto() {
@@ -66,8 +72,16 @@ public class NewPostPresenter implements ContractNewPost.Presenter {
 
     @Override
     public void onSuccessAddPost() {
-        mView.showSuccessAddPost();
-        mPostKey = null;
-        mUrlUploadPostPhoto = null;
+        mView.showSuccessUploadPost();
+    }
+
+    @Override
+    public void onAddPhoto(String photoKey) {
+        mPhotoUploadedId.add(photoKey);
+        if(mPhotoUploadedId.size() == mImagePickedUri.size()){
+            mInteractor.addPost(mTitlePost,mTextPost,mPhotoUploadedId ,mLatitudeLoc , mLongitudeLoc , mPostDate);
+        }else {
+            mView.incrementDialog();
+        }
     }
 }
