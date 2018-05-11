@@ -34,6 +34,8 @@ public interface ContractViewPost {
         void updateUI();
 
         void openViewPhoto(String photoUrlPost);
+
+        void setPostLocation(Double latitudeMap, Double longitudeMap, String titlePost);
     }
 
     interface Presenter {

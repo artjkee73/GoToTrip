@@ -63,13 +63,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_author_avatar_view_post_a" />
 
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mv_current_post_map_view_post_a"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_view_post_a" />
             <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
                 android:id="@+id/agv_image_post_view_post_a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_view_post_a"/>
+                app:layout_constraintTop_toBottomOf="@+id/mv_current_post_map_view_post_a"/>
 
             <TextView
                 android:id="@+id/tv_text_post_view_post_a"
@@ -77,8 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-
+                android:layout_marginTop="16dp"
                 android:text="@string/tv_text_post_view_post_a"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"

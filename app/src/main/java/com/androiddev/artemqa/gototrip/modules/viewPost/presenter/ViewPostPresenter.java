@@ -64,6 +64,9 @@ public class ViewPostPresenter implements ContractViewPost.Presenter {
 
             mView.setIsLiked(isLikedPost);
         }
+        if (currentPost.getLatitudeMap() != null && currentPost.getLongitudeMap() != null) {
+            mView.setPostLocation(currentPost.getLatitudeMap(),currentPost.getLongitudeMap(),currentPost.getTitlePost());
+        }
     }
 
     @Override

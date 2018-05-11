@@ -1,6 +1,11 @@
 package com.androiddev.artemqa.gototrip.modules.viewPost.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.PersistableBundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,12 +20,23 @@ import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostImagesAsymmetricGridAdapter;
+import com.androiddev.artemqa.gototrip.modules.pickLocation.PickLocationActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.ContractViewPost;
 import com.androiddev.artemqa.gototrip.modules.viewPost.presenter.ViewPostPresenter;
 import com.bumptech.glide.Glide;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 
 import java.util.List;
 
@@ -33,17 +49,28 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     private Button mBtnLike, mBtnComment;
     private AsymmetricGridView mAgvImagesPost;
     private PostImagesAsymmetricGridAdapter mAsymmetricAdapter;
+    private MapView mMvPostLocation;
+    private MapboxMap mMapboxMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
-        initView();
+        initView(savedInstanceState);
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstanceState) {
         mPresenter = new ViewPostPresenter();
         mPresenter.attachView(this);
+        mMvPostLocation = findViewById(R.id.mv_current_post_map_view_post_a);
+        mMvPostLocation.onCreate(savedInstanceState);
+        mMvPostLocation.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(MapboxMap mapboxMap) {
+                mMapboxMap = mapboxMap;
+                mPresenter.viewIsReady(getPostIdFromIntent());
+            }
+        });
         mIvAvatarAuthor = findViewById(R.id.iv_author_avatar_view_post_a);
         mTvNameAuthor = findViewById(R.id.tv_name_author_view_post_a);
         mTvDatePost = findViewById(R.id.tv_date_post_view_post_a);
@@ -54,7 +81,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
         mBtnComment = findViewById(R.id.btn_comment_view_post_a);
         mBtnComment.setOnClickListener(this);
         mAgvImagesPost = findViewById(R.id.agv_image_post_view_post_a);
-        mPresenter.viewIsReady(getPostIdFromIntent());
+
     }
 
     private String getPostIdFromIntent() {
@@ -64,6 +91,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mMvPostLocation.onDestroy();
         mPresenter.detachView();
     }
 
@@ -152,6 +180,25 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     }
 
     @Override
+    public void setPostLocation(Double latitudeMap, Double longitudeMap, String titlePost) {
+        LatLng positionMarker = new LatLng(latitudeMap,longitudeMap);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.location_circle);
+        bm.setHeight(20);
+        bm.setWidth(20);
+        Icon icon = IconFactory.getInstance(ViewPostActivity.this).fromBitmap(bm);
+
+        if (mMapboxMap != null) {
+            mMapboxMap.addMarker(new MarkerOptions().position(positionMarker).setTitle(titlePost).setIcon(icon));
+            CameraPosition position = new CameraPosition.Builder()
+                    .target(positionMarker)
+                    .zoom(14)
+                    .build();
+
+            mMapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_comment_view_post_a:
@@ -163,4 +210,39 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
         }
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMvPostLocation.onLowMemory();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mMvPostLocation.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMvPostLocation.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mMvPostLocation.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMvPostLocation.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        mMvPostLocation.onSaveInstanceState(outState);
+    }
 }
