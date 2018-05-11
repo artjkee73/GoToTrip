@@ -29,6 +29,7 @@ public class DialogPresenter implements ContractDialog.Presenter {
 
     @Override
     public void detachView() {
+        mInteractor.removeListeners();
         mView = null;
     }
 

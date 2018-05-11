@@ -1,5 +1,7 @@
 package com.androiddev.artemqa.gototrip.modules.dialog.presenter;
 
+import android.util.Log;
+
 import com.androiddev.artemqa.gototrip.common.models.Chat;
 import com.androiddev.artemqa.gototrip.common.models.Message;
 import com.androiddev.artemqa.gototrip.common.models.User;
@@ -36,6 +38,9 @@ public class DialogInteractor {
     private DatabaseReference refChatsBase = mRefDatabaseBase.child(Constants.CHATS_LOCATION);
     private DatabaseReference refMessagesBase = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
     private String interlocutorId;
+    private final String TAG = "DialogInteractor";
+    private ChildEventListener mNewMessageChildEventListener;
+    private Query mRefNewMessage;
 
     public DialogInteractor(ContractDialog.Presenter presenter) {
         mPresenter = presenter;
@@ -296,7 +301,7 @@ public class DialogInteractor {
     public void setNewMessageListenerOnRv(String currentChatId, final String lastItemId) {
         DatabaseReference refCurrentChat = mRefDatabaseBase.child(Constants.CHATS_LOCATION).child(currentChatId).child("messages");
         final DatabaseReference refMessagesBase = mRefDatabaseBase.child(Constants.MESSAGES_LOCATION);
-        refCurrentChat.orderByKey().startAt(lastItemId).addChildEventListener(new ChildEventListener() {
+        mNewMessageChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null && !dataSnapshot.getKey().equals(lastItemId)) {
@@ -306,6 +311,7 @@ public class DialogInteractor {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot != null) {
                                 Message newMessage = dataSnapshot.getValue(Message.class);
+                                Log.d(TAG, "New Message" + newMessage.getText());
                                 mPresenter.onGettingNewMessageForRV(newMessage);
                             }
                         }
@@ -337,6 +343,12 @@ public class DialogInteractor {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        refCurrentChat.orderByKey().startAt(lastItemId).addChildEventListener(mNewMessageChildEventListener);
+        mRefNewMessage = refCurrentChat.orderByKey().startAt(lastItemId);
+    }
+
+    public void removeListeners() {
+        mRefNewMessage.removeEventListener(mNewMessageChildEventListener);
     }
 }

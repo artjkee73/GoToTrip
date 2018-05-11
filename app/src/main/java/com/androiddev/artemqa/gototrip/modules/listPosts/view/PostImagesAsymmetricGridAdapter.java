@@ -15,13 +15,11 @@ import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostPhotoInRecyclerViewPostsClickListener;
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class PostImagesAsymmetricGridAdapter extends ArrayAdapter<Photo> {
-    private OnPostPhotoInRecyclerViewPostsClickListener mOnPostPhotoInRecyclerViewPostsClickListener;
-
-
     public PostImagesAsymmetricGridAdapter(@NonNull Context context, @NonNull List<Photo> items ) {
         super(context, 0, items);
     }
@@ -35,10 +33,8 @@ public class PostImagesAsymmetricGridAdapter extends ArrayAdapter<Photo> {
             convertView = layoutInflater.inflate(R.layout.asymmetric_grid_image, parent,false);
         }
         ImageView imageView = convertView.findViewById(R.id.iv_image_asymmetric_grid_view);
-        Utils.loadImage(getContext(),getItem(position).getPhotoThumbnailUrl(),imageView);
+        Picasso.get().load(getItem(position).getPhotoThumbnailUrl()).into(imageView);
+//        Utils.loadImage(getContext(),getItem(position).getPhotoThumbnailUrl(),imageView);
         return convertView;
-    }
-    public void setOnPostPhotoInRecyclerViewPostsClickListener (OnPostPhotoInRecyclerViewPostsClickListener onPostPhotoInRecyclerViewPostsClickListener){
-        mOnPostPhotoInRecyclerViewPostsClickListener = onPostPhotoInRecyclerViewPostsClickListener;
     }
 }

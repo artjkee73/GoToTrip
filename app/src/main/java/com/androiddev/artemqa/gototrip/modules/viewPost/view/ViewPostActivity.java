@@ -18,6 +18,7 @@ import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostImagesAsymmetr
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.ContractViewPost;
 import com.androiddev.artemqa.gototrip.modules.viewPost.presenter.ViewPostPresenter;
+import com.bumptech.glide.Glide;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 
