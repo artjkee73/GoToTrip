@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.GlideApp;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
+import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
 import com.developers.imagezipper.ImageZipper;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -33,6 +35,8 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,19 +57,6 @@ import java.util.Set;
  */
 
 public class Utils {
-
-//    public static byte[] compressPhoto(Uri photoUri, Context context) {
-//        ByteArrayOutputStream bos = null;
-//        try {
-//            Bitmap originalPhotoBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
-//            bos = new ByteArrayOutputStream();
-//            originalPhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return bos.toByteArray();
-//    }
-
 
     public static byte[] compressPhotoThumbnail(Uri photoUri, Context context) {
         Bitmap compressBitmap = null;
@@ -164,12 +155,14 @@ public class Utils {
                 .build();
         return uri;
     }
-    public static String millisTimeToReadbleString (Long currentTimeMillis ){
+
+    public static String millisTimeToReadbleString(Long currentTimeMillis) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
         Date resultDate = new Date(currentTimeMillis);
         return sdf.format(resultDate);
     }
-    public static String getPath(Context context, Uri uri){
+
+    public static String getPath(Context context, Uri uri) {
         final boolean needToCheckUri = Build.VERSION.SDK_INT >= 19;
         String selection = null;
         String[] selectionArgs = null;
@@ -196,11 +189,11 @@ public class Utils {
                     uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                 }
                 selection = "_id=?";
-                selectionArgs = new String[]{ split[1] };
+                selectionArgs = new String[]{split[1]};
             }
         }
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { MediaStore.Images.Media.DATA };
+            String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = null;
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
@@ -239,5 +232,13 @@ public class Utils {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+    public static Icon iconFromResource(Context context, int idResource) {
+        Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.location_circle);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                bm, 50, 50, false);
+       return IconFactory.getInstance(context).fromBitmap(resizedBitmap);
+    }
+
 
 }

@@ -182,13 +182,9 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     public void setPostLocation(Double latitudeMap, Double longitudeMap, String titlePost) {
         LatLng positionMarker = new LatLng(latitudeMap,longitudeMap);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.location_circle);
-        bm.setHeight(20);
-        bm.setWidth(20);
-        Icon icon = IconFactory.getInstance(ViewPostActivity.this).fromBitmap(bm);
-
+        Icon iconMaker = Utils.iconFromResource(ViewPostActivity.this,R.drawable.location_circle);
         if (mMapboxMap != null) {
-            mMapboxMap.addMarker(new MarkerOptions().position(positionMarker).setTitle(titlePost).setIcon(icon));
+            mMapboxMap.addMarker(new MarkerOptions().position(positionMarker).setTitle(titlePost).setIcon(iconMaker));
             CameraPosition position = new CameraPosition.Builder()
                     .target(positionMarker)
                     .zoom(14)
