@@ -1,34 +1,23 @@
 package com.androiddev.artemqa.gototrip.modules.viewPost.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.PersistableBundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.helper.Constants;
 import com.androiddev.artemqa.gototrip.helper.Utils;
 import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
-import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
-import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostImagesAsymmetricGridAdapter;
-import com.androiddev.artemqa.gototrip.modules.pickLocation.PickLocationActivity;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostPhotoInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.ContractViewPost;
 import com.androiddev.artemqa.gototrip.modules.viewPost.presenter.ViewPostPresenter;
-import com.bumptech.glide.Glide;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+import com.asksira.loopingviewpager.LoopingViewPager;
 import com.mapbox.mapboxsdk.annotations.Icon;
-import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -36,9 +25,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
+import java.util.ArrayList;
 
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,10 +35,10 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     private CircleImageView mIvAvatarAuthor;
     private TextView mTvNameAuthor, mTvDatePost, mTvTitlePost, mTvTextPost;
     private Button mBtnLike, mBtnComment;
-    private AsymmetricGridView mAgvImagesPost;
-    private PostImagesAsymmetricGridAdapter mAsymmetricAdapter;
     private MapView mMvPostLocation;
     private MapboxMap mMapboxMap;
+    private LoopingViewPager mLvpImagesPost;
+    private PostImagesLoopingAdapter mPostImagesLoopingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +67,8 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
         mBtnLike = findViewById(R.id.btn_like_view_post_a);
         mBtnLike.setOnClickListener(this);
         mBtnComment = findViewById(R.id.btn_comment_view_post_a);
+        mLvpImagesPost = findViewById(R.id.lvp_image_post_view_post_a);
         mBtnComment.setOnClickListener(this);
-        mAgvImagesPost = findViewById(R.id.agv_image_post_view_post_a);
-
     }
 
     private String getPostIdFromIntent() {
@@ -116,22 +103,15 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     }
 
     @Override
-    public void setUrlPostPhoto(List<Photo> urlPostPhoto) {
-
-        Photo firstPhoto = urlPostPhoto.get(0);
-        firstPhoto.setColumnSpan(2);
-        firstPhoto.setRowSpan(2);
-        List<Photo> photos = urlPostPhoto;
-        photos.set(0, firstPhoto);
-        mAsymmetricAdapter = new PostImagesAsymmetricGridAdapter(ViewPostActivity.this, photos);
-        mAgvImagesPost.setAdapter(new AsymmetricGridViewAdapter(ViewPostActivity.this, mAgvImagesPost, mAsymmetricAdapter));
-        mAgvImagesPost.setRequestedColumnCount(2);
-        mAgvImagesPost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void setUrlPostPhoto(ArrayList<Photo> urlPostPhoto) {
+        mPostImagesLoopingAdapter = new PostImagesLoopingAdapter(ViewPostActivity.this, urlPostPhoto, true, new OnPostPhotoInRecyclerViewPostsClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.onPhotoPostClicked(urlPostPhoto.get(position).getPhotoOriginalUrl());
+            public void onPostPhotoClicked(String photoUrlPost) {
+                mPresenter.onPhotoPostClicked(photoUrlPost);
             }
         });
+        mLvpImagesPost.setAdapter(mPostImagesLoopingAdapter);
+
     }
 
     @Override
@@ -221,6 +201,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     protected void onPause() {
         super.onPause();
+        mLvpImagesPost.pauseAutoScroll();
         mMvPostLocation.onPause();
     }
 
@@ -233,6 +214,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     @Override
     protected void onResume() {
         super.onResume();
+        mLvpImagesPost.resumeAutoScroll();
         mMvPostLocation.onResume();
     }
 

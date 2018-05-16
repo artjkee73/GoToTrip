@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="5dp"
     android:background="@drawable/corner_card_view"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     tools:context="com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity">
 
     <ScrollView
@@ -70,15 +71,20 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                mapbox:mapbox_styleUrl="@string/mapbox_style_satellite_streets"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_view_post_a" />
-            <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
-                android:id="@+id/agv_image_post_view_post_a"
+
+            <com.asksira.loopingviewpager.LoopingViewPager
+                android:id="@+id/lvp_image_post_view_post_a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:autoScroll="true"
+                app:isInfinite="true"
+                app:scrollInterval="5000"
+                app:viewpagerAspectRatio="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mv_current_post_map_view_post_a"/>
-
             <TextView
                 android:id="@+id/tv_text_post_view_post_a"
                 android:layout_width="0dp"
@@ -90,7 +96,7 @@
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/agv_image_post_view_post_a" />
+                app:layout_constraintTop_toBottomOf="@+id/lvp_image_post_view_post_a" />
 
             <Button
                 android:id="@+id/btn_like_view_post_a"

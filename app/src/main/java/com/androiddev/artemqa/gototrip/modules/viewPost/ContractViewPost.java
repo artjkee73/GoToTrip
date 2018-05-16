@@ -3,6 +3,7 @@ package com.androiddev.artemqa.gototrip.modules.viewPost;
 import com.androiddev.artemqa.gototrip.common.models.Photo;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface ContractViewPost {
 
         void setTitlePost(String titlePost);
 
-        void setUrlPostPhoto(List<Photo> urlPostPhoto);
+        void setUrlPostPhoto(ArrayList<Photo> urlPostPhoto);
 
         void setTextPost(String textPost);
 

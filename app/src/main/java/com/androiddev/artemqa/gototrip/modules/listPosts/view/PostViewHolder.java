@@ -17,6 +17,9 @@ import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnComme
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnItemInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnLikeInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostPhotoInRecyclerViewPostsClickListener;
+import com.androiddev.artemqa.gototrip.modules.viewPost.view.PostImagesLoopingAdapter;
+import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
+import com.asksira.loopingviewpager.LoopingViewPager;
 import com.bumptech.glide.Glide;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
@@ -41,7 +44,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private OnItemInRecyclerViewPostsClickListener mOnItemInRecyclerViewPostsClickListener;
     private OnLikeInRecyclerViewPostsClickListener mOnLikeInRecyclerViewPostsClickListener;
     private OnPostPhotoInRecyclerViewPostsClickListener mOnPostPhotoInRecyclerViewPostsClickListener;
-    private PostImagesAsymmetricGridAdapter mAsymmetricAdapter;
+    private LoopingViewPager mLvpImagesPost;
 
 
     public PostViewHolder(View itemView) {
@@ -54,7 +57,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mTvTitlePost = itemView.findViewById(R.id.tv_title_rv_post_item);
         mBtnLike = itemView.findViewById(R.id.btn_like_rv_post_item);
         mBtnComment = itemView.findViewById(R.id.btn_comment_rv_post_item);
-        mAgvImagesPost = itemView.findViewById(R.id.agv_image_post_rv_post_item);
+        mLvpImagesPost = itemView.findViewById(R.id.lvp_image_post_rv_post_item);
     }
 
     public void bind(final Post item,
@@ -110,21 +113,24 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 mOnItemInRecyclerViewPostsClickListener.onItemClicked (item.getPostId());
             }
         });
-        Photo firstPhoto =  item.getPhotos().get(0);
-        firstPhoto.setColumnSpan(2);
-        firstPhoto.setRowSpan(2);
-        List<Photo> photos = item.getPhotos();
-        photos.set(0,firstPhoto);
-        mAsymmetricAdapter = new PostImagesAsymmetricGridAdapter(itemView.getContext(),photos);
-//        mAgvImagesPost.setDebugging(true);
-        mAgvImagesPost.setAdapter(new AsymmetricGridViewAdapter(itemView.getContext(),mAgvImagesPost , mAsymmetricAdapter));
-        mAgvImagesPost.setRequestedColumnCount(2);
-        mAgvImagesPost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mOnPostPhotoInRecyclerViewPostsClickListener.onPostPhotoClicked(item.getPhotos().get(position).getPhotoOriginalUrl());
-            }
-        });
+
+        PostImagesLoopingAdapter mPostImagesLoopingAdapter = new PostImagesLoopingAdapter(itemView.getContext(),item.getPhotos(),true,mOnPostPhotoInRecyclerViewPostsClickListener);
+        mLvpImagesPost.setAdapter(mPostImagesLoopingAdapter);
+//        Photo firstPhoto =  item.getPhotos().get(0);
+//        firstPhoto.setColumnSpan(2);
+//        firstPhoto.setRowSpan(2);
+//        List<Photo> photos = item.getPhotos();
+//        photos.set(0,firstPhoto);
+//        mAsymmetricAdapter = new PostImagesAsymmetricGridAdapter(itemView.getContext(),photos);
+////        mAgvImagesPost.setDebugging(true);
+//        mAgvImagesPost.setAdapter(new AsymmetricGridViewAdapter(itemView.getContext(),mAgvImagesPost , mAsymmetricAdapter));
+//        mAgvImagesPost.setRequestedColumnCount(2);
+//        mAgvImagesPost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                mOnPostPhotoInRecyclerViewPostsClickListener.onPostPhotoClicked(item.getPhotos().get(position).getPhotoOriginalUrl());
+//            }
+//        });
 
     }
 }

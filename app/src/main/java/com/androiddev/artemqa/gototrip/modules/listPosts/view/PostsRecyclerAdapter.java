@@ -29,10 +29,6 @@ public class PostsRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
     private OnLikeInRecyclerViewPostsClickListener mOnLikeInRecyclerViewPostsClickListener;
     private OnPostPhotoInRecyclerViewPostsClickListener mOnPostPhotoInRecyclerViewPostsClickListener;
 
-//    public PostsRecyclerAdapter(List<Post> posts) {
-//        mPosts = posts;
-//    }
-
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

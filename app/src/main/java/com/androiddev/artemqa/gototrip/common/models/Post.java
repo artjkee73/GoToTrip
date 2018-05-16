@@ -4,6 +4,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ServerValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class Post {
     private Double mLatitudeMap;
     private Double mLongitudeMap;
     @Exclude
-    private List<Photo> mPhotos;
+    private ArrayList<Photo> mPhotos;
     private HashMap<String, Object> mDateCreated = new HashMap<>();
     private Map<String, Boolean> mLikeUsers = new HashMap<>();
     private Map<String, Boolean> mComments = new HashMap<>();
@@ -176,11 +177,11 @@ public class Post {
         mListPhoto = listPhoto;
     }
 
-    public List<Photo> getPhotos() {
+    public ArrayList<Photo> getPhotos() {
         return mPhotos;
     }
 
-    public void setPhotos(List<Photo> photos) {
+    public void setPhotos(ArrayList<Photo> photos) {
         mPhotos = photos;
     }
 }

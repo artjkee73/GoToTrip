@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/corner_card_view"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/corner_card_view">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_author_avatar_rv_post_item"
@@ -14,19 +13,19 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
+        android:src="@drawable/no_avatar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/no_avatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_name_author_rv_post_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textSize="18sp"
         android:layout_marginTop="4dp"
         android:text="@string/tv_name_author_rv_post_item"
         android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/iv_author_avatar_rv_post_item"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,20 +46,25 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:text="@string/tv_title_rv_post_item"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        android:text="@string/tv_title_rv_post_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_author_avatar_rv_post_item" />
 
-    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
-        android:id="@+id/agv_image_post_rv_post_item"
+    <com.asksira.loopingviewpager.LoopingViewPager
+        android:id="@+id/lvp_image_post_rv_post_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:autoScroll="true"
+        app:isInfinite="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_rv_post_item"
+        app:scrollInterval="5000"
+        app:viewpagerAspectRatio="0" />
+
     <TextView
         android:id="@+id/tv_text_post_rv_post_item"
         android:layout_width="0dp"
@@ -73,17 +77,17 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/agv_image_post_rv_post_item" />
+        app:layout_constraintTop_toBottomOf="@+id/lvp_image_post_rv_post_item" />
 
     <Button
         android:id="@+id/btn_like_rv_post_item"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:background="@drawable/button_no_corner_style"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/button_no_corner_style"
         android:drawableLeft="@drawable/ic_like_off"
         android:text="@string/tv_count_likes_rv_post_item"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -92,10 +96,10 @@
 
     <Button
         android:id="@+id/btn_comment_rv_post_item"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="32dp"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_no_corner_style"
         android:drawableLeft="@drawable/ic_comment"
