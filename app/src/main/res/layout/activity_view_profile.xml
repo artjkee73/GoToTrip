@@ -1,228 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/srl_view_profile_a"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:fitsSystemWindows="true"
-    tools:context="com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity">
+    tools:context="com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main.appbar"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ctl_view_profile_a"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/main.appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Collapsed"
-            app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <ImageView
-                android:id="@+id/iv_avatar_user_view_profile_a"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/ctl_view_profile_a"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:src="@drawable/no_avatar"
-                android:background="@android:color/white"
-                app:layout_collapseMode="parallax"  />
+                app:collapsedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Collapsed"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_view_profile_a"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/tv_name_user_view_profile_a" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+                <ImageView
+                    android:id="@+id/iv_avatar_user_view_profile_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/white"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_avatar"
+                    app:layout_collapseMode="parallax" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_view_profile_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@string/tv_name_user_view_profile_a" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cl_avatar_place_view_profile_a"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <Button
-                android:id="@+id/btn_chat_user_view_profile_a"
-                android:layout_width="160dp"
-                android:layout_height="46dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_corner_blue_style"
-                android:text="@string/btn_chat_user_view_profile_a"
-                android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btn_follow_on_user_view_profile_a"
-                android:layout_width="160dp"
-                android:layout_height="46dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_corner_blue_style"
-                android:text="@string/btn_follow_on_user_view_profile_a"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btn_un_follow_user_view_profile_a"
-                android:layout_width="160dp"
-                android:layout_height="46dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_corner_grey_style"
-                android:text="@string/btn_follow_off_user_view_profile_a"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
-
-            <LinearLayout
-                android:id="@+id/ll_button_block_view_profile_a"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_chat_user_view_profile_a">
-
-                <Button
-                    android:id="@+id/btn_posts_user_view_profile_a"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_no_corner_style"
-                    android:text="@string/btn_posts_user_view_profile_a" />
-
-                <Button
-                    android:id="@+id/btn_followers_view_profile_a"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/center_button_no_corner"
-                    android:text="@string/btn_followers_view_profile_a" />
-
-                <Button
-                    android:id="@+id/btn_followings_user_view_profile_a"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_no_corner_style"
-                    android:text="@string/btn_followings_user_view_profile_a" />
-
-            </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/corner_card_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_button_block_view_profile_a">
+                android:id="@+id/cl_avatar_place_view_profile_a"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/iv_location_user_view_profile_a"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_my_info_user_view_profile_a"
-                    app:srcCompat="@drawable/ic_location" />
-
-                <ImageView
-                    android:id="@+id/iv_visited_counties_view_profile_a"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_location_user_view_profile_a"
-                    app:srcCompat="@drawable/ic_travel" />
-
-                <ImageView
-                    android:id="@+id/iv_about_me_view_profile_a"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_visited_country_view_profile_a"
-                    app:srcCompat="@drawable/ic_about_me" />
-
-                <TextView
-                    android:id="@+id/tv_location_user_view_profile_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/btn_chat_user_view_profile_a"
+                    android:layout_width="160dp"
+                    android:layout_height="46dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/tv_location_user_view_profile_a"
-                    app:layout_constraintStart_toEndOf="@+id/iv_location_user_view_profile_a"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_my_info_user_view_profile_a" />
-
-                <TextView
-                    android:id="@+id/tv_visited_country_view_profile_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/tv_visited_country_view_profile_a"
-                    app:layout_constraintStart_toEndOf="@+id/iv_visited_counties_view_profile_a"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_location_user_view_profile_a" />
-
-                <TextView
-                    android:id="@+id/tv_about_me_view_profile_a"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/tv_about_me_view_profile_a"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_about_me_view_profile_a"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_visited_country_view_profile_a" />
-
-                <TextView
-                    android:id="@+id/tv_my_info_user_view_profile_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/tv_my_info_user_view_profile_a"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/button_corner_blue_style"
+                    android:text="@string/btn_chat_user_view_profile_a"
+                    android:textColor="@android:color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <Button
+                    android:id="@+id/btn_follow_on_user_view_profile_a"
+                    android:layout_width="160dp"
+                    android:layout_height="46dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_corner_blue_style"
+                    android:text="@string/btn_follow_on_user_view_profile_a"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_un_follow_user_view_profile_a"
+                    android:layout_width="160dp"
+                    android:layout_height="46dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_corner_grey_style"
+                    android:text="@string/btn_follow_off_user_view_profile_a"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ll_button_block_view_profile_a"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_chat_user_view_profile_a">
+
+                    <Button
+                        android:id="@+id/btn_posts_user_view_profile_a"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_no_corner_style"
+                        android:text="@string/btn_posts_user_view_profile_a" />
+
+                    <Button
+                        android:id="@+id/btn_followers_view_profile_a"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/center_button_no_corner"
+                        android:text="@string/btn_followers_view_profile_a" />
+
+                    <Button
+                        android:id="@+id/btn_followings_user_view_profile_a"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_no_corner_style"
+                        android:text="@string/btn_followings_user_view_profile_a" />
+
+                </LinearLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/corner_card_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.555"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_button_block_view_profile_a">
+
+                    <ImageView
+                        android:id="@+id/iv_location_user_view_profile_a"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_my_info_user_view_profile_a"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <ImageView
+                        android:id="@+id/iv_visited_counties_view_profile_a"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_location_user_view_profile_a"
+                        app:srcCompat="@drawable/ic_travel" />
+
+                    <ImageView
+                        android:id="@+id/iv_about_me_view_profile_a"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_visited_country_view_profile_a"
+                        app:srcCompat="@drawable/ic_about_me" />
+
+                    <TextView
+                        android:id="@+id/tv_location_user_view_profile_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/tv_location_user_view_profile_a"
+                        app:layout_constraintStart_toEndOf="@+id/iv_location_user_view_profile_a"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_my_info_user_view_profile_a" />
+
+                    <TextView
+                        android:id="@+id/tv_visited_country_view_profile_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/tv_visited_country_view_profile_a"
+                        app:layout_constraintStart_toEndOf="@+id/iv_visited_counties_view_profile_a"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_location_user_view_profile_a" />
+
+                    <TextView
+                        android:id="@+id/tv_about_me_view_profile_a"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/tv_about_me_view_profile_a"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_about_me_view_profile_a"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_visited_country_view_profile_a" />
+
+                    <TextView
+                        android:id="@+id/tv_my_info_user_view_profile_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/tv_my_info_user_view_profile_a"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
             </android.support.constraint.ConstraintLayout>
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

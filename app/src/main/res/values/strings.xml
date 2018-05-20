@@ -128,6 +128,7 @@
     Очень крутой рассказ о путешесвии,просто отличный, интресный и познавательный, прям жесть какой интересный, вам такой и не увидеть никогда</string>
     <string name="tv_count_likes_view_post_a">100</string>
     <string name="tv_count_comments_view_post_a">100</string>
+    <string name="tv_count_view_view_post_a">100</string>
 
     <!--ListCommentsActivity-->
     <string name="hint_text_comment_list_comments_a">Введите текст комментария...</string>

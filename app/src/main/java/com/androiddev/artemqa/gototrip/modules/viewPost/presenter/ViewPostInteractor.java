@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by artemqa on 11.04.2018.
@@ -56,6 +57,7 @@ public class ViewPostInteractor {
         final ArrayList<Photo> listPhotos = new ArrayList<>();
         final ArrayList<String> idPhotos = new ArrayList<>();
         Query queryKeys = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId()).child("listPhoto").orderByKey();
+        DatabaseReference refPost = mRefBaseDatabase.child(Constants.POSTS_LOCATION).child(post.getPostId());
         final DatabaseReference refPhotoBase = mRefBaseDatabase.child(Constants.PHOTOS_LOCATION);
         queryKeys.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,6 +75,10 @@ public class ViewPostInteractor {
                                     listPhotos.add(photo);
                                     if(idPhotos.size() == listPhotos.size()){
                                         post.setPhotos(listPhotos);
+                                        Map<String,Boolean> viewUsers = post.getViewUsers();
+                                        viewUsers.put(mCurrentUser.getUid(),true);
+                                        post.setViewUsers(viewUsers);
+                                        refPost.setValue(post);
                                         mPresenter.onGettingPostData(post, mCurrentUser.getUid());
                                     }
 

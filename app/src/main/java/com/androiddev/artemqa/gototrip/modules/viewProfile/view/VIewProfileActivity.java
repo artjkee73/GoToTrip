@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,7 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
     ImageView mIvAvatarUser;
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     Toolbar mToolbar;
+    SwipeRefreshLayout mSwipe;
     Button mBtnChat, mBtnFollow, mBtnUnFollow, mBtnPostsUser, mBtnFollowersUser, mBtnFollowingsUser;
     TextView mTvLocationUser, mTvVisitedCountries, mTvAboutUser;
     ContractViewProfile.Presenter mPresenter;
@@ -62,8 +64,17 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
         mTvLocationUser = findViewById(R.id.tv_location_user_view_profile_a);
         mTvVisitedCountries = findViewById(R.id.tv_visited_country_view_profile_a);
         mTvAboutUser = findViewById(R.id.tv_about_me_view_profile_a);
+        mSwipe = findViewById(R.id.srl_view_profile_a);
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipe.setRefreshing(true);
+                updateUI();
+            }
+        });
         mPresenter.viewIsReady(getViewUsersIdFromIntent());
     }
+
 
     private String getViewUsersIdFromIntent() {
             return getIntent().getStringExtra(Constants.INTENT_USER_ID);
@@ -186,6 +197,11 @@ public class ViewProfileActivity extends AppCompatActivity implements ContractVi
         Intent intent = new Intent(ViewProfileActivity.this, ViewPhotoActivity.class);
         intent.putExtra(Constants.INTENT_PHOTO_URL,uriAvatar);
         startActivity(intent);
+    }
+
+    @Override
+    public void stopRefreshing() {
+        mSwipe.setRefreshing(false);
     }
 
     @Override

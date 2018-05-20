@@ -129,6 +129,22 @@
                 app:layout_constraintStart_toEndOf="@+id/btn_like_view_post_a"
                 app:layout_constraintTop_toBottomOf="@+id/tv_text_post_view_post_a"
                 app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btn_view_view_post_a"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="60dp"
+                android:layout_height="31dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_no_corner_style"
+                android:drawableLeft="@drawable/ic_dark_eye"
+                android:text="@string/tv_count_view_view_post_a"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_text_post_view_post_a"
+                app:layout_constraintVertical_bias="1.0" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

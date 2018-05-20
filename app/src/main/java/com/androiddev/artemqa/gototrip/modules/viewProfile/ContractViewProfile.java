@@ -38,6 +38,8 @@ public interface ContractViewProfile {
         void showListPosts(String currentUserId);
 
         void openViewPhoto(String uriAvatar);
+
+        void stopRefreshing();
     }
 
     interface Presenter {

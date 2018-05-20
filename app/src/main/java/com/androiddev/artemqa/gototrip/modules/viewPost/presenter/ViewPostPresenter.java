@@ -67,6 +67,10 @@ public class ViewPostPresenter implements ContractViewPost.Presenter {
         if (currentPost.getLatitudeMap() != null && currentPost.getLongitudeMap() != null) {
             mView.setPostLocation(currentPost.getLatitudeMap(),currentPost.getLongitudeMap(),currentPost.getTitlePost());
         }
+
+        if (currentPost.getViewUsers()!= null){
+            mView.setViewPost(currentPost.getViewUsers().size());
+        }
     }
 
     @Override

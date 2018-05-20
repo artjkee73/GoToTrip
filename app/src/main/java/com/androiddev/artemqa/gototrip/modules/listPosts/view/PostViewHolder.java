@@ -37,7 +37,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private CircleImageView mIvAvatarAuthor;
     private AsymmetricGridView mAgvImagesPost;
     private TextView mTvNameAuthor, mTvDatePost, mTvTitlePost, mTvTextPost;
-    private Button mBtnLike, mBtnComment;
+    private Button mBtnLike, mBtnComment,mBtnView;
     private String mCurrentUser;
     private OnAvatarUserInRecyclerViewPostsClickListener mOnAvatarUserInRecyclerViewPostsClickListener;
     private OnCommentInRecyclerViewPostsClickListener mOnCommentInRecyclerViewPostsClickListener;
@@ -58,6 +58,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mBtnLike = itemView.findViewById(R.id.btn_like_rv_post_item);
         mBtnComment = itemView.findViewById(R.id.btn_comment_rv_post_item);
         mLvpImagesPost = itemView.findViewById(R.id.lvp_image_post_rv_post_item);
+        mBtnView = itemView.findViewById(R.id.btn_view_rv_post_item);
     }
 
     public void bind(final Post item,
@@ -113,24 +114,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
                 mOnItemInRecyclerViewPostsClickListener.onItemClicked (item.getPostId());
             }
         });
-
+        mBtnView.setText(String.valueOf(item.getViewUsers().size()));
         PostImagesLoopingAdapter mPostImagesLoopingAdapter = new PostImagesLoopingAdapter(itemView.getContext(),item.getPhotos(),true,mOnPostPhotoInRecyclerViewPostsClickListener);
         mLvpImagesPost.setAdapter(mPostImagesLoopingAdapter);
-//        Photo firstPhoto =  item.getPhotos().get(0);
-//        firstPhoto.setColumnSpan(2);
-//        firstPhoto.setRowSpan(2);
-//        List<Photo> photos = item.getPhotos();
-//        photos.set(0,firstPhoto);
-//        mAsymmetricAdapter = new PostImagesAsymmetricGridAdapter(itemView.getContext(),photos);
-////        mAgvImagesPost.setDebugging(true);
-//        mAgvImagesPost.setAdapter(new AsymmetricGridViewAdapter(itemView.getContext(),mAgvImagesPost , mAsymmetricAdapter));
-//        mAgvImagesPost.setRequestedColumnCount(2);
-//        mAgvImagesPost.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mOnPostPhotoInRecyclerViewPostsClickListener.onPostPhotoClicked(item.getPhotos().get(position).getPhotoOriginalUrl());
-//            }
-//        });
 
     }
 }

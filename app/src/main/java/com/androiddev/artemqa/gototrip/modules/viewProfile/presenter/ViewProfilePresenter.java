@@ -67,6 +67,8 @@ public class ViewProfilePresenter implements ContractViewProfile.Presenter {
         if(viewUser.getFollowers() != null){
             mView.setIsFollowOnUser(viewUser.getFollowers().containsKey(currentUserId));
         }
+
+        mView.stopRefreshing();
     }
 
     @Override

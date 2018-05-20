@@ -31,6 +31,7 @@ public class Post {
     private Map<String, Boolean> mLikeUsers = new HashMap<>();
     private Map<String, Boolean> mComments = new HashMap<>();
     private Map<String,Boolean> mListPhoto = new HashMap<>();
+    private Map<String, Boolean> mViewUsers = new HashMap<>();
 
     public Post(String postId,String titlePost, String authorId, String authorName,
                 String authorUriAvatar, String textPost,
@@ -183,5 +184,12 @@ public class Post {
 
     public void setPhotos(ArrayList<Photo> photos) {
         mPhotos = photos;
+    }
+    public Map<String, Boolean> getViewUsers() {
+        return mViewUsers;
+    }
+
+    public void setViewUsers(Map<String, Boolean> viewUsers) {
+        mViewUsers = viewUsers;
     }
 }

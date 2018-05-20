@@ -34,7 +34,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
     private ContractViewPost.Presenter mPresenter;
     private CircleImageView mIvAvatarAuthor;
     private TextView mTvNameAuthor, mTvDatePost, mTvTitlePost, mTvTextPost;
-    private Button mBtnLike, mBtnComment;
+    private Button mBtnLike, mBtnComment,mBtnView;
     private MapView mMvPostLocation;
     private MapboxMap mMapboxMap;
     private LoopingViewPager mLvpImagesPost;
@@ -69,6 +69,7 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
         mBtnComment = findViewById(R.id.btn_comment_view_post_a);
         mLvpImagesPost = findViewById(R.id.lvp_image_post_view_post_a);
         mBtnComment.setOnClickListener(this);
+        mBtnView = findViewById(R.id.btn_view_view_post_a);
     }
 
     private String getPostIdFromIntent() {
@@ -172,6 +173,11 @@ public class ViewPostActivity extends AppCompatActivity implements ContractViewP
 
             mMapboxMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
         }
+    }
+
+    @Override
+    public void setViewPost(int viewCount) {
+        mBtnView.setText(String.valueOf(viewCount));
     }
 
     @Override
