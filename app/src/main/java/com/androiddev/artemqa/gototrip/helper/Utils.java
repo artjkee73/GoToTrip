@@ -25,9 +25,15 @@ import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.GlideApp;
+import com.androiddev.artemqa.gototrip.common.models.Post;
+import com.androiddev.artemqa.gototrip.modules.editProfile.EditProfileContract;
 import com.androiddev.artemqa.gototrip.modules.editProfile.view.EditProfileActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
 import com.developers.imagezipper.ImageZipper;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.karumi.dexter.Dexter;
@@ -47,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -237,8 +244,28 @@ public class Utils {
         Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.location_circle);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 bm, 50, 50, false);
-       return IconFactory.getInstance(context).fromBitmap(resizedBitmap);
+        return IconFactory.getInstance(context).fromBitmap(resizedBitmap);
     }
 
+    public static void stressTesting(int count) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference refBaseDatabase = database.getReference();
+        DatabaseReference refBasePost = refBaseDatabase.child(Constants.POSTS_LOCATION);
+        List<Post> listPosts = new ArrayList<>();
+        HashMap<String,Boolean> postPhoto = new HashMap<>();
+        postPhoto.put("-LC7RABMCdiEPDZ8lPmb",true);
+        for (int i = 0; count < i; i++) {
+        listPosts.add(new Post("9176487572878987645678653123"+i,"Заголовок",
+                "91sfyU7cb2dTyYypmW8OxyOxCvJ3","Витя Головин",
+                "https://firebasestorage.googleapis.com/v0/b/artjkee-gototrip.appspot.com" +
+                        "/o/users%2F91sfyU7cb2dTyYypmW8OxyOxCvJ3%2Fimages%2Forig_avatar_91sfyU7cb2dTyYypmW8OxyOxCvJ3" +
+                        ".jpeg?alt=media&token=65484e2c-cc94-49c8-98b8-76c616fe9978", "Тесовый пост " + i ,
+                Long.valueOf(12334334),postPhoto,45.324234,33.324234 ));
+        }
+
+        for(Post currentPost: listPosts){
+            refBasePost.child(currentPost.getPostId()).setValue(currentPost);
+        }
+    }
 
 }
