@@ -1,27 +1,23 @@
-package com.androiddev.artemqa.gototrip.modules.listPosts.view;
+package com.androiddev.artemqa.gototrip.modules.recommendation;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androiddev.artemqa.gototrip.R;
 import com.androiddev.artemqa.gototrip.common.models.Post;
 import com.androiddev.artemqa.gototrip.helper.Constants;
-import com.androiddev.artemqa.gototrip.helper.Utils;
-import com.androiddev.artemqa.gototrip.modules.dialog.view.DialogActivity;
 import com.androiddev.artemqa.gototrip.modules.listComments.view.ListCommentsActivity;
 import com.androiddev.artemqa.gototrip.modules.listPosts.ContractListPosts;
 import com.androiddev.artemqa.gototrip.modules.listPosts.presenter.ListPostsPresenter;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.ListPostsActivity;
+import com.androiddev.artemqa.gototrip.modules.listPosts.view.PostsRecyclerAdapter;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnAvatarUserInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnCommentInRecyclerViewPostsClickListener;
 import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnItemInRecyclerViewPostsClickListener;
@@ -30,17 +26,10 @@ import com.androiddev.artemqa.gototrip.modules.listPosts.view.interfaces.OnPostP
 import com.androiddev.artemqa.gototrip.modules.viewPhoto.view.ViewPhotoActivity;
 import com.androiddev.artemqa.gototrip.modules.viewPost.view.ViewPostActivity;
 import com.androiddev.artemqa.gototrip.modules.viewProfile.view.ViewProfileActivity;
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
-
-public class ListPostsActivity extends AppCompatActivity implements ContractListPosts.View {
+public class RecommendationPostActivity extends AppCompatActivity implements RecommendationContract.View {
     private RecyclerView mRvPosts;
-    private ContractListPosts.Presenter mPresenter;
+    private RecommendationContract.Presenter mPresenter;
     private PostsRecyclerAdapter mPostsRecyclerAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLinearLayoutManager;
@@ -55,7 +44,7 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
     }
 
     private void initView() {
-        mPresenter = new ListPostsPresenter();
+        mPresenter = new RecommendationPresenter();
         mPresenter.attachView(this);
         mPbLoafItems = findViewById(R.id.pb_load_items_list_post_a);
         mSwipeRefreshLayout = findViewById(R.id.srl_list_posts_a);
@@ -125,28 +114,28 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
 
     @Override
     public void openViewPost(String postId) {
-        Intent intent = new Intent(ListPostsActivity.this, ViewPostActivity.class);
+        Intent intent = new Intent(RecommendationPostActivity.this, ViewPostActivity.class);
         intent.putExtra(Constants.INTENT_POST_ID, postId);
         startActivity(intent);
     }
 
     @Override
     public void openListComments(String postId) {
-        Intent intent = new Intent(ListPostsActivity.this, ListCommentsActivity.class);
+        Intent intent = new Intent(RecommendationPostActivity.this, ListCommentsActivity.class);
         intent.putExtra(Constants.INTENT_POST_ID, postId);
         startActivity(intent);
     }
 
     @Override
     public void openViewProfile(String authorId) {
-        Intent intent = new Intent(ListPostsActivity.this, ViewProfileActivity.class);
+        Intent intent = new Intent(RecommendationPostActivity.this, ViewProfileActivity.class);
         intent.putExtra(Constants.INTENT_USER_ID, authorId);
         startActivity(intent);
     }
 
     @Override
     public void openViewPhoto(String photoUrlPost) {
-        Intent intent = new Intent(ListPostsActivity.this, ViewPhotoActivity.class);
+        Intent intent = new Intent(RecommendationPostActivity.this, ViewPhotoActivity.class);
         intent.putExtra(Constants.INTENT_PHOTO_URL, photoUrlPost);
         startActivity(intent);
     }
@@ -179,6 +168,6 @@ public class ListPostsActivity extends AppCompatActivity implements ContractList
         mRvPosts.clearOnScrollListeners();
         isLoadingOldItem = false;
         mPbLoafItems.setVisibility(View.GONE);
-        Toast.makeText(ListPostsActivity.this,R.string.toast_end_old_messages_dialog_a,Toast.LENGTH_SHORT).show();
+        Toast.makeText(RecommendationPostActivity.this,R.string.toast_end_old_messages_dialog_a,Toast.LENGTH_SHORT).show();
     }
 }
